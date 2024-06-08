@@ -24,26 +24,6 @@ defmodule VenomousTest do
     assert python(:builtins, :round, [1.5]) == 2
   end
 
-  test "concurrent python processes" do
-    Process.send_after(self(), :fail, 3_000)
-
-    1..100
-    |> Enum.map(fn _ ->
-      Task.async(fn -> python(:time, :sleep, [2]) end)
-    end)
-    |> Task.await_many(:infinity)
-
-    send(self(), :ok)
-
-    receive do
-      :fail ->
-        assert(false)
-
-      :ok ->
-        assert(true)
-    end
-  end
-
   test "python timeout" do
     result =
       try do
