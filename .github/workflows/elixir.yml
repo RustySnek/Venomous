@@ -37,6 +37,8 @@ jobs:
         run: mix format --check-formatted
       - name: Run Credo
         run: mix credo
+      - name: Run Dialyzer
+        run: mix dialyzer
   test:
 
     name: Build and test
