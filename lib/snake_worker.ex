@@ -14,36 +14,37 @@ defmodule Venomous.SnakeWorker do
   def init(args) do
     case :python.start() do
       {:error, reason} ->
-        Logger.error(reason |> inspect)
+        reason |> dbg
+        Logger.error("Lol xd we had to debug")
 
         {:error, :rip_python}
 
-      {:ok, pid} ->
+      {:ok, pypid} ->
         case args do
           [encoder_module, encoder_func] ->
-            {:ok, set_state(pid), {:continue, {:init_encoder, encoder_module, encoder_func}}}
+            {:ok, pypid, {:continue, {:init_encoder, encoder_module, encoder_func}}}
 
           [] ->
-            {:ok, set_state(pid)}
+            {:ok, pypid}
         end
     end
   end
 
-  def handle_continue({:init_encoder, module, func, args}, state) do
-    :python.call(state.pid, module, func, args)
-    {:noreply, set_state(state.pid)}
+  def handle_continue({:init_encoder, module, func, args}, pypid) do
+    :python.call(pypid, module, func, args)
+    {:noreply, pypid}
   end
 
-  def handle_call(:status, _from, state) do
-    {:reply, {state.pid, state.update}, state}
+  def handle_call(:get_pypid, _from, pypid) do
+    {:reply, pypid, pypid}
   end
 
-  def handle_call({:run_snake, origin, {module, func, args}}, _from, state) do
+  def handle_call({:run_snake, origin, {module, func, args}}, _from, pypid) do
     task =
       Task.async(fn ->
         data =
           try do
-            :python.call(state.pid, module, func, args)
+            :python.call(pypid, module, func, args)
           rescue
             error ->
               case error do
@@ -57,7 +58,8 @@ defmodule Venomous.SnakeWorker do
                   }
 
                 exception ->
-                  Logger.error(exception |> inspect)
+                  exception |> dbg
+                  Logger.error("WTF")
                   exception
               end
           end
@@ -73,16 +75,11 @@ defmodule Venomous.SnakeWorker do
 
     GenServer.cast(self(), {:run, task})
     GenServer.reply(_from, :ok)
-    {:noreply, set_state(state.pid)}
+    {:noreply, pypid}
   end
 
-  def handle_cast({:run, task}, state) do
+  def handle_cast({:run, task}, pypid) do
     Task.await(task, :infinity)
-    {:noreply, state}
-  end
-
-  defp set_state(pid) do
-    update = DateTime.now!("Europe/Warsaw")
-    %{pid: pid, update: update}
+    {:noreply, pypid}
   end
 end
