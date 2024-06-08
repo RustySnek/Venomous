@@ -11,6 +11,9 @@ defmodule VenomousTest do
   end
 
   test "reuse alive snakes" do
+    list_alive_snakes()
+    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}) end)
+
     round_args =
       snake_args(
         :builtins,
@@ -46,5 +49,24 @@ defmodule VenomousTest do
     assert match?(_sleepy_snake, %SnakeError{})
     assert match?(_slithering_across, %SnakeError{})
     assert match?(_hilarious, %FunctionClauseError{})
+  end
+
+  test "SLAY AND REVIVE SNEKS" do
+    list_alive_snakes()
+    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}) end)
+
+    assert list_alive_snakes() == []
+    args = snake_args(:builtins, :sum, [[1]])
+
+    assert get_snakes_ready(10)
+           |> Enum.map(fn pids ->
+             snake_run(pids, args)
+           end)
+           |> Enum.sum()
+           |> Kernel.==(10)
+
+    assert length(list_alive_snakes()) == 10
+    retrieve_snake!() |> slay_python_worker()
+    assert length(list_alive_snakes()) == 9
   end
 end

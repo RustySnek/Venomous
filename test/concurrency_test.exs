@@ -1,4 +1,4 @@
-defmodule ConcurrencyTest do
+defmodule VenomousTest.ConcurrencyTest do
   use ExUnit.Case
   import Venomous.SnakeArgs
   import Venomous.SnakeWrapper
@@ -18,8 +18,8 @@ defmodule ConcurrencyTest do
   # end
 
   test "concurrent python processes" do
-    Process.send_after(self(), :fail, 5_000)
-    args = snake_args(:time, :sleep, [2])
+    Process.send_after(self(), :fail, 1_000)
+    args = snake_args(:time, :sleep, [0.1])
 
     1..100
     |> Enum.map(fn _ ->
