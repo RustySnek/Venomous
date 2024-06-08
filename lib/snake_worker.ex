@@ -3,9 +3,9 @@ defmodule Venomous.SnakeWorker do
   🔨🐍
   A brave snake worker slithering across...
   """
+  alias Venomous.SnakeArgs
   alias Venomous.SnakeError
   use GenServer
-  require Logger
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
@@ -14,10 +14,8 @@ defmodule Venomous.SnakeWorker do
   def init(args) do
     case :python.start() do
       {:error, reason} ->
-        reason |> dbg
-        Logger.error("Lol xd we had to debug")
-
-        {:error, :rip_python}
+        # xd
+        {:EXIT, reason}
 
       {:ok, pypid} ->
         case args do
@@ -39,18 +37,16 @@ defmodule Venomous.SnakeWorker do
     {:reply, pypid, pypid}
   end
 
-  def handle_call({:run_snake, origin, {module, func, args}}, _from, pypid) do
+  def handle_call({:run_snake, origin, %SnakeArgs{} = snake_args}, from, pypid) do
     task =
       Task.async(fn ->
         data =
           try do
-            :python.call(pypid, module, func, args)
+            :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)
           rescue
             error ->
               case error do
                 %ErlangError{original: {:python, exception, error, backtrace}} ->
-                  Logger.error("#{exception}\n#{error}\nBacktrace: #{backtrace}")
-
                   %SnakeError{
                     exception: exception,
                     error: error,
@@ -58,8 +54,6 @@ defmodule Venomous.SnakeWorker do
                   }
 
                 exception ->
-                  exception |> dbg
-                  Logger.error("WTF")
                   exception
               end
           end
@@ -74,7 +68,7 @@ defmodule Venomous.SnakeWorker do
       end)
 
     GenServer.cast(self(), {:run, task})
-    GenServer.reply(_from, :ok)
+    GenServer.reply(from, :ok)
     {:noreply, pypid}
   end
 

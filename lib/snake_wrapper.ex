@@ -1,18 +1,23 @@
 defmodule Venomous.SnakeWrapper do
   @moduledoc """
-  Wrapper for SnakeManager GenServer to run python functions.
+  Wrapper for SnakeManager GenServer used for running Python processes.
   """
+  alias Venomous.SnakeArgs
   alias Venomous.SnakeManager
 
-  @doc """
-  Call python GenServer
-  """
-
-  require Logger
   @wait_for_snake_interval 100
+  @default_timeout 15_000
 
+  @spec slay_python_worker(pid(), pid()) :: :ok
+  @doc """
+  Kills python process and its SnakeWorker
+  ## Parameters
+    - SnakeWorker pid
+    - Python pid
+  ## Returns 
+    :ok
+  """
   def slay_python_worker(pid, pypid) do
-    Logger.warning("KILLING")
     :python.stop(pypid)
     send(SnakeManager, {:sacrifice_snake, pid})
   end
@@ -26,6 +31,17 @@ defmodule Venomous.SnakeWrapper do
     end
   end
 
+  @spec get_snakes_ready(non_neg_integer()) :: list({pid(), pid()})
+  @doc """
+  Retrieves x amount of ready snakes. In case of :error, stops and returns all available snakes.
+
+  ## Parameters
+    - amount of snakes to retrieve
+
+  ## Returns
+    - A list of tuples `{pid, pid}`
+
+  """
   def get_snakes_ready(amount) when is_integer(amount), do: get_snakes_ready(amount, [])
 
   @spec retrieve_snake() :: {:error, reason :: term()} | {pid(), pid()}
@@ -59,48 +75,47 @@ defmodule Venomous.SnakeWrapper do
     end
   end
 
-  def python(module, func, args, python_timeout \\ 120_000) do
-    # Prevents :python processes from not exiting
-    # Process.flag(:trap_exit, true)
-    # Venomous.SnakeSupervisor |> DynamicSupervisor.count_children() |> dbg
+  def snake_run({pid, pypid}, %SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
+    GenServer.call(pid, {:run_snake, self(), snake_args})
 
-    case GenServer.call(SnakeManager, :get_ready_snake, :infinity) do
-      {:error, _} ->
-        receive do
-          {:EXIT, _from, _reason} ->
-            exit(:normal)
-        after
-          0 ->
-            python(module, func, args)
-        end
+    receive do
+      {:EXIT, _from, _type} ->
+        slay_python_worker(pid, pypid)
+        exit(:normal)
 
-      {pid, pypid} ->
-        GenServer.call(pid, {:run_snake, self(), {module, func, args}})
+      {:EXIT, _type} ->
+        slay_python_worker(pid, pypid)
+        exit(:normal)
 
-        receive do
-          {:EXIT, _from, _type} ->
-            slay_python_worker(pid, pypid)
-            exit(:normal)
+      {:SNAKE_DONE, data} ->
+        GenServer.call(SnakeManager, {:employ_snake, pid, pypid}, :infinity)
+        data
 
-          {:EXIT, _type} ->
-            slay_python_worker(pid, pypid)
-            exit(:normal)
-
-          {:SNAKE_DONE, data} ->
-            GenServer.call(SnakeManager, {:employ_snake, pid, pypid}, :infinity)
-
-            data
-
-          {:SNAKE_ERROR, error} ->
-            slay_python_worker(pid, pypid)
-            error
-        after
-          python_timeout ->
-            slay_python_worker(pid, pypid)
-            Logger.warning("#{pypid} TIMED OUT")
-            %{error: "timeout"}
-            exit(:timeout)
-        end
+      {:SNAKE_ERROR, error} ->
+        slay_python_worker(pid, pypid)
+        error
+    after
+      python_timeout ->
+        slay_python_worker(pid, pypid)
+        %{error: "timeout"}
     end
+  end
+
+  @doc """
+  Wrapper for python workers
+  Waits for available SnakeWorker which then runs given function inside given module with args
+  In case :EXIT happens, it will kill python worker/process and exit(:normal)
+
+  ## Parameters
+    - %SnakeArgs{} struct of :module, :func, :args 
+    - python_timeout \\ @default_timeout non_neg_integer() | :infinity Timeout for python call.
+      In case of timeout it will kill python worker/process and return {error: "timeout"}
+
+  ## Returns 
+    - any() | {error: "timeout"} | {error: any()} retrieves output of python function or error
+  """
+  @spec python(%SnakeArgs{}, non_neg_integer()) :: any()
+  def python(%SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
+    retrieve_snake!() |> snake_run(snake_args, python_timeout)
   end
 end
