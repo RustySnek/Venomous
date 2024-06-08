@@ -117,7 +117,7 @@ defmodule Venomous do
   ## Returns 
     - any() | {error: "timeout"} | {error: any()} retrieves output of python function or error
   """
-  @spec python(%SnakeArgs{}, non_neg_integer()) :: any()
+  @spec python(SnakeArgs.t(), non_neg_integer()) :: any()
   def python(%SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
     retrieve_snake!() |> snake_run(snake_args, python_timeout)
   end

@@ -1,10 +1,21 @@
 defmodule Venomous.SnakeArgs do
+  @moduledoc """
+  A module to handle arguments for a Python function call.
+
+  This module defines a struct for storing the module name, function name,
+  and the list of arguments that can be used to call a Python function.
+  """
   defstruct [
     :module,
     :func,
     :args
   ]
 
+  @type t :: %__MODULE__{
+          module: atom(),
+          func: atom(),
+          args: list(any())
+        }
   @spec snake_args(atom(), atom(), list(any())) :: %__MODULE__{}
   @doc """
   Builds SnakeArgs struct from params
