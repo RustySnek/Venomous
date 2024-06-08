@@ -2,13 +2,9 @@ defmodule VenomousTest do
   alias Venomous.SnakeError
   alias Venomous.SnakeSupervisor
   use ExUnit.Case
-  import Venomous.SnakeWrapper
+  import Venomous
   import Venomous.SnakeArgs
   doctest Venomous
-
-  test "greets the world" do
-    assert Venomous.hello() == :world
-  end
 
   test "reuse alive snakes" do
     list_alive_snakes()

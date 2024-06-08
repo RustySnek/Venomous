@@ -1,7 +1,7 @@
 defmodule VenomousTest.ConcurrencyTest do
   use ExUnit.Case
   import Venomous.SnakeArgs
-  import Venomous.SnakeWrapper
+  import Venomous
   # @tag timeout: :infinity
   # test "stress snakes" do
   #   sum_that =
