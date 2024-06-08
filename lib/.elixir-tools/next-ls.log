@@ -1,0 +1,1543 @@
+
+23:11:05.650 [info] Loading 147 CA(s) from :otp store
+
+23:11:05.745 id=1 [debug] handled request client -> server initialize in 61ms
+
+23:11:05.750 [debug] sent notification server -> client window/logMessage
+
+23:11:05.753 [debug] NextLS v0.22.8 has initialized!
+
+23:11:05.753 [debug] sent notification server -> client window/logMessage
+
+23:11:05.753 [debug] Log file located at /home/rustysnek/Projects/Elixir/venomous/venomous/lib/.elixir-tools/next-ls.log
+
+23:11:05.755 [debug] sent notification server -> client window/logMessage
+
+23:11:05.755 [info] [extension] Credo initializing with options %NextLS.InitOpts.Extensions.Credo{enable: true, cli_options: []}
+
+23:11:08.283 [debug] sent notification server -> client window/logMessage
+
+23:11:08.283 [debug] Booting runtimes...
+
+23:11:08.286 id=69 [debug] sent request server -> client window/workDoneProgress/create
+
+23:11:08.289 [debug] sent notification server -> client $/progress
+
+23:11:08.298 [debug] sent notification server -> client window/logMessage
+
+23:11:08.298 [info] Beginning DB migration...
+
+23:11:08.302 [debug] sent notification server -> client window/logMessage
+
+23:11:08.302 [info] Database is on the latest version: 7
+
+23:11:08.302 [debug] sent notification server -> client window/logMessage
+
+23:11:08.302 [info] Finished DB migration...
+
+23:11:08.302 [debug] sent notification server -> client window/logMessage
+
+23:11:08.302 [info] Booting runtime for venomous.
+
+- elixir: /nix/store/n1s9438kra8zxwf9dyiv2ygyki61pgb3-elixir-1.16.2/bin/elixir
+- zombie wrapper script: /home/rustysnek/.local/share/.burrito/next_ls_erts-14.2.1_0.22.8/lib/next_ls-0.22.8/priv/cmd
+- working_dir: /home/rustysnek/Projects/Elixir/venomous/venomous
+- command: /nix/store/n1s9438kra8zxwf9dyiv2ygyki61pgb3-elixir-1.16.2/bin/elixir --no-halt --sname nextls-runtime-1717794668302383581 --cookie VSW5V6KTWVUXRC2CHACIXZJ3QA4RP7N55IDNZ4HV5O4DF66HTXBQ==== -S mix loadpaths --no-compile
+
+Environment: 
+
+LSP=nextls
+NEXTLS_PARENT_PID=g1h3J25leHQtbHMtMTcxNzc5NDY2NTY1OTQ1MjQxM0BjaHVuY2h1bWFydQAAARAAAAAAZmN3ag==
+MIX_ENV=dev
+MIX_TARGET=host
+MIX_BUILD_ROOT=.elixir-tools/_build
+ROOTDIR=false
+BINDIR=false
+RELEASE_ROOT=false
+RELEASE_SYS_CONFIG=false
+PATH=/nix/store/n1s9438kra8zxwf9dyiv2ygyki61pgb3-elixir-1.16.2/bin:/home/rustysnek/.local/share/.burrito/next_ls_erts-14.2.1_0.22.8/bin:/nix/store/n1s9438kra8zxwf9dyiv2ygyki61pgb3-elixir-1.16.2/bin:/nix/store/p0iigvamjb9znd4ccvjwi9i7r5dhc933-erlang-25.3.2.10/bin:/nix/store/6a1qgp3g98hi3h8g26afksvydyhli9bl-elixir-ls-0.20.0/bin:/nix/store/gd3shnza1i50zn8zs04fa729ribr88m9-python3-3.11.8/bin:/nix/store/2rg95qfqi52h7szzxhadl0hmxi57vvlc-python3.11-pip-24.0/bin:/nix/store/rn2j5vllcriwb1r3kfzv2rprk8s0m1n1-pyright-1.1.354/bin:/nix/store/ccxc034y5qvzbm6grbldqjvf4mrw3zag-typescript-language-server-4.3.3/bin:/nix/store/r0p7x004arc1ci2a6zxzlp840y15bj62-vscode-langservers-extracted-4.8.0/bin:/nix/store/c9msr8vm5j9c7iqq9y3bgb0m43yfxrn5-tailwindcss-language-server-0.0.16/bin:/nix/store/2swra6f25cnj2c21ga3w24licc3mnym4-inotify-tools-4.23.9.0/bin:/nix/store/fyxva0kkcmaigwk4218l0zdy8z3s9sj3-pkg-config-wrapper-0.29.2/bin:/nix/store/43n2dxi419b1jgv2bq1xg7y6n8k66xpb-patchelf-0.15.0/bin:/nix/store/ac1hb5dc2z4biwgy8mjrhlifffkkrvdq-gcc-wrapper-13.2.0/bin:/nix/store/a3mmr5jmrd0sjvmnc9vqvs388ppq1bnf-gcc-13.2.0/bin:/nix/store/fpv9yd0mwm1lyph02j9bdyxbjz8vaxzy-glibc-2.39-5-bin/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jsjfmx7r6cpyixxsg7bjl5cy3y8hw7k7-binutils-wrapper-2.41/bin:/nix/store/hqvni28zpibl6jsqqimcvng6h6qm58xy-binutils-2.41/bin:/nix/store/ifzwv2xqwdnv1gz87rxkizi67py5p3vj-coreutils-9.4/bin:/nix/store/jg2i1qj5js5ckzvfq5b9p9j1gcv69750-findutils-4.9.0/bin:/nix/store/ksyif7fp4p0baafvdm5szd375s7qf6cz-diffutils-3.10/bin:/nix/store/237dff1igc3v09p9r23a37yw8dr04bv6-gnused-4.9/bin:/nix/store/avqi5nnx7qydr078ssgifc2hgzqipqgx-gnugrep-3.11/bin:/nix/store/2s1h0q7xhk33nsw90l0g53bxax0d19ih-gawk-5.2.2/bin:/nix/store/xwvgwr85gghbl66kj30sp19p2y1cypqv-gnutar-1.35/bin:/nix/store/vnfi66rm1dykn8gwwy5i4f48bhbk9x6x-gzip-1.13/bin:/nix/store/3bdjxil2cz8dkd6l5sf4qalla762m99d-bzip2-1.0.8-bin/bin:/nix/store/pg3wkw0as88676ib4ckbibrfwy5c5vzg-gnumake-4.4.1/bin:/nix/store/a1s263pmsci9zykm5xcdf7x9rv26w6d5-bash-5.2p26/bin:/nix/store/bf9rz7vvxannxp15wfi7x0bx5b68ky7z-patch-2.7.6/bin:/nix/store/jdg5lv2j7d765h8pn73qz72lilxrcb5x-xz-5.4.6-bin/bin:/nix/store/j3f0hag67n4piz2avqgf07gja8a2ifn6-file-5.45/bin:/nix/store/cmkk0l1qs0hph06nlp0ji1arkpxp44xs-kitty-0.34.1/bin:/nix/store/1izdxwml9nsifjrh53rdfiglhjmrnx2s-imagemagick-7.1.1-32/bin:/nix/store/1c9jq1csrx42g5vqynlfl0x63k2nx1x9-ncurses-6.4-dev/bin:/run/wrappers/bin:/home/rustysnek/.local/share/flatpak/exports/bin:/var/lib/flatpak/exports/bin:/home/rustysnek/.nix-profile/bin:/nix/profile/bin:/home/rustysnek/.local/state/nix/profile/bin:/etc/profiles/per-user/rustysnek/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:/home/rustysnek/.local/bin:/nix/store/2dpri5qnagqp15prpz36h0c5sghk2azn-neovim-ruby-env/bin
+
+
+23:11:08.303 [debug] handled notification client -> server initialized in 2555ms
+
+23:11:08.306 [debug] handled notification client -> server textDocument/didOpen in 3ms
+
+23:11:09.310 [debug] sent notification server -> client window/logMessage
+
+23:11:09.310 [info] Connected to node nextls-runtime-1717794668302383581@chunchumaru
+
+23:11:09.596 [debug] sent notification server -> client $/progress
+
+23:11:09.597 [debug] sent notification server -> client window/logMessage
+
+23:11:09.597 [debug] Runtime for folder venomous is ready...
+
+23:11:09.599 id=325 [debug] sent request server -> client window/workDoneProgress/create
+
+23:11:09.599 [debug] sent notification server -> client $/progress
+
+23:11:10.049 [debug] sent notification server -> client window/logMessage
+
+23:11:10.050 [info] ===> Analyzing applications...
+
+
+23:11:10.071 [debug] sent notification server -> client window/logMessage
+
+23:11:10.071 [info] ===> Compiling erlport
+
+
+23:11:10.493 [debug] sent notification server -> client window/logMessage
+
+23:11:10.493 [info] Generated venomous app
+
+
+23:11:10.495 [debug] sent notification server -> client $/progress
+
+23:11:10.495 [debug] sent notification server -> client window/logMessage
+
+23:11:10.495 [info] Compiled venomous!
+
+23:14:39.300 [debug] handled notification client -> server textDocument/didOpen in 132µs
+
+23:14:39.578 [debug] handled notification client -> server textDocument/didChange in 3ms
+
+23:14:41.454 [debug] handled notification client -> server textDocument/didChange in 229µs
+
+23:14:41.603 [debug] handled notification client -> server textDocument/didChange in 279µs
+
+23:14:41.753 [debug] handled notification client -> server textDocument/didChange in 370µs
+
+23:14:41.901 [debug] handled notification client -> server textDocument/didChange in 225µs
+
+23:14:42.726 [debug] handled notification client -> server textDocument/didChange in 267µs
+
+23:14:42.920 [debug] handled notification client -> server textDocument/didChange in 249µs
+
+23:14:43.069 [debug] handled notification client -> server textDocument/didChange in 277µs
+
+23:14:43.236 [debug] handled notification client -> server textDocument/didChange in 249µs
+
+23:14:43.448 [debug] handled notification client -> server textDocument/didChange in 289µs
+
+23:14:44.250 [debug] handled notification client -> server textDocument/didChange in 285µs
+
+23:14:44.448 [debug] handled notification client -> server textDocument/didChange in 253µs
+
+23:14:44.610 [debug] handled notification client -> server textDocument/didChange in 279µs
+
+23:14:45.613 [debug] handled notification client -> server textDocument/didChange in 296µs
+
+23:14:46.083 [debug] handled notification client -> server textDocument/didChange in 332µs
+
+23:14:46.235 [debug] handled notification client -> server textDocument/didChange in 221µs
+
+23:14:46.395 [debug] handled notification client -> server textDocument/didChange in 227µs
+
+23:14:46.543 [debug] handled notification client -> server textDocument/didChange in 216µs
+
+23:14:47.366 [debug] handled notification client -> server textDocument/didChange in 316µs
+
+23:14:47.513 [debug] handled notification client -> server textDocument/didChange in 233µs
+
+23:14:48.027 id=2 [debug] handled request client -> server textDocument/formatting in 5ms
+
+23:14:48.039 id=68 [debug] sent request server -> client window/workDoneProgress/create
+
+23:14:48.040 [debug] handled notification client -> server textDocument/didSave in 3ms
+
+23:14:48.042 [debug] sent notification server -> client $/progress
+
+23:14:48.043 [debug] sent notification server -> client window/logMessage
+
+23:14:48.043 [info] Compiling 1 file (.ex)
+
+
+23:14:48.050 id=132 [debug] sent request server -> client window/workDoneProgress/create
+
+23:14:48.051 [debug] sent notification server -> client $/progress
+
+23:14:48.105 [debug] sent notification server -> client window/logMessage
+
+23:14:48.105 [info] Generated venomous app
+
+
+23:14:48.105 [debug] sent notification server -> client $/progress
+
+23:14:48.105 [debug] sent notification server -> client window/logMessage
+
+23:14:48.105 [info] Compiled venomous!
+
+23:14:48.168 [debug] sent notification server -> client $/progress
+
+23:15:54.540 [debug] handled notification client -> server textDocument/didChange in 247µs
+
+23:15:55.992 [debug] handled notification client -> server textDocument/didChange in 268µs
+
+23:15:58.125 [debug] handled notification client -> server textDocument/didChange in 304µs
+
+23:15:58.275 [debug] handled notification client -> server textDocument/didChange in 254µs
+
+23:15:58.466 [debug] handled notification client -> server textDocument/didChange in 255µs
+
+23:15:58.732 [debug] handled notification client -> server textDocument/didChange in 236µs
+
+23:15:58.881 [debug] handled notification client -> server textDocument/didChange in 230µs
+
+23:15:59.031 [debug] handled notification client -> server textDocument/didChange in 230µs
+
+23:15:59.180 [debug] handled notification client -> server textDocument/didChange in 247µs
+
+23:15:59.337 [debug] handled notification client -> server textDocument/didChange in 255µs
+
+23:15:59.858 [debug] handled notification client -> server textDocument/didChange in 232µs
+
+23:16:00.005 [debug] handled notification client -> server textDocument/didChange in 235µs
+
+23:16:37.624 id=3 [debug] handled request client -> server textDocument/formatting in 1ms
+
+23:16:37.637 id=196 [debug] sent request server -> client window/workDoneProgress/create
+
+23:16:37.638 [debug] handled notification client -> server textDocument/didSave in 769µs
+
+23:16:37.643 [debug] sent notification server -> client $/progress
+
+23:16:37.644 [debug] sent notification server -> client window/logMessage
+
+23:16:37.644 [info] Compiling 1 file (.ex)
+
+
+23:16:37.646 id=198 [debug] sent request server -> client window/workDoneProgress/create
+
+23:16:37.647 [debug] sent notification server -> client $/progress
+
+23:16:37.660 [debug] sent notification server -> client $/progress
+
+23:16:37.660 [debug] sent notification server -> client window/logMessage
+
+23:16:37.660 [info] Compiled venomous!
+
+23:16:37.759 [debug] sent notification server -> client $/progress
+
+23:16:42.689 [debug] handled notification client -> server textDocument/didOpen in 139µs
+
+23:16:54.475 [debug] handled notification client -> server textDocument/didChange in 510µs
+
+23:18:26.021 id=4 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:18:26.034 id=260 [debug] sent request server -> client window/workDoneProgress/create
+
+23:18:26.035 [debug] handled notification client -> server textDocument/didSave in 846µs
+
+23:18:26.038 [debug] sent notification server -> client window/logMessage
+
+23:18:26.039 [info] Compiling 1 file (.ex)
+
+
+23:18:26.040 id=262 [debug] sent request server -> client window/workDoneProgress/create
+
+23:18:26.041 [debug] sent notification server -> client $/progress
+
+23:18:26.041 [debug] sent notification server -> client $/progress
+
+23:18:26.060 [debug] sent notification server -> client window/logMessage
+
+23:18:26.060 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 66 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:66:21: Elixirus.Python.SnakeWorker.handle_call/3
+
+
+
+23:18:26.112 [debug] sent notification server -> client window/logMessage
+
+23:18:26.113 [info] Generated venomous app
+
+
+23:18:26.114 [debug] sent notification server -> client $/progress
+
+23:18:26.114 [debug] sent notification server -> client window/logMessage
+
+23:18:26.114 [info] Compiled venomous!
+
+23:18:26.115 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:26.115 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:26.209 [debug] sent notification server -> client $/progress
+
+23:18:27.734 [debug] handled notification client -> server textDocument/didChange in 476µs
+
+23:18:27.915 [debug] handled notification client -> server textDocument/didChange in 490µs
+
+23:18:28.434 [debug] handled notification client -> server textDocument/didChange in 656µs
+
+23:18:28.625 [debug] handled notification client -> server textDocument/didChange in 712µs
+
+23:18:29.152 id=5 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:18:29.158 id=326 [debug] sent request server -> client window/workDoneProgress/create
+
+23:18:29.159 [debug] handled notification client -> server textDocument/didSave in 906µs
+
+23:18:29.162 [debug] sent notification server -> client $/progress
+
+23:18:29.164 [debug] sent notification server -> client window/logMessage
+
+23:18:29.164 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 66 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:66:21: Elixirus.Python.SnakeWorker.handle_call/3
+
+
+
+23:18:29.166 [debug] sent notification server -> client $/progress
+
+23:18:29.166 [debug] sent notification server -> client window/logMessage
+
+23:18:29.166 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:29.166 [info] Compiled venomous!
+
+23:18:29.167 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:35.689 [debug] handled notification client -> server textDocument/didChange in 456µs
+
+23:18:35.837 [debug] handled notification client -> server textDocument/didChange in 517µs
+
+23:18:36.468 [debug] handled notification client -> server textDocument/didChange in 469µs
+
+23:18:36.617 [debug] handled notification client -> server textDocument/didChange in 740µs
+
+23:18:36.767 [debug] handled notification client -> server textDocument/didChange in 448µs
+
+23:18:37.157 [debug] handled notification client -> server textDocument/didChange in 751µs
+
+23:18:37.348 [debug] handled notification client -> server textDocument/didChange in 506µs
+
+23:18:37.499 [debug] handled notification client -> server textDocument/didChange in 436µs
+
+23:18:38.241 [debug] handled notification client -> server textDocument/didChange in 443µs
+
+23:18:38.390 [debug] handled notification client -> server textDocument/didChange in 546µs
+
+23:18:38.614 id=6 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:18:38.632 id=258 [debug] sent request server -> client window/workDoneProgress/create
+
+23:18:38.632 [debug] handled notification client -> server textDocument/didSave in 875µs
+
+23:18:38.638 [debug] sent notification server -> client window/logMessage
+
+23:18:38.638 [info] Compiling 1 file (.ex)
+
+
+23:18:38.638 [debug] sent notification server -> client $/progress
+
+23:18:38.640 id=322 [debug] sent request server -> client window/workDoneProgress/create
+
+23:18:38.644 [debug] sent notification server -> client $/progress
+
+23:18:38.653 [debug] sent notification server -> client window/logMessage
+
+23:18:38.653 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 66 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:66:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:18:38.711 [debug] sent notification server -> client window/logMessage
+
+23:18:38.711 [info] Generated venomous app
+
+
+23:18:38.712 [debug] sent notification server -> client $/progress
+
+23:18:38.712 [debug] sent notification server -> client window/logMessage
+
+23:18:38.712 [info] Compiled venomous!
+
+23:18:38.712 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:38.713 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:18:38.807 [debug] sent notification server -> client $/progress
+
+23:19:46.947 [debug] handled notification client -> server textDocument/didChange in 687µs
+
+23:19:47.337 [debug] handled notification client -> server textDocument/didChange in 581µs
+
+23:19:47.524 [debug] handled notification client -> server textDocument/didChange in 581µs
+
+23:19:47.698 [debug] handled notification client -> server textDocument/didChange in 504µs
+
+23:19:47.875 [debug] handled notification client -> server textDocument/didChange in 478µs
+
+23:19:48.026 [debug] handled notification client -> server textDocument/didChange in 660µs
+
+23:19:48.175 [debug] handled notification client -> server textDocument/didChange in 642µs
+
+23:19:48.324 [debug] handled notification client -> server textDocument/didChange in 461µs
+
+23:19:48.474 [debug] handled notification client -> server textDocument/didChange in 497µs
+
+23:19:48.630 [debug] handled notification client -> server textDocument/didChange in 451µs
+
+23:19:49.749 id=7 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:19:49.762 id=386 [debug] sent request server -> client window/workDoneProgress/create
+
+23:19:49.763 [debug] handled notification client -> server textDocument/didSave in 767µs
+
+23:19:49.763 [debug] sent notification server -> client $/progress
+
+23:19:49.768 [debug] sent notification server -> client window/logMessage
+
+23:19:49.768 [info] Compiling 1 file (.ex)
+
+
+23:19:49.771 id=324 [debug] sent request server -> client window/workDoneProgress/create
+
+23:19:49.771 [debug] sent notification server -> client $/progress
+
+23:19:49.780 [debug] sent notification server -> client window/logMessage
+
+23:19:49.780 [info]     warning: variable "data_types" is unused (if the variable is not meant to be used, prefix it with an underscore)
+    │
+ 13 │   def init(data_types) do
+    │            ~~~~~~~~~~
+    │
+    └─ lib/snake_worker.ex:13:12: Venomous.SnakeWorker.init/1
+
+
+
+23:19:49.782 [debug] sent notification server -> client window/logMessage
+
+23:19:49.782 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 66 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:66:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:19:49.847 [debug] sent notification server -> client window/logMessage
+
+23:19:49.847 [debug] sent notification server -> client $/progress
+
+23:19:49.847 [info] Compiled venomous!
+
+23:19:49.847 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:19:49.847 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:19:49.941 [debug] sent notification server -> client $/progress
+
+23:19:57.484 [debug] handled notification client -> server textDocument/didChange in 485µs
+
+23:19:57.632 [debug] handled notification client -> server textDocument/didChange in 456µs
+
+23:19:57.982 [debug] handled notification client -> server textDocument/didChange in 488µs
+
+23:19:58.183 [debug] handled notification client -> server textDocument/didChange in 525µs
+
+23:19:58.421 [debug] handled notification client -> server textDocument/didChange in 451µs
+
+23:19:58.570 [debug] handled notification client -> server textDocument/didChange in 471µs
+
+23:19:58.773 [debug] handled notification client -> server textDocument/didChange in 498µs
+
+23:19:58.922 [debug] handled notification client -> server textDocument/didChange in 450µs
+
+23:19:59.071 [debug] handled notification client -> server textDocument/didChange in 441µs
+
+23:19:59.221 [debug] handled notification client -> server textDocument/didChange in 445µs
+
+23:19:59.371 [debug] handled notification client -> server textDocument/didChange in 593µs
+
+23:19:59.618 [debug] handled notification client -> server textDocument/didChange in 475µs
+
+23:19:59.817 [debug] handled notification client -> server textDocument/didChange in 657µs
+
+23:20:00.086 [debug] handled notification client -> server textDocument/didChange in 450µs
+
+23:20:00.236 [debug] handled notification client -> server textDocument/didChange in 449µs
+
+23:20:00.384 [debug] handled notification client -> server textDocument/didChange in 480µs
+
+23:20:00.596 [debug] handled notification client -> server textDocument/didChange in 463µs
+
+23:20:00.760 [debug] handled notification client -> server textDocument/didChange in 463µs
+
+23:20:00.909 [debug] handled notification client -> server textDocument/didChange in 486µs
+
+23:20:01.070 [debug] handled notification client -> server textDocument/didChange in 468µs
+
+23:20:01.233 [debug] handled notification client -> server textDocument/didChange in 457µs
+
+23:20:01.581 [debug] handled notification client -> server textDocument/didChange in 479µs
+
+23:20:01.729 [debug] handled notification client -> server textDocument/didChange in 462µs
+
+23:21:14.587 [debug] handled notification client -> server textDocument/didChange in 493µs
+
+23:21:14.998 [debug] handled notification client -> server textDocument/didChange in 451µs
+
+23:21:15.147 [debug] handled notification client -> server textDocument/didChange in 469µs
+
+23:21:15.297 [debug] handled notification client -> server textDocument/didChange in 451µs
+
+23:21:15.447 [debug] handled notification client -> server textDocument/didChange in 443µs
+
+23:21:15.596 [debug] handled notification client -> server textDocument/didChange in 458µs
+
+23:21:15.745 [debug] handled notification client -> server textDocument/didChange in 450µs
+
+23:21:16.570 [debug] handled notification client -> server textDocument/didChange in 666µs
+
+23:21:17.231 [debug] handled notification client -> server textDocument/didChange in 452µs
+
+23:21:17.381 [debug] handled notification client -> server textDocument/didChange in 451µs
+
+23:21:17.532 [debug] handled notification client -> server textDocument/didChange in 436µs
+
+23:21:17.680 [debug] handled notification client -> server textDocument/didChange in 448µs
+
+23:21:17.830 [debug] handled notification client -> server textDocument/didChange in 450µs
+
+23:21:18.018 [debug] handled notification client -> server textDocument/didChange in 505µs
+
+23:21:29.783 [debug] handled notification client -> server textDocument/didChange in 447µs
+
+23:21:30.216 [debug] handled notification client -> server textDocument/didChange in 490µs
+
+23:21:30.376 [debug] handled notification client -> server textDocument/didChange in 512µs
+
+23:21:30.532 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:30.681 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:30.830 [debug] handled notification client -> server textDocument/didChange in 549µs
+
+23:21:30.980 [debug] handled notification client -> server textDocument/didChange in 932µs
+
+23:21:31.923 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:33.047 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:56.957 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:57.428 [debug] handled notification client -> server textDocument/didChange in 610µs
+
+23:21:57.583 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:21:58.112 [debug] handled notification client -> server textDocument/didChange in 616µs
+
+23:21:58.475 [debug] handled notification client -> server textDocument/didChange in 744µs
+
+23:21:58.680 [debug] handled notification client -> server textDocument/didChange in 601µs
+
+23:21:58.856 [debug] handled notification client -> server textDocument/didChange in 839µs
+
+23:22:02.023 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:02.266 [debug] handled notification client -> server textDocument/didChange in 797µs
+
+23:22:02.427 [debug] handled notification client -> server textDocument/didChange in 603µs
+
+23:22:02.620 [debug] handled notification client -> server textDocument/didChange in 731µs
+
+23:22:02.987 [debug] handled notification client -> server textDocument/didChange in 582µs
+
+23:22:03.177 [debug] handled notification client -> server textDocument/didChange in 865µs
+
+23:22:03.355 [debug] handled notification client -> server textDocument/didChange in 423µs
+
+23:22:15.839 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:15.986 [debug] handled notification client -> server textDocument/didChange in 978µs
+
+23:22:16.171 [debug] handled notification client -> server textDocument/didChange in 612µs
+
+23:22:16.320 [debug] handled notification client -> server textDocument/didChange in 732µs
+
+23:22:16.805 [debug] handled notification client -> server textDocument/didChange in 771µs
+
+23:22:16.955 [debug] handled notification client -> server textDocument/didChange in 891µs
+
+23:22:17.104 [debug] handled notification client -> server textDocument/didChange in 714µs
+
+23:22:17.254 [debug] handled notification client -> server textDocument/didChange in 588µs
+
+23:22:17.403 [debug] handled notification client -> server textDocument/didChange in 889µs
+
+23:22:17.552 [debug] handled notification client -> server textDocument/didChange in 634µs
+
+23:22:17.701 [debug] handled notification client -> server textDocument/didChange in 673µs
+
+23:22:18.274 [debug] handled notification client -> server textDocument/didChange in 785µs
+
+23:22:18.429 [debug] handled notification client -> server textDocument/didChange in 620µs
+
+23:22:18.579 [debug] handled notification client -> server textDocument/didChange in 904µs
+
+23:22:18.728 [debug] handled notification client -> server textDocument/didChange in 709µs
+
+23:22:18.876 [debug] handled notification client -> server textDocument/didChange in 593µs
+
+23:22:19.055 [debug] handled notification client -> server textDocument/didChange in 784µs
+
+23:22:19.432 [debug] handled notification client -> server textDocument/didChange in 813µs
+
+23:22:19.595 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:19.743 [debug] handled notification client -> server textDocument/didChange in 691µs
+
+23:22:19.892 [debug] handled notification client -> server textDocument/didChange in 750µs
+
+23:22:20.042 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:20.191 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:20.699 [debug] handled notification client -> server textDocument/didChange in 555µs
+
+23:22:20.847 [debug] handled notification client -> server textDocument/didChange in 709µs
+
+23:22:20.997 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:21.176 [debug] handled notification client -> server textDocument/didChange in 731µs
+
+23:22:21.325 [debug] handled notification client -> server textDocument/didChange in 462µs
+
+23:22:21.475 [debug] handled notification client -> server textDocument/didChange in 822µs
+
+23:22:21.624 [debug] handled notification client -> server textDocument/didChange in 552µs
+
+23:22:21.773 [debug] handled notification client -> server textDocument/didChange in 595µs
+
+23:22:22.034 [debug] handled notification client -> server textDocument/didChange in 404µs
+
+23:22:22.273 [debug] handled notification client -> server textDocument/didChange in 806µs
+
+23:22:22.504 [debug] handled notification client -> server textDocument/didChange in 760µs
+
+23:22:22.653 [debug] handled notification client -> server textDocument/didChange in 398µs
+
+23:22:22.803 [debug] handled notification client -> server textDocument/didChange in 419µs
+
+23:22:22.953 [debug] handled notification client -> server textDocument/didChange in 827µs
+
+23:22:23.105 [debug] handled notification client -> server textDocument/didChange in 647µs
+
+23:22:23.255 [debug] handled notification client -> server textDocument/didChange in 412µs
+
+23:22:23.404 [debug] handled notification client -> server textDocument/didChange in 769µs
+
+23:22:23.553 [debug] handled notification client -> server textDocument/didChange in 752µs
+
+23:22:24.562 [debug] handled notification client -> server textDocument/didChange in 465µs
+
+23:22:24.712 [debug] handled notification client -> server textDocument/didChange in 790µs
+
+23:22:24.861 [debug] handled notification client -> server textDocument/didChange in 552µs
+
+23:22:25.010 [debug] handled notification client -> server textDocument/didChange in 914µs
+
+23:22:25.259 [debug] handled notification client -> server textDocument/didChange in 491µs
+
+23:22:25.434 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:25.583 [debug] handled notification client -> server textDocument/didChange in 695µs
+
+23:22:50.876 [debug] handled notification client -> server textDocument/didChange in 607µs
+
+23:22:51.169 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:51.733 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:52.119 [debug] handled notification client -> server textDocument/didChange in 669µs
+
+23:22:52.268 [debug] handled notification client -> server textDocument/didChange in 898µs
+
+23:22:52.683 [debug] handled notification client -> server textDocument/didChange in 949µs
+
+23:22:52.833 [debug] handled notification client -> server textDocument/didChange in 521µs
+
+23:22:52.982 [debug] handled notification client -> server textDocument/didChange in 841µs
+
+23:22:54.458 [debug] handled notification client -> server textDocument/didChange in 850µs
+
+23:22:54.605 [debug] handled notification client -> server textDocument/didChange in 437µs
+
+23:22:54.890 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:56.307 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:56.507 [debug] handled notification client -> server textDocument/didChange in 420µs
+
+23:22:56.686 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:22:56.946 [debug] handled notification client -> server textDocument/didChange in 816µs
+
+23:22:57.118 [debug] handled notification client -> server textDocument/didChange in 452µs
+
+23:22:57.268 [debug] handled notification client -> server textDocument/didChange in 792µs
+
+23:22:57.426 [debug] handled notification client -> server textDocument/didChange in 758µs
+
+23:22:57.686 [debug] handled notification client -> server textDocument/didChange in 417µs
+
+23:22:57.849 [debug] handled notification client -> server textDocument/didChange in 958µs
+
+23:22:57.999 [debug] handled notification client -> server textDocument/didChange in 750µs
+
+23:22:58.160 [debug] handled notification client -> server textDocument/didChange in 610µs
+
+23:22:58.330 [debug] handled notification client -> server textDocument/didChange in 878µs
+
+23:22:58.520 [debug] handled notification client -> server textDocument/didChange in 724µs
+
+23:22:58.668 [debug] handled notification client -> server textDocument/didChange in 405µs
+
+23:22:58.818 [debug] handled notification client -> server textDocument/didChange in 917µs
+
+23:22:58.967 [debug] handled notification client -> server textDocument/didChange in 848µs
+
+23:22:59.165 [debug] handled notification client -> server textDocument/didChange in 407µs
+
+23:22:59.317 [debug] handled notification client -> server textDocument/didChange in 940µs
+
+23:23:00.201 [debug] handled notification client -> server textDocument/didChange in 742µs
+
+23:23:00.351 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:23:01.329 [debug] handled notification client -> server textDocument/didChange in 859µs
+
+23:23:01.476 [debug] handled notification client -> server textDocument/didChange in 404µs
+
+23:23:01.627 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:23:01.775 [debug] handled notification client -> server textDocument/didChange in 824µs
+
+23:23:01.924 [debug] handled notification client -> server textDocument/didChange in 992µs
+
+23:23:02.305 [debug] handled notification client -> server textDocument/didChange in 899µs
+
+23:23:02.452 [debug] handled notification client -> server textDocument/didChange in 588µs
+
+23:23:02.601 [debug] handled notification client -> server textDocument/didChange in 946µs
+
+23:23:02.750 [debug] handled notification client -> server textDocument/didChange in 830µs
+
+23:23:02.899 [debug] handled notification client -> server textDocument/didChange in 437µs
+
+23:23:03.049 [debug] handled notification client -> server textDocument/didChange in 571µs
+
+23:23:03.198 [debug] handled notification client -> server textDocument/didChange in 721µs
+
+23:23:03.551 [debug] handled notification client -> server textDocument/didChange in 907µs
+
+23:23:03.700 [debug] handled notification client -> server textDocument/didChange in 772µs
+
+23:23:06.815 [debug] handled notification client -> server textDocument/didChange in 836µs
+
+23:23:08.488 id=450 [debug] sent request server -> client window/workDoneProgress/create
+
+23:23:08.488 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:23:08.493 [debug] sent notification server -> client $/progress
+
+23:23:08.493 [debug] sent notification server -> client window/logMessage
+
+23:23:08.493 [info] Compiling 1 file (.ex)
+
+
+23:23:08.497 [debug] sent notification server -> client window/logMessage
+
+23:23:08.497 [info] 
+== Compilation error in file lib/snake_worker.ex ==
+** (MismatchedDelimiterError) mismatched delimiter found on lib/snake_worker.ex:21:89:
+    error: unexpected token: )
+    │
+ 21 │         {:ok, set_state(pid), {:continue, {:init_encoder, encoder_module, encoder_func}})
+    │         │                                                                               └ mismatched closing delimiter (expected "}")
+    │         └ unclosed delimiter
+    │
+    └─ lib/snake_worker.ex:21:89
+    (elixir 1.16.2) lib/kernel/parallel_compiler.ex:428: anonymous fn/5 in Kernel.ParallelCompiler.spawn_workers/8
+
+
+23:23:08.501 [debug] sent notification server -> client window/logMessage
+
+23:23:08.501 [debug] sent notification server -> client $/progress
+
+23:23:08.501 [info] Compiled venomous!
+
+23:23:08.502 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:23:08.502 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:23:09.075 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:23:09.346 [debug] handled notification client -> server textDocument/didChange in 909µs
+
+23:23:09.793 id=8 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:23:09.808 id=390 [debug] sent request server -> client window/workDoneProgress/create
+
+23:23:09.808 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:23:09.808 [debug] sent notification server -> client $/progress
+
+23:23:09.813 [debug] sent notification server -> client window/logMessage
+
+23:23:09.813 [info] Compiling 1 file (.ex)
+
+
+23:23:09.816 id=454 [debug] sent request server -> client window/workDoneProgress/create
+
+23:23:09.816 [debug] sent notification server -> client $/progress
+
+23:23:09.826 [debug] sent notification server -> client window/logMessage
+
+23:23:09.826 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 66 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:66:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:23:09.881 [debug] sent notification server -> client $/progress
+
+23:23:09.881 [debug] sent notification server -> client window/logMessage
+
+23:23:09.881 [info] Compiled venomous!
+
+23:23:09.881 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:23:09.882 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:23:09.977 [debug] sent notification server -> client $/progress
+
+23:24:02.633 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:02.779 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:03.067 [debug] handled notification client -> server textDocument/didChange in 998µs
+
+23:24:03.855 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:04.004 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:04.154 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:04.338 [debug] handled notification client -> server textDocument/didChange in 938µs
+
+23:24:04.515 [debug] handled notification client -> server textDocument/didChange in 915µs
+
+23:24:04.687 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:05.158 [debug] handled notification client -> server textDocument/didChange in 570µs
+
+23:24:05.351 [debug] handled notification client -> server textDocument/didChange in 581µs
+
+23:24:05.500 [debug] handled notification client -> server textDocument/didChange in 569µs
+
+23:24:05.651 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:05.798 [debug] handled notification client -> server textDocument/didChange in 562µs
+
+23:24:05.948 [debug] handled notification client -> server textDocument/didChange in 770µs
+
+23:24:06.102 [debug] handled notification client -> server textDocument/didChange in 439µs
+
+23:24:06.251 [debug] handled notification client -> server textDocument/didChange in 419µs
+
+23:24:06.786 [debug] handled notification client -> server textDocument/didChange in 460µs
+
+23:24:06.936 [debug] handled notification client -> server textDocument/didChange in 888µs
+
+23:24:07.091 [debug] handled notification client -> server textDocument/didChange in 427µs
+
+23:24:07.263 [debug] handled notification client -> server textDocument/didChange in 786µs
+
+23:24:07.749 [debug] handled notification client -> server textDocument/didChange in 948µs
+
+23:24:07.902 [debug] handled notification client -> server textDocument/didChange in 620µs
+
+23:24:08.052 [debug] handled notification client -> server textDocument/didChange in 530µs
+
+23:24:08.201 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:08.350 [debug] handled notification client -> server textDocument/didChange in 875µs
+
+23:24:08.501 [debug] handled notification client -> server textDocument/didChange in 422µs
+
+23:24:08.649 [debug] handled notification client -> server textDocument/didChange in 425µs
+
+23:24:08.818 [debug] handled notification client -> server textDocument/didChange in 419µs
+
+23:24:08.965 [debug] handled notification client -> server textDocument/didChange in 994µs
+
+23:24:09.199 [debug] handled notification client -> server textDocument/didChange in 607µs
+
+23:24:09.355 [debug] handled notification client -> server textDocument/didChange in 843µs
+
+23:24:09.503 [debug] handled notification client -> server textDocument/didChange in 423µs
+
+23:24:09.653 [debug] handled notification client -> server textDocument/didChange in 410µs
+
+23:24:09.803 [debug] handled notification client -> server textDocument/didChange in 420µs
+
+23:24:09.952 [debug] handled notification client -> server textDocument/didChange in 987µs
+
+23:24:10.102 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:10.250 [debug] handled notification client -> server textDocument/didChange in 428µs
+
+23:24:10.401 [debug] handled notification client -> server textDocument/didChange in 413µs
+
+23:24:13.367 [debug] handled notification client -> server textDocument/didChange in 425µs
+
+23:24:13.564 [debug] handled notification client -> server textDocument/didChange in 949µs
+
+23:24:13.713 [debug] handled notification client -> server textDocument/didChange in 558µs
+
+23:24:14.076 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:14.227 [debug] handled notification client -> server textDocument/didChange in 577µs
+
+23:24:14.376 [debug] handled notification client -> server textDocument/didChange in 423µs
+
+23:24:14.527 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:14.675 [debug] handled notification client -> server textDocument/didChange in 680µs
+
+23:24:15.819 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:15.970 [debug] handled notification client -> server textDocument/didChange in 562µs
+
+23:24:16.120 [debug] handled notification client -> server textDocument/didChange in 553µs
+
+23:24:16.340 [debug] handled notification client -> server textDocument/didChange in 704µs
+
+23:24:16.673 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:16.853 [debug] handled notification client -> server textDocument/didChange in 909µs
+
+23:24:17.002 [debug] handled notification client -> server textDocument/didChange in 534µs
+
+23:24:22.529 [debug] handled notification client -> server textDocument/didChange in 561µs
+
+23:24:22.677 [debug] handled notification client -> server textDocument/didChange in 446µs
+
+23:24:22.829 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:22.977 [debug] handled notification client -> server textDocument/didChange in 617µs
+
+23:24:23.126 [debug] handled notification client -> server textDocument/didChange in 590µs
+
+23:24:23.273 [debug] handled notification client -> server textDocument/didChange in 414µs
+
+23:24:24.569 [debug] handled notification client -> server textDocument/didChange in 430µs
+
+23:24:24.720 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:24:24.868 [debug] handled notification client -> server textDocument/didChange in 566µs
+
+23:24:25.017 [debug] handled notification client -> server textDocument/didChange in 786µs
+
+23:24:25.166 [debug] handled notification client -> server textDocument/didChange in 449µs
+
+23:24:25.316 [debug] handled notification client -> server textDocument/didChange in 407µs
+
+23:26:19.427 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:26:19.992 [debug] handled notification client -> server textDocument/didChange in 996µs
+
+23:26:21.503 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:26:21.876 [debug] handled notification client -> server textDocument/didChange in 595µs
+
+23:26:22.844 [debug] handled notification client -> server textDocument/didChange in 564µs
+
+23:26:23.397 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:26:26.969 [debug] handled notification client -> server textDocument/didChange in 701µs
+
+23:26:27.955 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:26:28.239 id=9 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:26:28.250 id=514 [debug] sent request server -> client window/workDoneProgress/create
+
+23:26:28.250 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:26:28.252 [debug] sent notification server -> client $/progress
+
+23:26:28.255 [debug] sent notification server -> client window/logMessage
+
+23:26:28.255 [info] Compiling 1 file (.ex)
+
+
+23:26:28.257 id=518 [debug] sent request server -> client window/workDoneProgress/create
+
+23:26:28.257 [debug] sent notification server -> client $/progress
+
+23:26:28.268 [debug] sent notification server -> client window/logMessage
+
+23:26:28.268 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:26:28.322 [debug] sent notification server -> client $/progress
+
+23:26:28.322 [debug] sent notification server -> client window/logMessage
+
+23:26:28.323 [info] Compiled venomous!
+
+23:26:28.323 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:26:28.323 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:26:28.418 [debug] sent notification server -> client $/progress
+
+23:28:10.103 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:28:10.788 id=10 [debug] handled request client -> server textDocument/formatting in 2ms
+
+23:28:10.798 id=578 [debug] sent request server -> client window/workDoneProgress/create
+
+23:28:10.798 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:28:10.804 [debug] sent notification server -> client $/progress
+
+23:28:10.804 [debug] sent notification server -> client window/logMessage
+
+23:28:10.805 [info] Compiling 1 file (.ex)
+
+
+23:28:10.807 id=642 [debug] sent request server -> client window/workDoneProgress/create
+
+23:28:10.808 [debug] sent notification server -> client $/progress
+
+23:28:10.818 [debug] sent notification server -> client window/logMessage
+
+23:28:10.818 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:28:10.872 [debug] sent notification server -> client $/progress
+
+23:28:10.872 [debug] sent notification server -> client window/logMessage
+
+23:28:10.872 [info] Compiled venomous!
+
+23:28:10.872 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:28:10.873 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:28:10.966 [debug] sent notification server -> client $/progress
+
+23:28:41.921 [debug] handled notification client -> server textDocument/didOpen in 160µs
+
+23:28:52.763 [debug] handled notification client -> server textDocument/didChange in 828µs
+
+23:28:55.464 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:28:55.612 [debug] handled notification client -> server textDocument/didChange in 714µs
+
+23:28:55.762 [debug] handled notification client -> server textDocument/didChange in 950µs
+
+23:28:55.910 [debug] handled notification client -> server textDocument/didChange in 532µs
+
+23:28:56.244 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:28:56.412 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:28:56.568 [debug] handled notification client -> server textDocument/didChange in 613µs
+
+23:28:57.612 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:28:57.761 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:11.838 [debug] handled notification client -> server textDocument/didChange in 534µs
+
+23:29:11.988 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:22.030 [debug] handled notification client -> server textDocument/didChange in 737µs
+
+23:29:22.191 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:22.351 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:22.532 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:23.579 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:23.726 [debug] handled notification client -> server textDocument/didChange in 594µs
+
+23:29:26.548 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:27.565 id=11 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:29:27.584 id=706 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:27.585 [debug] handled notification client -> server textDocument/didSave in 3ms
+
+23:29:27.588 [debug] sent notification server -> client $/progress
+
+23:29:27.589 [debug] sent notification server -> client window/logMessage
+
+23:29:27.589 [info] Compiling 1 file (.ex)
+
+
+23:29:27.592 id=582 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:27.593 [debug] sent notification server -> client $/progress
+
+23:29:27.636 [debug] sent notification server -> client window/logMessage
+
+23:29:27.636 [info]     warning: SnakeSupervisor.deploy_snake_worker/0 is undefined (module SnakeSupervisor is not available or is yet to be defined)
+    │
+ 83 │     case SnakeSupervisor.deploy_snake_worker() do
+    │                          ~
+    │
+    └─ lib/snake_manager.ex:83:26: Venomous.SnakeManager._deploy_new_snake/0
+
+
+
+23:29:27.636 [debug] sent notification server -> client window/logMessage
+
+23:29:27.637 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 106 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:106:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:29:27.637 [debug] sent notification server -> client window/logMessage
+
+23:29:27.637 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:29:27.639 [debug] sent notification server -> client window/logMessage
+
+23:29:27.639 [info] Generated venomous app
+
+
+23:29:27.643 [debug] sent notification server -> client $/progress
+
+23:29:27.643 [debug] sent notification server -> client window/logMessage
+
+23:29:27.643 [info] Compiled venomous!
+
+23:29:27.643 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:27.644 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:27.644 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:27.644 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:27.733 [debug] sent notification server -> client $/progress
+
+23:29:31.285 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:31.731 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:31.944 [debug] handled notification client -> server textDocument/didChange in 781µs
+
+23:29:32.153 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:32.303 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:32.743 [debug] handled notification client -> server textDocument/didChange in 549µs
+
+23:29:32.892 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:33.045 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:33.573 [debug] handled notification client -> server textDocument/didChange in 520µs
+
+23:29:33.979 id=12 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:29:33.994 id=770 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:33.994 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:29:33.999 [debug] sent notification server -> client $/progress
+
+23:29:33.999 [debug] sent notification server -> client window/logMessage
+
+23:29:33.999 [info] Compiling 1 file (.ex)
+
+
+23:29:34.002 id=646 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:34.004 [debug] sent notification server -> client $/progress
+
+23:29:34.045 [debug] sent notification server -> client window/logMessage
+
+23:29:34.045 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 106 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:106:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:29:34.045 [debug] sent notification server -> client window/logMessage
+
+23:29:34.045 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:29:34.049 [debug] sent notification server -> client $/progress
+
+23:29:34.049 [debug] sent notification server -> client window/logMessage
+
+23:29:34.049 [info] Compiled venomous!
+
+23:29:34.049 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:34.049 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:34.050 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:34.050 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:34.143 [debug] sent notification server -> client $/progress
+
+23:29:51.153 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:53.047 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:53.223 [debug] handled notification client -> server textDocument/didChange in 744µs
+
+23:29:53.410 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:53.589 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:53.751 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:53.900 [debug] handled notification client -> server textDocument/didChange in 535µs
+
+23:29:54.054 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:54.205 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:54.709 [debug] handled notification client -> server textDocument/didChange in 799µs
+
+23:29:54.862 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:55.043 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:55.193 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:55.344 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:55.499 [debug] handled notification client -> server textDocument/didChange in 809µs
+
+23:29:55.648 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:29:55.837 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:29:55.986 [debug] handled notification client -> server textDocument/didChange in 829µs
+
+23:29:56.137 [debug] handled notification client -> server textDocument/didChange in 828µs
+
+23:29:56.286 [debug] handled notification client -> server textDocument/didChange in 711µs
+
+23:29:57.976 [debug] handled notification client -> server textDocument/didChange in 818µs
+
+23:29:58.668 [debug] handled notification client -> server textDocument/didChange in 3ms
+
+23:29:59.166 id=13 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:29:59.175 id=834 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:59.176 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:29:59.182 [debug] sent notification server -> client window/logMessage
+
+23:29:59.182 [info] Compiling 1 file (.ex)
+
+
+23:29:59.184 [debug] sent notification server -> client $/progress
+
+23:29:59.185 id=898 [debug] sent request server -> client window/workDoneProgress/create
+
+23:29:59.185 [debug] sent notification server -> client $/progress
+
+23:29:59.225 [debug] sent notification server -> client window/logMessage
+
+23:29:59.226 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 104 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:104:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:29:59.226 [debug] sent notification server -> client window/logMessage
+
+23:29:59.226 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:29:59.231 [debug] sent notification server -> client $/progress
+
+23:29:59.231 [debug] sent notification server -> client window/logMessage
+
+23:29:59.231 [info] Compiled venomous!
+
+23:29:59.231 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:59.231 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:59.231 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:59.232 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:29:59.323 [debug] sent notification server -> client $/progress
+
+23:30:42.107 [debug] handled notification client -> server textDocument/didChange in 2ms
+
+23:30:42.306 [debug] handled notification client -> server textDocument/didChange in 994µs
+
+23:30:42.456 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:30:42.605 [debug] handled notification client -> server textDocument/didChange in 966µs
+
+23:30:42.754 [debug] handled notification client -> server textDocument/didChange in 1ms
+
+23:30:42.905 [debug] handled notification client -> server textDocument/didChange in 3ms
+
+23:30:43.051 [debug] handled notification client -> server textDocument/didChange in 934µs
+
+23:30:43.492 id=14 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:30:43.508 id=962 [debug] sent request server -> client window/workDoneProgress/create
+
+23:30:43.508 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:30:43.512 [debug] sent notification server -> client $/progress
+
+23:30:43.514 [debug] sent notification server -> client window/logMessage
+
+23:30:43.514 [info] Compiling 1 file (.ex)
+
+
+23:30:43.517 id=1026 [debug] sent request server -> client window/workDoneProgress/create
+
+23:30:43.519 [debug] sent notification server -> client $/progress
+
+23:30:43.563 [debug] sent notification server -> client window/logMessage
+
+23:30:43.563 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 104 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:104:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:30:43.564 [debug] sent notification server -> client window/logMessage
+
+23:30:43.564 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:30:43.567 [debug] sent notification server -> client $/progress
+
+23:30:43.567 [debug] sent notification server -> client window/logMessage
+
+23:30:43.567 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:30:43.567 [info] Compiled venomous!
+
+23:30:43.567 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:30:43.568 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:30:43.568 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:30:43.661 [debug] sent notification server -> client $/progress
+
+23:32:34.832 id=15 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:32:34.866 id=13 [debug] sent request server -> client window/workDoneProgress/create
+
+23:32:34.866 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:32:34.871 [debug] sent notification server -> client $/progress
+
+23:32:34.873 [debug] sent notification server -> client window/logMessage
+
+23:32:34.873 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 104 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:104:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:32:34.873 [debug] sent notification server -> client window/logMessage
+
+23:32:34.873 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:32:34.877 [debug] sent notification server -> client $/progress
+
+23:32:34.877 [debug] sent notification server -> client window/logMessage
+
+23:32:34.877 [info] Compiled venomous!
+
+23:32:34.877 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:34.878 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:34.878 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:34.878 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:42.564 id=16 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:32:42.578 id=710 [debug] sent request server -> client window/workDoneProgress/create
+
+23:32:42.579 [debug] handled notification client -> server textDocument/didSave in 955µs
+
+23:32:42.584 [debug] sent notification server -> client $/progress
+
+23:32:42.585 [debug] sent notification server -> client window/logMessage
+
+23:32:42.585 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 104 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:104:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:32:42.585 [debug] sent notification server -> client window/logMessage
+
+23:32:42.585 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:32:42.588 [debug] sent notification server -> client $/progress
+
+23:32:42.588 [debug] sent notification server -> client window/logMessage
+
+23:32:42.588 [info] Compiled venomous!
+
+23:32:42.588 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:42.588 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:42.589 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:42.589 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:43.107 id=17 [debug] handled request client -> server textDocument/formatting in 3ms
+
+23:32:43.117 id=774 [debug] sent request server -> client window/workDoneProgress/create
+
+23:32:43.117 [debug] handled notification client -> server textDocument/didSave in 1ms
+
+23:32:43.120 [debug] sent notification server -> client $/progress
+
+23:32:43.122 [debug] sent notification server -> client window/logMessage
+
+23:32:43.122 [info]      warning: Timex.shift/2 is undefined (module Timex is not available or is yet to be defined)
+     │
+ 104 │       active = DateTime.compare(now, Timex.shift(update, seconds: 15)) != :gt
+     │                                            ~
+     │
+     └─ lib/snake_manager.ex:104:44: Venomous.SnakeManager.clean_inactive_workers/1
+
+
+
+23:32:43.123 [debug] sent notification server -> client window/logMessage
+
+23:32:43.123 [info]     warning: the underscored variable "_from" is used after being set. A leading underscore indicates that the value of the variable should be ignored. If this is intended please rename the variable to remove the underscore
+    │
+ 63 │     GenServer.reply(_from, :ok)
+    │                     ~
+    │
+    └─ lib/snake_worker.ex:63:21: Venomous.SnakeWorker.handle_call/3
+
+
+
+23:32:43.125 [debug] sent notification server -> client $/progress
+
+23:32:43.125 [debug] sent notification server -> client window/logMessage
+
+23:32:43.126 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:43.126 [info] Compiled venomous!
+
+23:32:43.126 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:43.126 [debug] sent notification server -> client textDocument/publishDiagnostics
+
+23:32:43.127 [debug] sent notification server -> client textDocument/publishDiagnostics
