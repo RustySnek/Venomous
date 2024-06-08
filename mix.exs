@@ -24,7 +24,9 @@ defmodule Venomous.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       {:timex, "~> 3.7.11"},
-      {:erlport, "~> 0.11.0"}
+      {:erlport, "~> 0.11.0"},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
   end
