@@ -114,7 +114,7 @@ defmodule Venomous.SnakeManager do
 
   def get_snake_worker_status(table, pid) when is_pid(pid) do
     with [snake | _] <- :ets.lookup(table, pid) do
-      [_pid, pypid, status, update_utc] = snake
+      {_pid, pypid, status, update_utc} = snake
       {pypid, status, update_utc}
     end
   end
