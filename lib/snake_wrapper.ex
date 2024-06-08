@@ -8,7 +8,9 @@ defmodule Venomous.SnakeWrapper do
   @wait_for_snake_interval 100
   @default_timeout 15_000
 
-  @spec slay_python_worker(pid(), pid()) :: :ok
+  @spec list_alive_snakes() :: list({pid(), pid(), atom(), any()})
+  def list_alive_snakes(), do: GenServer.call(SnakeManager, :list_snakes)
+
   @doc """
   Kills python process and its SnakeWorker
   ## Parameters
@@ -17,7 +19,8 @@ defmodule Venomous.SnakeWrapper do
   ## Returns 
     :ok
   """
-  def slay_python_worker(pid, pypid) do
+  @spec slay_python_worker({pid(), pid()}) :: :ok
+  def slay_python_worker({pid, pypid}) do
     :python.stop(pypid)
     send(SnakeManager, {:sacrifice_snake, pid})
   end
@@ -80,11 +83,11 @@ defmodule Venomous.SnakeWrapper do
 
     receive do
       {:EXIT, _from, _type} ->
-        slay_python_worker(pid, pypid)
+        slay_python_worker({pid, pypid})
         exit(:normal)
 
       {:EXIT, _type} ->
-        slay_python_worker(pid, pypid)
+        slay_python_worker({pid, pypid})
         exit(:normal)
 
       {:SNAKE_DONE, data} ->
@@ -92,11 +95,11 @@ defmodule Venomous.SnakeWrapper do
         data
 
       {:SNAKE_ERROR, error} ->
-        slay_python_worker(pid, pypid)
+        slay_python_worker({pid, pypid})
         error
     after
       python_timeout ->
-        slay_python_worker(pid, pypid)
+        slay_python_worker({pid, pypid})
         %{error: "timeout"}
     end
   end

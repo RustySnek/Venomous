@@ -39,6 +39,10 @@ defmodule Venomous.SnakeManager do
     {:noreply, table}
   end
 
+  def handle_call(:list_snakes, _from, table) do
+    {:reply, :ets.tab2list(table), table}
+  end
+
   def handle_call(:get_ready_snake, _from, table) do
     available? = table |> :ets.match({:"$1", :"$2", :ready, :"$3"}) |> Enum.at(0)
 
