@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.34.0">
+    <meta name="project" content="Venomous v0.1.0">
+
+
+    <title>Venomous — Venomous v0.1.0</title>
+    <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-54702F6A.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-Q4PYR6ZR.js"></script>
+
+  </head>
+  <body data-type="modules" class="page-module">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="Venomous.html" class="sidebar-projectName" translate="no">
+Venomous
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.0
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+Pages
+        </button>
+      </li>
+
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
+
+
+    </ul>
+  </div>
+
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
+
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
+  <output role="status" id="toast"></output>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Venomous</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+    <span translate="no">Venomous</span> 
+    <small class="app-vsn" translate="no">(Venomous v0.1.0)</small>
+
+  </h1>
+
+
+    <section id="moduledoc">
+<p>Venomous is the main module for managing concurrent Python processes using Erlport in an Elixir application.</p><p>The core concept revolves around &quot;Snakes&quot; which represent Python worker processes. These <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> are managed and supervised with <a href="Venomous.SnakeManager.html"><code class="inline">Venomous.SnakeManager</code></a> GenServer to allow concurrent and efficient execution of Python code. The <code class="inline">Snakes</code> pids and python pids are stored inside <code class="inline">:ets</code> table and the Processes are handled by <code class="inline">DymanicSupervisor</code> called <a href="Venomous.SnakeSupervisor.html"><code class="inline">Venomous.SnakeSupervisor</code></a>. The unused <code class="inline">Snakes</code> get automatically killed by <code class="inline">SnakeManager</code> depending on the given configuration.</p><h2 id="module-main-functionality" class="section-heading">
+  <a href="#module-main-functionality" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Main Functionality</span>
+</h2>
+<ul><li><a href="#python/2"><code class="inline">python/2</code></a>: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a <code class="inline">SnakeArgs</code> struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.</li><li><p><a href="#python!/3"><code class="inline">python!/3</code></a> | <a href="#python!/1"><code class="inline">python!/1</code></a>: Will wait until any <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> is freed, requesting it with the given interval. </p></li></ul><h2 id="module-architecture" class="section-heading">
+  <a href="#module-architecture" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Architecture</span>
+</h2>
+<p>Venomous consists of several key components:</p><ul><li><a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>: Manages the execution of Python processes.</li><li><a href="Venomous.SnakeSupervisor.html"><code class="inline">Venomous.SnakeSupervisor</code></a>: A DynamicSupervisor that oversees the SnakeWorkers.</li><li><a href="Venomous.SnakeManager.html"><code class="inline">Venomous.SnakeManager</code></a>: A GenServer that coordinates the SnakeWorkers and handles operations like spawning, retrieval and cleanup.</li></ul><h2 id="module-configuration-options" class="section-heading">
+  <a href="#module-configuration-options" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Configuration Options</span>
+</h2>
+<p>The behavior and management of Snakes can be configured through the following options:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types.</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval_ms: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><h2 id="module-auxiliary-functions" class="section-heading">
+  <a href="#module-auxiliary-functions" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Auxiliary Functions</span>
+</h2>
+<ul><li><a href="#list_alive_snakes/0"><code class="inline">list_alive_snakes/0</code></a>: Returns a list of :ets table containing currently alive Snakes.</li><li><a href="#clean_inactive_snakes/0"><code class="inline">clean_inactive_snakes/0</code></a>: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.</li><li><a href="#slay_python_worker/1"><code class="inline">slay_python_worker/1</code></a>: Kills a specified Python worker process and its SnakeWorker.</li></ul>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#clean_inactive_snakes/0" data-no-tooltip translate="no">clean_inactive_snakes()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Clears inactive snakes manually, returns number of snakes cleared</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_snakes_ready/1" data-no-tooltip translate="no">get_snakes_ready(amount)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Retrieves x amount of ready snakes. In case of hitting max_children cap, stops and returns all available snakes.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#list_alive_snakes/0" data-no-tooltip translate="no">list_alive_snakes()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns list of :ets table containing alive snakes</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#python/2" data-no-tooltip translate="no">python(snake_args, python_timeout \\ 15000)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Wrapper for python workers
+Tries to retrieve SnakeWorker which then runs given function inside given module with args. In case of failure will return {:error, message}.
+In case :EXIT happens, it will kill python worker/process and exit(:normal)</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#python!/3" data-no-tooltip translate="no">python!(snake_args, python_timeout \\ 15000, retrieve_interval \\ 200)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>If no Snake is available will continue requesting it with the given interval until any gets freed</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#retrieve_snake/0" data-no-tooltip translate="no">retrieve_snake()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Retrieves ready SnakeWorker and python pids.
+If all processes are busy and exceeds max_children will return {:retrieve_error, message}.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#retrieve_snake!/1" data-no-tooltip translate="no">retrieve_snake!(interval \\ 100)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Retrieves ready SnakeWorker and python pids.
+The worker is then set to :busy until its ran with snake_run(), preventing it from getting removed automatically or used by other process
+If all processes are busy and exceeds max_children will wait for interval ms and try again.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#slay_python_worker/1" data-no-tooltip translate="no">slay_python_worker(arg)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Kills python process and its SnakeWorker</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#snake_run/3" data-no-tooltip translate="no">snake_run(snake_args, arg, python_timeout \\ 15000)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Runs given %SnakeArgs{} inside given Snake pids.</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="clean_inactive_snakes/0">
+
+  <div class="detail-header">
+    <a href="#clean_inactive_snakes/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">clean_inactive_snakes()</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L49" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> clean_inactive_snakes() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()</pre>
+
+      </div>
+
+<p>Clears inactive snakes manually, returns number of snakes cleared</p>
+  </section>
+</section>
+<section class="detail" id="get_snakes_ready/1">
+
+  <div class="detail-header">
+    <a href="#get_snakes_ready/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_snakes_ready(amount)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L84" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_snakes_ready(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()) :: [{<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}]</pre>
+
+      </div>
+
+<p>Retrieves x amount of ready snakes. In case of hitting max_children cap, stops and returns all available snakes.</p><h2 id="get_snakes_ready/1-parameters" class="section-heading">
+  <a href="#get_snakes_ready/1-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>amount of snakes to retrieve</li></ul><h2 id="get_snakes_ready/1-returns" class="section-heading">
+  <a href="#get_snakes_ready/1-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li>A list of tuples <code class="inline">{pid, pid}</code></li></ul>
+  </section>
+</section>
+<section class="detail" id="list_alive_snakes/0">
+
+  <div class="detail-header">
+    <a href="#list_alive_snakes/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">list_alive_snakes()</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L45" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> list_alive_snakes() :: [{<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}]</pre>
+
+      </div>
+
+<p>Returns list of :ets table containing alive snakes</p>
+  </section>
+</section>
+<section class="detail" id="python/2">
+
+    <span id="python/1"></span>
+
+  <div class="detail-header">
+    <a href="#python/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">python(snake_args, python_timeout \\ 15000)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L170" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> python(<a href="Venomous.SnakeArgs.html#t:t/0">Venomous.SnakeArgs.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+
+      </div>
+
+<p>Wrapper for python workers
+Tries to retrieve SnakeWorker which then runs given function inside given module with args. In case of failure will return {:error, message}.
+In case :EXIT happens, it will kill python worker/process and exit(:normal)</p><h2 id="python/2-parameters" class="section-heading">
+  <a href="#python/2-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>%SnakeArgs{} struct of :module, :func, :args </li><li><p>python_timeout \ @default_timeout non_neg_integer() | :infinity Timeout for python call.
+In case of timeout it will kill python worker/process and return {error: &quot;timeout&quot;}</p></li></ul><h2 id="python/2-returns" class="section-heading">
+  <a href="#python/2-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li><p>any() | {error: &quot;timeout&quot;} | {error: any()} retrieves output of python function or error</p></li></ul>
+  </section>
+</section>
+<section class="detail" id="python!/3">
+
+    <span id="python!/1"></span>
+
+    <span id="python!/2"></span>
+
+  <div class="detail-header">
+    <a href="#python!/3" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">python!(snake_args, python_timeout \\ 15000, retrieve_interval \\ 200)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L179" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> python!(<a href="Venomous.SnakeArgs.html#t:t/0">Venomous.SnakeArgs.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+
+      </div>
+
+<p>If no Snake is available will continue requesting it with the given interval until any gets freed</p>
+  </section>
+</section>
+<section class="detail" id="retrieve_snake/0">
+
+  <div class="detail-header">
+    <a href="#retrieve_snake/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">retrieve_snake()</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L94" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> retrieve_snake() :: {:retrieve_error, reason :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()} | {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+
+      </div>
+
+<p>Retrieves ready SnakeWorker and python pids.
+If all processes are busy and exceeds max_children will return {:retrieve_error, message}.</p><h2 id="retrieve_snake/0-returns" class="section-heading">
+  <a href="#retrieve_snake/0-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li>A tuple <code class="inline">{pid, pid}</code> containing the process IDs of the SnakeWorker and python processes. In case of error <code class="inline">{:retrieve_error, message}</code></li></ul>
+  </section>
+</section>
+<section class="detail" id="retrieve_snake!/1">
+
+    <span id="retrieve_snake!/0"></span>
+
+  <div class="detail-header">
+    <a href="#retrieve_snake!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">retrieve_snake!(interval \\ 100)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L107" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> retrieve_snake!(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()) :: {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+
+      </div>
+
+<p>Retrieves ready SnakeWorker and python pids.
+The worker is then set to :busy until its ran with snake_run(), preventing it from getting removed automatically or used by other process
+If all processes are busy and exceeds max_children will wait for interval ms and try again.</p><h2 id="retrieve_snake!/1-parameters" class="section-heading">
+  <a href="#retrieve_snake!/1-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>interval: The time to wait in milliseconds before retrying. Default is <code class="inline">@wait_for_snake_interval</code>.</li></ul><h2 id="retrieve_snake!/1-returns" class="section-heading">
+  <a href="#retrieve_snake!/1-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li>A tuple <code class="inline">{pid, pid}</code> containing the process IDs of the SnakeWorker and python processes.</li></ul>
+  </section>
+</section>
+<section class="detail" id="slay_python_worker/1">
+
+  <div class="detail-header">
+    <a href="#slay_python_worker/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">slay_python_worker(arg)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L60" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> slay_python_worker({<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}) :: :ok</pre>
+
+      </div>
+
+<p>Kills python process and its SnakeWorker</p><h2 id="slay_python_worker/1-parameters" class="section-heading">
+  <a href="#slay_python_worker/1-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>SnakeWorker pid</li><li>Python pid</li></ul><h2 id="slay_python_worker/1-returns" class="section-heading">
+  <a href="#slay_python_worker/1-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<p>  :ok</p>
+  </section>
+</section>
+<section class="detail" id="snake_run/3">
+
+    <span id="snake_run/2"></span>
+
+  <div class="detail-header">
+    <a href="#snake_run/3" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">snake_run(snake_args, arg, python_timeout \\ 15000)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L131" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> snake_run(<a href="Venomous.SnakeArgs.html#t:t/0">Venomous.SnakeArgs.t</a>(), {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()</pre>
+
+      </div>
+
+<p>Runs given %SnakeArgs{} inside given Snake pids.</p><h2 id="snake_run/3-parameters" class="section-heading">
+  <a href="#snake_run/3-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>%SnakeArgs{} struct of :module, :func, :args </li><li>{pid, pypid} tuple containing SnakeWorker pid and python pid</li><li><p>python_timeout \ @default_timeout non_neg_integer() | :infinity Timeout for python call.
+In case of timeout it will kill python worker/process and return {error: &quot;timeout&quot;}</p></li></ul><h2 id="snake_run/3-returns" class="section-heading">
+  <a href="#snake_run/3-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li><p>any() | {error: &quot;timeout&quot;} | %SnakeError{} retrieves output of python function or error</p></li></ul>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+      <p>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="Venomous.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.0) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

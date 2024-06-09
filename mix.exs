@@ -7,7 +7,16 @@ defmodule Venomous.MixProject do
       version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "Venomous",
+      source_url: "https://github.com/RustySnek/Venomous",
+      docs: [
+        main: "Venomous",
+        # TODO: logo: "path"
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -26,7 +35,8 @@ defmodule Venomous.MixProject do
       {:timex, "~> 3.7.11"},
       {:erlport, "~> 0.11.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
   end

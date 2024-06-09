@@ -1,6 +1,26 @@
 defmodule Venomous.SnakeManager do
   @moduledoc """
   Manager for brave 🐍 workers
+
+  This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.
+    
+  Main call `:get_ready_snake` retrieves/spawns a `Venomous.SnakeWorker` with :busy/:spawned status.
+  Workers with status :ready, :spawned, are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
+
+  ## Configuration
+  The following configurations are retrieved from `Application.get_env/3`:
+
+  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types.
+  - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
+  - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
+  - `cleaner_interval_ms: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
+
+  Defaults are provided in case these configurations are not set:
+
+  - Default encoder: none.
+  - Default time-to-live for a worker: 15 minutes.
+  - Default number of perpetual workers: 10.
+  - Default interval for cleaning inactive workers: 60,000 milliseconds.
   """
   use GenServer
   require Logger
@@ -58,7 +78,7 @@ defmodule Venomous.SnakeManager do
     snake =
       case available? do
         nil ->
-          deploy_new_snake(state.table)
+          deploy_new_snake(state.table, state.erlport_encoder)
 
         [pid, pypid, update_utc] ->
           :ets.insert(state.table, {pid, pypid, :busy, update_utc})
@@ -82,11 +102,11 @@ defmodule Venomous.SnakeManager do
 
   defp deploy_new_snake({:error, message}, _table) do
     Logger.error("Error while creating new snake: #{message}")
-    {:error, message}
+    {:retrieve_error, message}
   end
 
-  defp deploy_new_snake(table) do
-    SnakeSupervisor.deploy_snake_worker() |> deploy_new_snake(table)
+  defp deploy_new_snake(table, encoder) do
+    SnakeSupervisor.deploy_snake_worker(encoder) |> deploy_new_snake(table)
   end
 
   defp clean_inactive_workers(state) do
