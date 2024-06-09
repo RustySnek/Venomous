@@ -1,4 +1,4 @@
-# Venomous
+![Venomous](https://github.com/RustySnek/Venomous/blob/master/assets/venomous_logo.png)
 
 An overcomplicated library for managing concurrent Python processes using Erlport
 
