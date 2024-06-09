@@ -16,7 +16,7 @@ defmodule Venomous.SnakeArgs do
           func: atom(),
           args: list(any())
         }
-  @spec snake_args(atom(), atom(), list(any())) :: %__MODULE__{}
+  @spec from_params(atom(), atom(), list(any())) :: %__MODULE__{}
   @doc """
   Builds SnakeArgs struct from params
   ## Parameters
@@ -26,7 +26,7 @@ defmodule Venomous.SnakeArgs do
   ## Returns 
     %SnakeArgs{}
   """
-  def snake_args(module, func, args) do
+  def from_params(module, func, args) do
     %__MODULE__{
       module: module,
       func: func,
