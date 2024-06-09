@@ -9,9 +9,9 @@ defmodule Venomous.MixProject do
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      license: "GPL-3.0-or-later",
+      licenses: ["GPL-3.0-or-later"],
       links: %{
-        source: "https://github.com/RustySnek/Venomous"
+        "GitHub" => "https://github.com/RustySnek/Venomous"
       },
       # Docs
       name: "Venomous",
