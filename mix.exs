@@ -8,19 +8,25 @@ defmodule Venomous.MixProject do
       version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
+      package: package(),
       deps: deps(),
-      licenses: ["GPL-3.0-or-later"],
-      links: %{
-        "GitHub" => "https://github.com/RustySnek/Venomous"
-      },
       # Docs
       name: "Venomous",
       source_url: "https://github.com/RustySnek/Venomous",
       docs: [
         main: "Venomous",
-        # TODO: logo: "path"
+        logo: "./assets/venomous_logo.png",
         extras: ["README.md"]
       ]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["GPL-3.0-or-later"],
+      links: %{
+        "GitHub" => "https://github.com/RustySnek/Venomous"
+      }
     ]
   end
 
