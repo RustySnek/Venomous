@@ -3,7 +3,7 @@
 > A wrapper for managing concurrent [Erlport](http://erlport.org/) Python processes with ease.
 
 [![CI](https://github.com/rustysnek/venomous/actions/workflows/elixir.yml/badge.svg)](https://github.com/rustysnek/venomous/actions/workflows/elixir.yml)
-[![Hex.pm](https://img.shields.io/hexpm/v/venomous.svg)](https://hex.pm/packages/venomous)
+[![Hex.pm](https://img.shields.io/hexpm/v/venomous)](https://hex.pm/packages/venomous)
 [![Hex.pm](http://img.shields.io/hexpm/dt/venomous.svg)](https://hex.pm/packages/venomous)
 ## Installation
 Add `:venomous` to your list of dependencies in `mix.exs`:
