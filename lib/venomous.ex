@@ -19,7 +19,7 @@ defmodule Venomous do
 
   ## Configuration Options
 
-  The behavior and management of Snakes can be configured through the following options:
+  The behavior and management of Snakes can be configured through the following options inside :venomous :snake_manager config key:
 
   - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types.
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.

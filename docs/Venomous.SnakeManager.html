@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-54702F6A.js"></script>
+    <script src="dist/sidebar_items-1F86BB64.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
@@ -131,7 +131,7 @@ Workers with status :ready, :spawned, are considered inactive and will be cleare
   </a>
   <span class="text">Configuration</span>
 </h2>
-<p>The following configurations are retrieved from <a href="https://hexdocs.pm/elixir/Application.html#get_env/3"><code class="inline">Application.get_env/3</code></a>:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types.</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval_ms: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><p>Defaults are provided in case these configurations are not set:</p><ul><li>Default encoder: none.</li><li>Default time-to-live for a worker: 15 minutes.</li><li>Default number of perpetual workers: 10.</li><li>Default interval for cleaning inactive workers: 60,000 milliseconds.</li></ul>
+<p>The following configurations are retrieved from :venomous :snake_manager Application env:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types.</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval_ms: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><p>Defaults are provided in case these configurations are not set:</p><ul><li>Default encoder: none.</li><li>Default time-to-live for a worker: 15 minutes.</li><li>Default number of perpetual workers: 10.</li><li>Default interval for cleaning inactive workers: 60,000 milliseconds.</li></ul>
     </section>
 
 </div>

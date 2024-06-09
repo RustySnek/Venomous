@@ -25,14 +25,15 @@ defmodule Venomous.Application do
   defp snake_manager_specs() do
     table = :ets.new(:snake_terrarium, [:set, :public])
 
-    encoder_decoder = Application.get_env(:venomous, :erlport_encoder, %{})
-    snake_ttl = Application.get_env(:venomous, :snake_ttl_minutes, @default_ttl_minutes)
+    config = Application.get_env(:venomous, :snake_manager, %{})
+    encoder_decoder = Map.get(config, :erlport_encoder, %{})
+    snake_ttl = Map.get(config, :snake_ttl_minutes, @default_ttl_minutes)
 
     perpetual_workers =
-      Application.get_env(:venomous, :perpetual_workers, @default_perpetual_workers)
+      Map.get(config, :perpetual_workers, @default_perpetual_workers)
 
     cleaner_interval_ms =
-      Application.get_env(:venomous, :cleaner_interval, @default_cleaner_interval)
+      Map.get(config, :cleaner_interval, @default_cleaner_interval)
 
     %{
       table: table,

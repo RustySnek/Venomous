@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-54702F6A.js"></script>
+    <script src="dist/sidebar_items-1F86BB64.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
@@ -142,7 +142,7 @@ Pages
   </a>
   <span class="text">Configuration Options</span>
 </h2>
-<p>The behavior and management of Snakes can be configured through the following options:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types.</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval_ms: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><h2 id="module-auxiliary-functions" class="section-heading">
+<p>The behavior and management of Snakes can be configured through the following options inside :venomous :snake_manager config key:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types.</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval_ms: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><h2 id="module-auxiliary-functions" class="section-heading">
   <a href="#module-auxiliary-functions" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>

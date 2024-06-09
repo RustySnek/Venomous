@@ -8,7 +8,7 @@ defmodule Venomous.SnakeManager do
   Workers with status :ready, :spawned, are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
 
   ## Configuration
-  The following configurations are retrieved from `Application.get_env/3`:
+  The following configurations are retrieved from :venomous :snake_manager Application env:
 
   - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types.
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
