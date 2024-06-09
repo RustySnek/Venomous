@@ -4,8 +4,8 @@ defmodule Venomous.SnakeManager do
 
   This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.
     
-  Main call `:get_ready_snake` retrieves/spawns a `Venomous.SnakeWorker` with :busy/:spawned status.
-  Workers with status :ready, :spawned, are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
+  Main call `:get_ready_snake` retrieves/spawns a `Venomous.SnakeWorker` with :retrieved status.
+  Workers with status :ready, :retrieved, are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
 
   ## Configuration
   The following configurations are retrieved from :venomous :snake_manager Application env:
@@ -80,23 +80,28 @@ defmodule Venomous.SnakeManager do
         nil ->
           deploy_new_snake(state.table, state.erlport_encoder)
 
-        [pid, pypid, update_utc] ->
-          :ets.insert(state.table, {pid, pypid, :busy, update_utc})
+        [pid, pypid, _update_utc] ->
+          :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
           {pid, pypid}
       end
 
     {:reply, snake, state}
   end
 
-  def handle_call({:employ_snake, pid, pypid}, _from, state) do
+  def handle_call({:molt_snake, status, pid, pypid}, _from, state) do
     now = DateTime.utc_now()
-    :ets.insert(state.table, {pid, pypid, :ready, now})
+    :ets.insert(state.table, {pid, pypid, status, now})
+    {:reply, :ok, state}
+  end
+
+  def handle_call({:remove_snake, pid}, _from, state) do
+    :ets.delete(state.table, pid)
     {:reply, :ok, state}
   end
 
   defp deploy_new_snake({:ok, pid}, table) do
     pypid = GenServer.call(pid, :get_pypid)
-    :ets.insert(table, {pid, pypid, :spawned, DateTime.utc_now()})
+    :ets.insert(table, {pid, pypid, :retrieved, DateTime.utc_now()})
     {pid, pypid}
   end
 
@@ -129,7 +134,7 @@ defmodule Venomous.SnakeManager do
         max_ttl
       ) != :gt
 
-    unless status not in [:ready, :spawned] or active do
+    unless status not in [:ready, :retrieved] or active do
       :ets.delete(table, pid)
       kill_inactive_worker(pid, pypid)
     end

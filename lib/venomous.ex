@@ -129,19 +129,21 @@ defmodule Venomous do
   """
   @spec snake_run(SnakeArgs.t(), {pid(), pid()}, non_neg_integer()) :: any()
   def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, python_timeout \\ @default_timeout) do
+    Process.flag(:trap_exit, true)
+    GenServer.call(SnakeManager, {:molt_snake, :busy, pid, pypid}, :infinity)
     GenServer.call(pid, {:run_snake, self(), snake_args})
 
     receive do
-      {:EXIT, _from, _type} ->
+      {:EXIT, _from, reason} ->
         slay_python_worker({pid, pypid})
-        exit(:normal)
+        exit(reason)
 
-      {:EXIT, _type} ->
+      {:EXIT, reason} ->
         slay_python_worker({pid, pypid})
-        exit(:normal)
+        exit(reason)
 
       {:SNAKE_DONE, data} ->
-        GenServer.call(SnakeManager, {:employ_snake, pid, pypid}, :infinity)
+        GenServer.call(SnakeManager, {:molt_snake, :ready, pid, pypid}, :infinity)
         data
 
       {:SNAKE_ERROR, error} ->
