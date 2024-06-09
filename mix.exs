@@ -4,11 +4,15 @@ defmodule Venomous.MixProject do
   def project do
     [
       app: :venomous,
+      description: "A wrapper for managing concurrent Erlport python processes",
       version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-
+      license: "GPL-3.0-or-later",
+      links: %{
+        source: "https://github.com/RustySnek/Venomous"
+      },
       # Docs
       name: "Venomous",
       source_url: "https://github.com/RustySnek/Venomous",
