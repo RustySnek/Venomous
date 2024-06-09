@@ -1,6 +1,6 @@
 defmodule VenomousTest.ConcurrencyTest do
   use ExUnit.Case
-  import Venomous.SnakeArgs
+  alias Venomous.SnakeArgs
   import Venomous
   # @tag timeout: :infinity
   # test "stress snakes" do
@@ -19,7 +19,7 @@ defmodule VenomousTest.ConcurrencyTest do
 
   test "concurrent python processes" do
     Process.send_after(self(), :fail, 1_000)
-    args = snake_args(:time, :sleep, [0.1])
+    args = SnakeArgs.from_params(:time, :sleep, [0.1])
 
     1..100
     |> Enum.map(fn _ ->
