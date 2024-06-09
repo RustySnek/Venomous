@@ -8,8 +8,13 @@ defmodule Venomous do
   @wait_for_snake_interval 100
   @default_timeout 15_000
 
+  @doc "Returns list of :ets table"
   @spec list_alive_snakes() :: list({pid(), pid(), atom(), any()})
   def list_alive_snakes(), do: GenServer.call(SnakeManager, :list_snakes)
+
+  @spec clean_inactive_snakes() :: non_neg_integer()
+  @doc "Clears inactive snakes manually, returns number of snakes cleared"
+  def clean_inactive_snakes(), do: GenServer.call(SnakeManager, :clean_inactive_workers)
 
   @doc """
   Kills python process and its SnakeWorker
@@ -60,6 +65,7 @@ defmodule Venomous do
   @spec retrieve_snake!(non_neg_integer()) :: {pid(), pid()}
   @doc """
   Retrieves ready SnakeWorker and python pids.
+  The worker is then set to :busy until its ran with snake_run(), preventing it from getting removed automatically or used by other process
   If all processes are busy and exceeds max_children will wait for interval ms and try again.
   ## Parameters
     - interval: The time to wait in milliseconds before retrying. Default is `@wait_for_snake_interval`.
@@ -78,7 +84,20 @@ defmodule Venomous do
     end
   end
 
-  def snake_run({pid, pypid}, %SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
+  @doc """
+
+  ## Parameters
+    - %SnakeArgs{} struct of :module, :func, :args 
+    - {pid, pypid} tuple containing SnakeWorker pid and python pid
+    - python_timeout \\ @default_timeout non_neg_integer() | :infinity Timeout for python call.
+      In case of timeout it will kill python worker/process and return {error: "timeout"}
+
+  ## Returns 
+    - any() | {error: "timeout"} | {error: any()} retrieves output of python function or error
+
+  """
+  @spec snake_run(SnakeArgs.t(), {pid(), pid()}, non_neg_integer()) :: any()
+  def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, python_timeout \\ @default_timeout) do
     GenServer.call(pid, {:run_snake, self(), snake_args})
 
     receive do
@@ -119,6 +138,7 @@ defmodule Venomous do
   """
   @spec python(SnakeArgs.t(), non_neg_integer()) :: any()
   def python(%SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
-    retrieve_snake!() |> snake_run(snake_args, python_timeout)
+    snake = retrieve_snake!()
+    snake_args |> snake_run(snake, python_timeout)
   end
 end
