@@ -66,7 +66,7 @@ defmodule Venomous do
 
   defp get_snakes_ready(amount, acc) do
     case retrieve_snake() do
-      {:error, _} -> acc
+      {:retrieve_error, _} -> acc
       pids -> get_snakes_ready(amount - 1, [pids | acc])
     end
   end
@@ -106,7 +106,7 @@ defmodule Venomous do
   """
   def retrieve_snake!(interval \\ @wait_for_snake_interval) do
     case retrieve_snake() do
-      {:error, _} ->
+      {:retrieve_error, _} ->
         Process.sleep(interval)
         retrieve_snake!(interval)
 
