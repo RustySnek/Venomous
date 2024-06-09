@@ -9,7 +9,7 @@ defmodule Venomous.Application do
     children =
       [
         Supervisor.child_spec(
-          {Venomous.SnakeManager, :ets.new(:snake_terrarium, [:set, :public])},
+          {Venomous.SnakeManager, snake_manager_specs()},
           id: Venomous.SnakeManager,
           restart: :permanent
         )
@@ -17,6 +17,17 @@ defmodule Venomous.Application do
 
     opts = [strategy: :one_for_one, name: Venomous.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp snake_manager_specs() do
+    table = :ets.new(:snake_terrarium, [:set, :public])
+
+    %{
+      table: table,
+      snake_ttl_minutes: 0,
+      perpetual_workers: 0,
+      cleaner_interval_ms: 100_000
+    }
   end
 
   defp snake_supervisor_spec() do
