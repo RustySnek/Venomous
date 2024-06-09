@@ -4,7 +4,7 @@ devenv.local.nix
 
 # direnv
 .direnv
-
+lib/.elixir_tools/
 # pre-commit
 .pre-commit-config.yaml
 /_build
