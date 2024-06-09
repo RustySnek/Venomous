@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.34.0">
-    <meta name="project" content="Venomous v0.1.0">
+    <meta name="project" content="Venomous v0.1.1">
 
 
-    <title>Venomous.SnakeManager — Venomous v0.1.0</title>
+    <title>Venomous.SnakeManager — Venomous v0.1.1</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -45,12 +45,16 @@
   <div class="sidebar-header">
     <div class="sidebar-projectInfo">
 
+        <a href="Venomous.html" class="sidebar-projectImage">
+          <img src="assets/logo.png" alt="Venomous" />
+        </a>
+
       <div>
         <a href="Venomous.html" class="sidebar-projectName" translate="no">
 Venomous
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.1.0
+          v0.1.1
         </div>
       </div>
     </div>
@@ -118,14 +122,14 @@ Pages
       </a>
 
     <span translate="no">Venomous.SnakeManager</span> 
-    <small class="app-vsn" translate="no">(Venomous v0.1.0)</small>
+    <small class="app-vsn" translate="no">(Venomous v0.1.1)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Manager for brave 🐍 workers</p><p>This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.</p><p>Main call <code class="inline">:get_ready_snake</code> retrieves/spawns a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> with :busy/:spawned status.
-Workers with status :ready, :spawned, are considered inactive and will be cleared up by main process loop running <code class="inline">:clean_inactive_workers</code> if they exceed their given TTL</p><h2 id="module-configuration" class="section-heading">
+<p>Manager for brave 🐍 workers</p><p>This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.</p><p>Main call <code class="inline">:get_ready_snake</code> retrieves/spawns a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> with :retrieved status.
+Workers with status :ready, :retrieved, are considered inactive and will be cleared up by main process loop running <code class="inline">:clean_inactive_workers</code> if they exceed their given TTL</p><h2 id="module-configuration" class="section-heading">
   <a href="#module-configuration" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -238,7 +242,7 @@ Workers with status :ready, :spawned, are considered inactive and will be cleare
     </a>
     <h1 class="signature" translate="no">get_snake_worker_status(table, pid)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L151" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L156" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -323,6 +327,13 @@ Workers with status :ready, :spawned, are considered inactive and will be cleare
 
     <footer class="footer">
       <p>
+
+          <span class="line">
+            <a href="https://hex.pm/packages/venomous/0.1.1" class="footer-hex-package">Hex Package</a>
+
+            <a href="https://preview.hex.pm/preview/venomous/0.1.1">Hex Preview</a>
+
+          </span>
 
         <span class="line">
           <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">

@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.34.0">
-    <meta name="project" content="Venomous v0.1.0">
+    <meta name="project" content="Venomous v0.1.1">
 
 
-    <title>README — Venomous v0.1.0</title>
+    <title>README — Venomous v0.1.1</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -45,12 +45,16 @@
   <div class="sidebar-header">
     <div class="sidebar-projectInfo">
 
+        <a href="Venomous.html" class="sidebar-projectImage">
+          <img src="assets/logo.png" alt="Venomous" />
+        </a>
+
       <div>
         <a href="Venomous.html" class="sidebar-projectName" translate="no">
 Venomous
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.1.0
+          v0.1.1
         </div>
       </div>
     </div>
@@ -122,51 +126,51 @@ Pages
   </h1>
 
 <p><img src="https://github.com/RustySnek/Venomous/blob/master/assets/venomous_logo.png" alt="Venomous"/></p><blockquote><p>A wrapper for managing concurrent <a href="http://erlport.org/">Erlport</a> Python processes with ease.</p></blockquote><p><a href="https://github.com/rustysnek/venomous/actions/workflows/elixir.yml"><img src="https://github.com/rustysnek/venomous/actions/workflows/elixir.yml/badge.svg" alt="CI"/></a>
-<a href="https://hex.pm/packages/venomous"><img src="https://img.shields.io/hexpm/v/venomous.svg" alt="Hex.pm"/></a>
+<a href="https://hex.pm/packages/venomous"><img src="https://img.shields.io/hexpm/v/venomous" alt="Hex.pm"/></a>
 <a href="https://hex.pm/packages/venomous"><img src="http://img.shields.io/hexpm/dt/venomous.svg" alt="Hex.pm"/></a></p><h2 id="installation" class="section-heading">
   <a href="#installation" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Installation</span>
 </h2>
-<p>Add <code class="inline">:venomous</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="1037475175-1">do</span><span class="w">
-  </span><span class="p" data-group-id="1037475175-2">[</span><span class="w">
-    </span><span class="p" data-group-id="1037475175-3">{</span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="1037475175-3">}</span><span class="w">
-  </span><span class="p" data-group-id="1037475175-2">]</span><span class="w">
-</span><span class="k" data-group-id="1037475175-1">end</span></code></pre><h2 id="getting-started" class="section-heading">
+<p>Add <code class="inline">:venomous</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="0644394415-1">do</span><span class="w">
+  </span><span class="p" data-group-id="0644394415-2">[</span><span class="w">
+    </span><span class="p" data-group-id="0644394415-3">{</span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.1&quot;</span><span class="p" data-group-id="0644394415-3">}</span><span class="w">
+  </span><span class="p" data-group-id="0644394415-2">]</span><span class="w">
+</span><span class="k" data-group-id="0644394415-1">end</span></code></pre><h2 id="getting-started" class="section-heading">
   <a href="#getting-started" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Getting Started</span>
 </h2>
 <p>  Check the <a href="https://hexdocs.pm/venomous">documentation</a> for more in-depth information.</p><p>  For custom type conversion read <a href="http://erlport.org/docs/python.html#custom-data-types">Erlport documentation</a>
-  ### Configure the SnakeManager options</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0346371280-1">%{</span><span class="w">
+  ### Configure the SnakeManager options</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4657608090-1">%{</span><span class="w">
     </span><span class="c1"># Optional :erlport encoder/decoder for type conversion between elixir/python applied to all workers.</span><span class="w">
-    </span><span class="ss">erlport_encoder</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0346371280-2">%{</span><span class="w">
+    </span><span class="ss">erlport_encoder</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4657608090-2">%{</span><span class="w">
       </span><span class="ss">module</span><span class="p">:</span><span class="w"> </span><span class="ss">:my_encoder_module</span><span class="p">,</span><span class="w">
       </span><span class="ss">func</span><span class="p">:</span><span class="w"> </span><span class="ss">:encode_my_snakes_please</span><span class="p">,</span><span class="w">
-      </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0346371280-3">[</span><span class="p" data-group-id="0346371280-3">]</span><span class="w">
-    </span><span class="p" data-group-id="0346371280-2">}</span><span class="p">,</span><span class="w">
+      </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4657608090-3">[</span><span class="p" data-group-id="4657608090-3">]</span><span class="w">
+    </span><span class="p" data-group-id="4657608090-2">}</span><span class="p">,</span><span class="w">
     </span><span class="c1"># TTL whenever python process is inactive. Default: 15</span><span class="w">
     </span><span class="ss">snake_ttl_minutes</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
     </span><span class="c1"># Number of python workers that don&#39;t get cleared by SnakeManager when their TTL while inactive ends. Default: 10</span><span class="w">
     </span><span class="ss">perpetual_workers</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="c1"># Interval for killing python processes past their ttl while inactive. Default: 60_000ms (1 min)</span><span class="w">
     </span><span class="ss">cleaner_interval</span><span class="p">:</span><span class="w"> </span><span class="mi">5_000</span><span class="w">
-  </span><span class="p" data-group-id="0346371280-1">}</span></code></pre><p>  ### Configure the SnakeSupervisor to start on application boot.</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">YourApp.Application</span><span class="w"> </span><span class="k" data-group-id="6599587585-1">do</span><span class="w">
+  </span><span class="p" data-group-id="4657608090-1">}</span></code></pre><p>  ### Configure the SnakeSupervisor to start on application boot.</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">YourApp.Application</span><span class="w"> </span><span class="k" data-group-id="1301584125-1">do</span><span class="w">
     </span><span class="na">@moduledoc</span><span class="w"> </span><span class="no">false</span><span class="w">
 
     </span><span class="kn">use</span><span class="w"> </span><span class="nc">Application</span><span class="w">
 
     </span><span class="na">@doc</span><span class="w"> </span><span class="no">false</span><span class="w">
-    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="6599587585-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="6599587585-2">)</span><span class="w"> </span><span class="k" data-group-id="6599587585-3">do</span><span class="w">
-      </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6599587585-4">[</span><span class="w">
-        </span><span class="p" data-group-id="6599587585-5">{</span><span class="nc">Venomous.SnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6599587585-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_restarts</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p" data-group-id="6599587585-6">]</span><span class="p" data-group-id="6599587585-5">}</span><span class="w">
-      </span><span class="p" data-group-id="6599587585-4">]</span><span class="w">
-      </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6599587585-7">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">YourApp.Supervisor</span><span class="p" data-group-id="6599587585-7">]</span><span class="w">
-      </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6599587585-8">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="6599587585-8">)</span><span class="w">
-    </span><span class="k" data-group-id="6599587585-3">end</span><span class="w">
-  </span><span class="k" data-group-id="6599587585-1">end</span></code></pre>
+    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="1301584125-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="1301584125-2">)</span><span class="w"> </span><span class="k" data-group-id="1301584125-3">do</span><span class="w">
+      </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1301584125-4">[</span><span class="w">
+        </span><span class="p" data-group-id="1301584125-5">{</span><span class="nc">Venomous.SnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1301584125-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_restarts</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p" data-group-id="1301584125-6">]</span><span class="p" data-group-id="1301584125-5">}</span><span class="w">
+      </span><span class="p" data-group-id="1301584125-4">]</span><span class="w">
+      </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1301584125-7">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">YourApp.Supervisor</span><span class="p" data-group-id="1301584125-7">]</span><span class="w">
+      </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1301584125-8">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="1301584125-8">)</span><span class="w">
+    </span><span class="k" data-group-id="1301584125-3">end</span><span class="w">
+  </span><span class="k" data-group-id="1301584125-1">end</span></code></pre>
 </div>
 
 <div class="bottom-actions" id="bottom-actions">
@@ -188,6 +192,15 @@ API Reference
 </div>
     <footer class="footer">
       <p>
+
+          <span class="line">
+            <a href="https://hex.pm/packages/venomous/0.1.1" class="footer-hex-package">Hex Package</a>
+
+            <a href="https://preview.hex.pm/preview/venomous/0.1.1">Hex Preview</a>
+
+              (<a href="https://preview.hex.pm/preview/venomous/0.1.1/show/README.md">current file</a>)
+
+          </span>
 
         <span class="line">
           <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
