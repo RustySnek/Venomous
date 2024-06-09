@@ -1,9 +1,12 @@
 defmodule Venomous.Application do
   @moduledoc """
   This module initializes the application supervision tree.
-  It starts the supervisor for managing SnakeManager process.
+  It starts the supervisor for managing SnakeManager process with the given Application config.
   """
   use Application
+  @default_ttl_minutes 15
+  @default_cleaner_interval 60_000
+  @default_perpetual_workers 10
 
   def start(_type, _args) do
     children =
@@ -22,11 +25,21 @@ defmodule Venomous.Application do
   defp snake_manager_specs() do
     table = :ets.new(:snake_terrarium, [:set, :public])
 
+    encoder_decoder = Application.get_env(:venomous, :erlport_encoder, %{})
+    snake_ttl = Application.get_env(:venomous, :snake_ttl_minutes, @default_ttl_minutes)
+
+    perpetual_workers =
+      Application.get_env(:venomous, :perpetual_workers, @default_perpetual_workers)
+
+    cleaner_interval_ms =
+      Application.get_env(:venomous, :cleaner_interval, @default_cleaner_interval)
+
     %{
       table: table,
-      snake_ttl_minutes: 0,
-      perpetual_workers: 0,
-      cleaner_interval_ms: 100_000
+      snake_ttl_minutes: snake_ttl,
+      perpetual_workers: perpetual_workers,
+      cleaner_interval_ms: cleaner_interval_ms,
+      erlport_encoder: encoder_decoder
     }
   end
 
