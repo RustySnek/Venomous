@@ -29,7 +29,7 @@ defmodule Venomous.SnakeWorker do
   end
 
   def init(args) do
-    case :python.start() do
+    case :python.start_link() do
       {:error, reason} ->
         # please no snake crashing...
         {:EXIT, reason}
@@ -54,7 +54,7 @@ defmodule Venomous.SnakeWorker do
     {:reply, pypid, pypid}
   end
 
-  def handle_call({:run_snake, origin, %SnakeArgs{} = snake_args}, from, pypid) do
+  def handle_call({:run_snake, origin, %SnakeArgs{} = snake_args}, _from, pypid) do
     task =
       Task.async(fn ->
         data =
@@ -85,8 +85,7 @@ defmodule Venomous.SnakeWorker do
       end)
 
     GenServer.cast(self(), {:run, task})
-    GenServer.reply(from, :ok)
-    {:noreply, pypid}
+    {:reply, :ok, pypid}
   end
 
   def terminate(_reason, pypid) do
