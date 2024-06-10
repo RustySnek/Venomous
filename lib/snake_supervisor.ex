@@ -10,7 +10,7 @@ defmodule Venomous.SnakeSupervisor do
   alias Venomous.SnakeWorker
   use DynamicSupervisor
 
-  def start_link(opts \\ [strategy: :one_for_onem, max_children: 50]) do
+  def start_link(opts \\ [strategy: :one_for_one, max_children: 50]) do
     DynamicSupervisor.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
