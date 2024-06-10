@@ -10,10 +10,10 @@ defmodule Venomous.SnakeManager do
   ## Configuration
   The following configurations are retrieved from :venomous :snake_manager Application env:
 
-  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types.
+  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types. The function can also provide any callbacks from :erlport documentation like .cast() message handler
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
   - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
-  - `cleaner_interval_ms: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
+  - `cleaner_interval: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
 
   Defaults are provided in case these configurations are not set:
 

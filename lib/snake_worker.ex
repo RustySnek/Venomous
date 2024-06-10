@@ -19,9 +19,9 @@ defmodule Venomous.SnakeWorker do
   - If provided, the worker initializes an encoder by calling a specified Python function with arguments.
   - The worker can run Python functions on demand and return the results to the caller.
   """
-  alias Venomous.SnakeManager
   alias Venomous.SnakeArgs
   alias Venomous.SnakeError
+  alias Venomous.SnakeManager
   use GenServer
 
   def start_link(args) do
