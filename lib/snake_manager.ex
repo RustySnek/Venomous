@@ -51,8 +51,22 @@ defmodule Venomous.SnakeManager do
   end
 
   def handle_info({:sacrifice_snake, pid}, state) do
-    :ets.delete(state.table, pid)
-    DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
+    try do
+      DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
+
+      :ets.delete(state.table, pid)
+    catch
+      :exit, reason ->
+        Logger.error("Crashed at terminating #{inspect(reason)}")
+        :ets.delete(state.table, pid)
+    end
+
+    {:noreply, state}
+  end
+
+  def handle_cast({:molt_snake, status, pid, pypid}, state) do
+    now = DateTime.utc_now()
+    :ets.insert(state.table, {pid, pypid, status, now})
     {:noreply, state}
   end
 
@@ -72,26 +86,31 @@ defmodule Venomous.SnakeManager do
     {:reply, :ets.tab2list(state.table), state}
   end
 
-  def handle_call(:get_ready_snake, _from, state) do
-    available? = state.table |> :ets.match({:"$1", :"$2", :ready, :"$3"}) |> Enum.at(0)
-
-    snake =
-      case available? do
-        nil ->
-          deploy_new_snake(state.table, state.erlport_encoder)
-
-        [pid, pypid, _update_utc] ->
-          :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
-          {pid, pypid}
-      end
-
-    {:reply, snake, state}
+  def handle_cast({:get_ready_snake, task}, state) do
+    Task.await(task, :infinity)
+    {:noreply, state}
   end
 
-  def handle_call({:molt_snake, status, pid, pypid}, _from, state) do
-    now = DateTime.utc_now()
-    :ets.insert(state.table, {pid, pypid, status, now})
-    {:reply, :ok, state}
+  def handle_call(:get_ready_snake, from, state) do
+    task =
+      Task.async(fn ->
+        available? = state.table |> :ets.match({:"$1", :"$2", :ready, :"$3"}) |> Enum.at(0)
+
+        snake =
+          case available? do
+            nil ->
+              deploy_new_snake(state.table, state.erlport_encoder)
+
+            [pid, pypid, _update_utc] ->
+              :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
+              {pid, pypid}
+          end
+
+        GenServer.reply(from, snake)
+      end)
+
+    GenServer.cast(self(), {:get_ready_snake, task})
+    {:noreply, state}
   end
 
   def handle_call({:remove_snake, pid}, _from, state) do
@@ -100,9 +119,15 @@ defmodule Venomous.SnakeManager do
   end
 
   defp deploy_new_snake({:ok, pid}, table) do
-    pypid = GenServer.call(pid, :get_pypid)
-    :ets.insert(table, {pid, pypid, :retrieved, DateTime.utc_now()})
-    {pid, pypid}
+    try do
+      pypid = GenServer.call(pid, :get_pypid)
+      :ets.insert(table, {pid, pypid, :retrieved, DateTime.utc_now()})
+      {pid, pypid}
+    catch
+      :exit, reason ->
+        Logger.error("Crashed at deploying new snake: #{inspect(reason)}")
+        {:retrieve_error, reason}
+    end
   end
 
   defp deploy_new_snake({:error, message}, _table) do
@@ -120,7 +145,7 @@ defmodule Venomous.SnakeManager do
     clean_inactive_workers(state.table, perpetual_workers, ttl)
   end
 
-  defp clean_inactive_workers({pid, pypid, status, update_utc}, table, ttl) do
+  defp clean_inactive_workers({pid, _pypid, status, update_utc}, table, ttl) do
     now = DateTime.utc_now()
 
     max_ttl =
@@ -136,7 +161,7 @@ defmodule Venomous.SnakeManager do
 
     unless status not in [:ready, :retrieved] or active do
       :ets.delete(table, pid)
-      kill_inactive_worker(pid, pypid)
+      kill_inactive_worker(pid)
     end
 
     active
@@ -148,8 +173,7 @@ defmodule Venomous.SnakeManager do
     rest |> Enum.filter(&(clean_inactive_workers(&1, table, ttl) == false)) |> length()
   end
 
-  defp kill_inactive_worker(pid, pypid) do
-    :python.stop(pypid)
+  defp kill_inactive_worker(pid) do
     DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
   end
 
