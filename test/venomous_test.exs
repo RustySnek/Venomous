@@ -8,7 +8,7 @@ defmodule VenomousTest do
 
   test "reuse alive snakes" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}) end)
+    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
 
     round_args =
       SnakeArgs.from_params(
@@ -53,7 +53,7 @@ defmodule VenomousTest do
 
   test "SLAY AND REVIVE SNEKS" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}) end)
+    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
 
     assert list_alive_snakes() == []
     args = SnakeArgs.from_params(:builtins, :sum, [[1]])
@@ -66,7 +66,34 @@ defmodule VenomousTest do
            |> Kernel.==(10)
 
     assert length(list_alive_snakes()) == 10
-    retrieve_snake!() |> slay_python_worker()
+    retrieve_snake!() |> slay_python_worker(:brutal)
     assert length(list_alive_snakes()) == 9
+  end
+
+  test "exit theeem" do
+    args = SnakeArgs.from_params(:time, :sleep, [0.5])
+
+    me = self()
+
+    Enum.map(1..100, fn i ->
+      {:ok, pid} =
+        Task.start(fn ->
+          python!(args)
+
+          send(me, :fail)
+        end)
+
+      pid
+    end)
+    |> Enum.each(fn pid ->
+      Process.send_after(pid, {:EXIT, :left}, 100)
+    end)
+
+    receive do
+      :fail -> assert(false)
+    after
+      1_000 ->
+        assert list_alive_snakes() == []
+    end
   end
 end
