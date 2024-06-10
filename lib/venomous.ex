@@ -50,16 +50,23 @@ defmodule Venomous do
 
   @doc """
   Kills python process and its SnakeWorker
+  :brutal also kills the OS process of python.
   ## Parameters
-    - SnakeWorker pid
-    - Python pid
+    - SnakeWorker pid, Python pid tuple
+    - a Way to kill process. default: :brutal additionally kills with kill -9 ensuring the python does not execute further
   ## Returns 
     :ok
   """
-  @spec slay_python_worker({pid(), pid()}) :: :ok
-  def slay_python_worker({pid, pypid}) do
-    :python.stop(pypid)
+  @spec slay_python_worker({pid(), pid()}, atom() | {pid(), pid()}) :: :ok
+  def slay_python_worker({pid, pypid}, termination_style \\ :peaceful) do
+    {_, _, _, port, _, _} = :sys.get_state(pypid)
+    info = port |> Port.info()
+
     send(SnakeManager, {:sacrifice_snake, pid})
+    :python.stop(pypid)
+    # We exterminate the snake in the most sanest way possible.
+    if termination_style == :brutal, do: System.cmd("kill", ["-9", "#{info[:os_pid]}"])
+    :ok
   end
 
   defp get_snakes_ready(0, acc), do: acc
@@ -105,10 +112,20 @@ defmodule Venomous do
     - A tuple `{pid, pid}` containing the process IDs of the SnakeWorker and python processes.
   """
   def retrieve_snake!(interval \\ @wait_for_snake_interval) do
+    Process.flag(:trap_exit, true)
+
     case retrieve_snake() do
       {:retrieve_error, _} ->
-        Process.sleep(interval)
-        retrieve_snake!(interval)
+        receive do
+          {:EXIT, reason} ->
+            exit(reason)
+
+          {:EXIT, _from, reason} ->
+            exit(reason)
+        after
+          interval ->
+            retrieve_snake!(interval)
+        end
 
       process_ids ->
         process_ids
@@ -130,20 +147,20 @@ defmodule Venomous do
   @spec snake_run(SnakeArgs.t(), {pid(), pid()}, non_neg_integer()) :: any()
   def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, python_timeout \\ @default_timeout) do
     Process.flag(:trap_exit, true)
-    GenServer.call(SnakeManager, {:molt_snake, :busy, pid, pypid}, :infinity)
+    GenServer.cast(SnakeManager, {:molt_snake, :busy, pid, pypid})
     GenServer.call(pid, {:run_snake, self(), snake_args})
 
     receive do
       {:EXIT, _from, reason} ->
-        slay_python_worker({pid, pypid})
+        slay_python_worker({pid, pypid}, :brutal)
         exit(reason)
 
       {:EXIT, reason} ->
-        slay_python_worker({pid, pypid})
+        slay_python_worker({pid, pypid}, :brutal)
         exit(reason)
 
       {:SNAKE_DONE, data} ->
-        GenServer.call(SnakeManager, {:molt_snake, :ready, pid, pypid}, :infinity)
+        GenServer.cast(SnakeManager, {:molt_snake, :ready, pid, pypid})
         data
 
       {:SNAKE_ERROR, error} ->
@@ -159,7 +176,7 @@ defmodule Venomous do
   @doc """
   Wrapper for python workers
   Tries to retrieve SnakeWorker which then runs given function inside given module with args. In case of failure will return {:error, message}.
-  In case :EXIT happens, it will kill python worker/process and exit(:normal)
+  In case :EXIT happens, it will kill python worker/process and exit(reason)
   ## Parameters
     - %SnakeArgs{} struct of :module, :func, :args 
     - python_timeout \\ @default_timeout non_neg_integer() | :infinity Timeout for python call.
