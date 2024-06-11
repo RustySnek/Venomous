@@ -78,17 +78,17 @@ defmodule Venomous.SnakeManager do
     {:noreply, state}
   end
 
+  def handle_cast({:get_ready_snake, task}, state) do
+    Task.await(task, :infinity)
+    {:noreply, state}
+  end
+
   def handle_call(:clean_inactive_workers, _from, state) do
     {:reply, clean_inactive_workers(state), state}
   end
 
   def handle_call(:list_snakes, _from, state) do
     {:reply, :ets.tab2list(state.table), state}
-  end
-
-  def handle_cast({:get_ready_snake, task}, state) do
-    Task.await(task, :infinity)
-    {:noreply, state}
   end
 
   def handle_call(:get_ready_snake, from, state) do
