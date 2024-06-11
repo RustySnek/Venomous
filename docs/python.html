@@ -8,7 +8,7 @@
     <meta name="project" content="Venomous v0.1.1">
 
 
-    <title>Venomous.SnakeError — Venomous v0.1.1</title>
+    <title>Quick guide on erlport Python API — Venomous v0.1.1</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -19,7 +19,7 @@
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
   </head>
-  <body data-type="modules" class="page-module">
+  <body data-type="extras" class="page-extra">
     <script>
 
       try {
@@ -116,93 +116,106 @@ Pages
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/structs/snake_error.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/PYTHON.md#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Venomous.SnakeError</span> 
-    <small class="app-vsn" translate="no">(Venomous v0.1.1)</small>
 
+    <span>Quick guide on erlport Python API</span>
   </h1>
 
+<p>You can read more about this in the <a href="http://erlport.org/docs/python.html">erlport documentation</a></p><p>You can find the default data types mapping <a href="http://erlport.org/docs/python.html#data-types-mapping">here</a></p><h2 id="creating-an-encoder-decoder" class="section-heading">
+  <a href="#creating-an-encoder-decoder" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Creating an encoder/decoder</span>
+</h2>
+<p>The function passed to the snake_manager's erlport_encoder should be a main function containing everything you will setup further.</p><pre><code class="python">from erlport.erlang import set_decoder, set_encoder, set_message_handler
 
-    <section id="moduledoc">
-<p>A module to handle errors raised during Python function calls.</p><p>This module defines a struct for storing exception information,
-including the exception itself, the error message, and the backtrace.</p>
-    </section>
+def main_encoder():
+  set_decoder(decoder_func)
+  set_encoder(encoder_func)
+  set_message_handler(cast_handler_func)
+  return Atom(&quot;ok&quot;.encode(&quot;utf-8&quot;))</code></pre><h3 id="an-encoder-is-a-function-that-handles-conversion-python-elixir" class="section-heading">
+  <a href="#an-encoder-is-a-function-that-handles-conversion-python-elixir" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">An Encoder is a function that handles conversion PYTHON -&gt; ELIXIR</span>
+</h3>
+<p>Here is an example of encoding a simple class</p><blockquote><p>While this is possible, a better way would be to handle them in a function that returns this type directly.</p></blockquote><pre><code class="python">from dataclasses import dataclass
+from erlport.erlterms import Atom
 
+@dataclass
+class Cat:
+  name: str
+  color: str
+  favorite_snacks: list[str]
+
+# By default erlport converts regular strings into charlists.
+# We can handle most of the cases by encoding strings into utf-8 with a simple function like this.
+def encode_basic_type_strings(data):
+    if isinstance(data, str):
+        return data.encode(&quot;utf-8&quot;)
+    elif isinstance(data, list):
+        return [encode_basic_type_strings(item) for item in data]
+    elif isinstance(data, tuple):
+        return tuple(encode_basic_type_strings(item) for item in data)
+    elif isinstance(data, dict):
+        return {key: encode_basic_type_strings(value) for key, value in data.items()}
+    else:
+        return data
+
+def encoder(value: any):
+  if isinstance(value, Cat):
+    # We .__dict__ the class and normalize it's key,values.
+    # Erlport will convert this dict into a Map
+    return {
+      Atom(encode_basic_type_strings(key)):   # Convert the keys to atoms
+      encode_basic_type_strings(val)          # utf-8 Encode strings inside
+      for key, val in value.__dict__.items()
+    }
+  # If none matches we encode strings, and return
+  return encode_basic_type_strings(value)</code></pre><h3 id="a-decoder-is-a-function-that-handles-conversion-elixir-python" class="section-heading">
+  <a href="#a-decoder-is-a-function-that-handles-conversion-elixir-python" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">A decoder is a function that handles conversion ELIXIR -&gt; PYTHON</span>
+</h3>
+<p>Here is an example of decoding elixir's parameters</p><pre><code class="python">from erlport.erlterms import Atom, Map
+
+def decoder(value: any):
+  # Elixir strings convert to bytes, we can decode them into utf-8 strings.
+  if isinstance(value, bytes):
+    return value.decode('utf-8')
+  if isistance(value, Map):
+      # If its a Map custom type we decode bytes into utf-8 strings
+      return {
+            key.decode(&quot;utf-8&quot;): [v.decode(&quot;utf-8&quot;) for v in val]
+            for key, val in value.items()
+      }
+  # if none get caught we just return the raw inputs
+  return value
+</code></pre>
 </div>
 
-  <section id="summary" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#summary">
-        <i class="ri-link-m" aria-hidden="true"></i>
+<div class="bottom-actions" id="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="readme.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+README
+        </span>
       </a>
-      <span class="text">Summary</span>
-    </h1>
-<div class="summary-types summary">
-  <h2>
-    <a href="#types">Types</a>
-  </h2>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
-
-      </div>
-
-    </div>
-
-</div>
-
-  </section>
-
-
-  <section id="types" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#types">
-        <i class="ri-link-m" aria-hidden="true"></i>
-      </a>
-      <span class="text">Types</span>
-    </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
-
-  <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this type</span>
-    </a>
-    <h1 class="signature" translate="no">t()</h1>
-
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/structs/snake_error.ex#L9" class="icon-action" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
 
   </div>
+  <div class="bottom-actions-item">
 
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Venomous.SnakeError{
-  backtrace: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  error: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  exception: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
-}</pre>
-
-      </div>
-
-
-  </section>
-</section>
-
-    </div>
-  </section>
-
+  </div>
+</div>
     <footer class="footer">
       <p>
 
@@ -210,6 +223,8 @@ including the exception itself, the error message, and the backtrace.</p>
             <a href="https://hex.pm/packages/venomous/0.1.1" class="footer-hex-package">Hex Package</a>
 
             <a href="https://preview.hex.pm/preview/venomous/0.1.1">Hex Preview</a>
+
+              (<a href="https://preview.hex.pm/preview/venomous/0.1.1/show/PYTHON.md">current file</a>)
 
           </span>
 

@@ -18,7 +18,7 @@ defmodule Venomous.MixProject do
       docs: [
         main: "Venomous",
         logo: "./assets/venomous_logo.png",
-        extras: ["README.md"]
+        extras: ["README.md", "PYTHON.md"]
       ]
     ]
   end

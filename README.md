@@ -6,7 +6,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/venomous)](https://hex.pm/packages/venomous)
 [![Hex.pm](http://img.shields.io/hexpm/dt/venomous.svg)](https://hex.pm/packages/venomous)
 
-Venomous is a wrapper around erlport python Ports, designed to simplify concurrent use. It focuses dynamic extensibility, like spawning, reusing and killing processes on demand. Furthermore, unused processes get automatically killed by scheduled process which can be configured inside config.exs. Venomous core functions capture and handle :EXIT calls ensuring that all python process die with it and do not continue their execution.
+Venomous is a wrapper around erlport python Ports, designed to simplify concurrent use. It focuses on dynamic extensibility, like spawning, reusing and killing processes on demand. Furthermore, unused processes get automatically killed by scheduled process which can be configured inside config.exs. Venomous core functions capture and handle :EXIT calls ensuring that all python process die with it and do not continue their execution.
 
 ## Installation
 Add `:venomous` to your list of dependencies in `mix.exs`:
@@ -20,7 +20,7 @@ end
 ## Getting Started  
   Check the [documentation](https://hexdocs.pm/venomous) for more in-depth information.
   
-  For custom type conversion read [Erlport documentation](http://erlport.org/docs/python.html#custom-data-types)
+  For custom type conversion see the [Handling Erlport API](https://github.com/RustySnek/Venomous/blob/master/PYTHON.md)
   ### Configure the SnakeManager options
   ```elixir
   config :venomous, :snake_manager, %{
@@ -81,6 +81,9 @@ Venomous is designed with concurrency, as well as proper exits in mind.
 alias Venomous.SnakeArgs
 import Venomous
 
+# Venomous can handle as much concurrent python as you've setup
+# in your snake_manager configuration. However the python! will
+# wait for any process to free up in case none are available.
 args = SnakeArgs.from_params(:time, :sleep, [0.5])
 Enum.map(1..100, fn _ -> 
     Task.async(fn ->
@@ -88,17 +91,28 @@ Enum.map(1..100, fn _ ->
     end)
 end) |> Task.await_many(5_000)
 
+# You can view the spawned and ready snakes using the list_alive_snakes() 
+list_alive_snakes() |> dbg
+```
+```elixir
+alias Venomous.SnakeArgs
+import Venomous
+
 # Venomous kills the OS pid of the python process on :EXIT
 # ensuring the process will not proceed with the execution further
-Enum.map(1..100, fn _ ->
-      {:ok, pid} =
-        Task.start(fn ->
-          python!(args)
-        end)
+Enum.map(1..200, fn _ ->
+  {:ok, pid} =
+    Task.start(fn ->
+      SnakeArgs.from_params(:time, :sleep, [1000]) |> python!()
+    end)
 
-      pid
-    end)
-    |> Enum.each(fn pid ->
-      Process.send_after(pid, {:EXIT, :snake_slithered_away}, 100)
-    end)
+  pid
+end)
+|> Enum.each(fn pid ->
+  Process.send_after(pid, {:EXIT, :snake_slithered_away}, 100)
+end)
+
+# We'll sleep to make sure all exits got sent.
+Process.sleep(1_000)
+assert list_alive_snakes() == []
 ```
