@@ -39,7 +39,7 @@ defmodule VenomousTest do
     result =
       SnakeArgs.from_params(:time, :sleep, [0.5]) |> python(100)
 
-    assert result == %{error: "timeout"}
+    assert result == %{error: :timeout}
   end
 
   test "snake errors" do
@@ -57,14 +57,16 @@ defmodule VenomousTest do
 
     assert list_alive_snakes() == []
     args = SnakeArgs.from_params(:builtins, :sum, [[1]])
+    snakes = get_snakes_ready(10)
+    assert snakes |> length() == 10
 
-    assert get_snakes_ready(10)
-           |> Enum.map(fn pids ->
-             snake_run(args, pids)
-           end)
-           |> Enum.sum()
-           |> Kernel.==(10)
+    sum =
+      Enum.map(snakes, fn pids ->
+        snake_run(args, pids)
+      end)
+      |> Enum.sum()
 
+    assert sum == 10
     assert length(list_alive_snakes()) == 10
     retrieve_snake!() |> slay_python_worker(:brutal)
     assert length(list_alive_snakes()) == 9
