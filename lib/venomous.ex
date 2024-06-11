@@ -65,7 +65,10 @@ defmodule Venomous do
     send(SnakeManager, {:sacrifice_snake, pid})
     :python.stop(pypid)
     # We exterminate the snake in the sanest way possible.
-    if termination_style == :brutal, do: System.cmd("kill", ["-9", "#{info[:os_pid]}"])
+    if termination_style == :brutal and info[:os_pid] != nil do
+      System.cmd("kill", ["-9", "#{info[:os_pid]}"])
+    end
+
     :ok
   end
 
