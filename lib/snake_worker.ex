@@ -55,46 +55,39 @@ defmodule Venomous.SnakeWorker do
   end
 
   def handle_call({:run_snake, origin, %SnakeArgs{} = snake_args}, _from, pypid) do
-    task =
-      Task.async(fn ->
-        data =
-          try do
-            :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)
-          rescue
-            error ->
-              case error do
-                %ErlangError{original: {:python, exception, error, backtrace}} ->
-                  %SnakeError{
-                    exception: exception,
-                    error: error,
-                    backtrace: backtrace
-                  }
+    Task.start(fn ->
+      data =
+        try do
+          :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)
+        rescue
+          error ->
+            case error do
+              %ErlangError{original: {:python, exception, error, backtrace}} ->
+                %SnakeError{
+                  exception: exception,
+                  error: error,
+                  backtrace: backtrace
+                }
 
-                exception ->
-                  exception
-              end
-          end
-
-        case data do
-          %{:error => _} ->
-            send(origin, {:SNAKE_ERROR, data})
-
-          _ ->
-            send(origin, {:SNAKE_DONE, data})
+              exception ->
+                exception
+            end
         end
-      end)
 
-    GenServer.cast(self(), {:run, task})
+      case data do
+        %{:error => _} ->
+          send(origin, {:SNAKE_ERROR, data})
+
+        _ ->
+          send(origin, {:SNAKE_DONE, data})
+      end
+    end)
+
     {:reply, :ok, pypid}
   end
 
   def terminate(_reason, pypid) do
     GenServer.call(SnakeManager, {:remove_snake, self()})
     :python.stop(pypid)
-  end
-
-  def handle_cast({:run, task}, pypid) do
-    Task.await(task, :infinity)
-    {:noreply, pypid}
   end
 end
