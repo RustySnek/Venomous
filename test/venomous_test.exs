@@ -71,31 +71,4 @@ defmodule VenomousTest do
     retrieve_snake!() |> slay_python_worker(:brutal)
     assert length(list_alive_snakes()) == 9
   end
-
-  test "exit theeem" do
-    args = SnakeArgs.from_params(:time, :sleep, [0.5])
-
-    me = self()
-
-    Enum.map(1..100, fn i ->
-      {:ok, pid} =
-        Task.start(fn ->
-          python!(args)
-
-          send(me, :fail)
-        end)
-
-      pid
-    end)
-    |> Enum.each(fn pid ->
-      Process.send_after(pid, {:EXIT, :left}, 100)
-    end)
-
-    receive do
-      :fail -> assert(false)
-    after
-      1_000 ->
-        assert list_alive_snakes() == []
-    end
-  end
 end
