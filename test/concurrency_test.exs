@@ -2,20 +2,21 @@ defmodule VenomousTest.ConcurrencyTest do
   use ExUnit.Case
   alias Venomous.SnakeArgs
   import Venomous
-  # @tag timeout: :infinity
-  # test "stress snakes" do
-  #   sum_that =
-  #     1..1000
-  #     |> Enum.map(fn _ ->
-  #       Task.async(fn ->
-  #         python(:builtins, :sum, [[1, 1]])
-  #       end)
-  #     end)
-  #     |> Task.await_many(:infinity)
-  #     |> Enum.sum()
+  @tag timeout: :infinity
+  test "stress snakes" do
+    sum_that =
+      1..1000
+      |> Enum.map(fn _ ->
+        Task.async(fn ->
+          SnakeArgs.from_params(:builtins, :sum, [[1, 1]])
+          |> python!()
+        end)
+      end)
+      |> Task.await_many(:infinity)
+      |> Enum.sum()
 
-  #   assert sum_that == 2 * 1000
-  # end
+    assert sum_that == 2 * 1000
+  end
 
   test "concurrent python processes" do
     Process.send_after(self(), :fail, 1_000)

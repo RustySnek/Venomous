@@ -20,7 +20,7 @@ defmodule VenomousTest.BreakTest do
         Task.start(fn ->
           Enum.map(1..20, fn _ ->
             Task.async(fn ->
-              SnakeArgs.from_params(:time, :sleep, [0.01]) |> python!(10_000)
+              SnakeArgs.from_params(:time, :sleep, [0.01]) |> python!(python_timeout: 10_000)
             end)
           end)
           |> Task.await_many(:infinity)

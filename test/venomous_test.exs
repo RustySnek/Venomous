@@ -37,7 +37,7 @@ defmodule VenomousTest do
 
   test "python timeout" do
     result =
-      SnakeArgs.from_params(:time, :sleep, [0.5]) |> python(100)
+      SnakeArgs.from_params(:time, :sleep, [0.5]) |> python(python_timeout: 100)
 
     assert result == %{error: :timeout}
   end
