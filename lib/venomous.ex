@@ -7,7 +7,7 @@ defmodule Venomous do
   ## Main Functionality
 
   - `python/2`: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a `SnakeArgs` struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.
-  - `python!/3` | `python!/1`: Will wait until any `Venomous.SnakeWorker` is freed, requesting it with the given interval. 
+  - `python!/2` | `python!/1`: Will wait until any `Venomous.SnakeWorker` is freed, requesting it with the given interval. 
 
   ## Architecture
 
