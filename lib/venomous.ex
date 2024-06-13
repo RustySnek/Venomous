@@ -59,15 +59,18 @@ defmodule Venomous do
   """
   @spec slay_python_worker({pid(), pid()}, atom() | {pid(), pid()}) :: :ok
   def slay_python_worker({pid, pypid}, termination_style \\ :peaceful) do
-    {_, _, _, port, _, _} = :sys.get_state(pypid)
-    info = port |> Port.info()
+    info =
+      if Process.alive?(pid) and termination_style == :brutal do
+        {_, _, _, port, _, _} = :sys.get_state(pypid)
+        port |> Port.info()
+      else
+        %{}
+      end
 
     send(SnakeManager, {:sacrifice_snake, pid})
     :python.stop(pypid)
     # We exterminate the snake in the sanest way possible.
-    if termination_style == :brutal and info[:os_pid] != nil do
-      System.cmd("kill", ["-9", "#{info[:os_pid]}"])
-    end
+    unless info[:os_pid] == nil, do: System.cmd("kill", ["-9", "#{info[:os_pid]}"])
 
     :ok
   end
@@ -101,7 +104,9 @@ defmodule Venomous do
   ## Returns
     - A tuple `{pid, pid}` containing the process IDs of the SnakeWorker and python processes. In case of error `{:retrieve_error, message}`
   """
-  def retrieve_snake(), do: GenServer.call(SnakeManager, :get_ready_snake, :infinity)
+  def retrieve_snake() do
+    GenServer.call(SnakeManager, :get_ready_snake, :infinity)
+  end
 
   @spec retrieve_snake!(non_neg_integer()) :: {pid(), pid()}
   @doc """
@@ -153,8 +158,14 @@ defmodule Venomous do
   @spec snake_run(SnakeArgs.t(), {pid(), pid()}, non_neg_integer()) :: any()
   def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, python_timeout \\ @default_timeout) do
     Process.flag(:trap_exit, true)
-    GenServer.cast(SnakeManager, {:molt_snake, :busy, pid, pypid})
-    GenServer.call(pid, {:run_snake, self(), snake_args})
+    GenServer.call(SnakeManager, {:molt_snake, :busy, pid, pypid}, :infinity)
+
+    try do
+      GenServer.call(pid, {:run_snake, self(), snake_args})
+    catch
+      :exit, _reason ->
+        slay_python_worker({pid, pypid})
+    end
 
     receive do
       {:EXIT, _from, reason} ->
@@ -166,7 +177,7 @@ defmodule Venomous do
         exit(reason)
 
       {:SNAKE_DONE, data} ->
-        GenServer.cast(SnakeManager, {:molt_snake, :ready, pid, pypid})
+        GenServer.call(SnakeManager, {:molt_snake, :ready, pid, pypid})
         data
 
       {:SNAKE_ERROR, error} ->

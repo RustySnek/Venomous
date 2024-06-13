@@ -50,6 +50,15 @@ defmodule Venomous.SnakeManager do
     {:noreply, state}
   end
 
+  def handle_info({_ref, :ok}, state) do
+    {:noreply, state}
+  end
+
+  def handle_info({:DOWN, _ref, :process, _pid, _reason}, state) do
+    Logger.error("Snake Crashed")
+    {:noreply, state}
+  end
+
   def handle_info({:sacrifice_snake, pid}, state) do
     try do
       DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
@@ -64,12 +73,6 @@ defmodule Venomous.SnakeManager do
     {:noreply, state}
   end
 
-  def handle_cast({:molt_snake, status, pid, pypid}, state) do
-    now = DateTime.utc_now()
-    :ets.insert(state.table, {pid, pypid, status, now})
-    {:noreply, state}
-  end
-
   def handle_cast(:clean_inactive_workers, state) do
     cleaner_interval = state |> Map.get(:cleaner_interval_ms, @default_interval)
     cleared = clean_inactive_workers(state)
@@ -78,39 +81,39 @@ defmodule Venomous.SnakeManager do
     {:noreply, state}
   end
 
-  def handle_cast({:get_ready_snake, task}, state) do
-    Task.await(task, :infinity)
-    {:noreply, state}
-  end
-
   def handle_call(:clean_inactive_workers, _from, state) do
     {:reply, clean_inactive_workers(state), state}
+  end
+
+  def handle_call({:molt_snake, status, pid, pypid}, from, state) do
+    # Does Task even make a difference here? lol
+    Task.start(fn ->
+      now = DateTime.utc_now()
+      :ets.insert(state.table, {pid, pypid, status, now})
+      GenServer.reply(from, :ok)
+    end)
+
+    {:noreply, state}
   end
 
   def handle_call(:list_snakes, _from, state) do
     {:reply, :ets.tab2list(state.table), state}
   end
 
-  def handle_call(:get_ready_snake, from, state) do
-    task =
-      Task.async(fn ->
-        available? = state.table |> :ets.match({:"$1", :"$2", :ready, :"$3"}) |> Enum.at(0)
+  def handle_call(:get_ready_snake, _from, state) do
+    available? = state.table |> :ets.match({:"$1", :"$2", :ready, :_}) |> Enum.at(0)
 
-        snake =
-          case available? do
-            nil ->
-              deploy_new_snake(state.table, state.erlport_encoder)
+    snake =
+      case available? do
+        nil ->
+          deploy_new_snake(state.table, state.erlport_encoder)
 
-            [pid, pypid, _update_utc] ->
-              :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
-              {pid, pypid}
-          end
+        [pid, pypid] ->
+          :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
+          {pid, pypid}
+      end
 
-        GenServer.reply(from, snake)
-      end)
-
-    GenServer.cast(self(), {:get_ready_snake, task})
-    {:noreply, state}
+    {:reply, snake, state}
   end
 
   def handle_call({:remove_snake, pid}, _from, state) do
@@ -131,7 +134,7 @@ defmodule Venomous.SnakeManager do
   end
 
   defp deploy_new_snake({:error, message}, _table) do
-    Logger.error("Error while creating new snake: #{message}")
+    # Logger.error("Error while creating new snake: #{message}")
     {:retrieve_error, message}
   end
 
