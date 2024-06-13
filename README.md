@@ -13,7 +13,7 @@ Add `:venomous` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:venomous, "~> 0.2.0"}
+    {:venomous, "~> 0.3.0"}
   ]
 end
 ```
@@ -65,7 +65,7 @@ import Venomous
 timeout = 1_000
 args = SnakeArgs.from_params(:builtins, :sum, [[0,1,2,3,4,5]])
 
-case python(args, timeout) do
+case python(args, python_timeout: timeout) do
     {:retrieve_error, msg} -> "No Snakes? #{inspect(msg)}"
     %{error: :timeout} -> "We timed out..."
     sum -> assert sum == 15
@@ -73,7 +73,7 @@ end
 
 # or just use python!/3 which waits for the available snake.
 timeout = :infinity
-assert python!(args, timeout) == 15
+assert python!(args, python_timeout: timeout) == 15
 ```
 ### Concurrency and :EXIT signals
 Venomous is designed with concurrency, as well as proper exits in mind.
