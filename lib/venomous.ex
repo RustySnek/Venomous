@@ -148,16 +148,24 @@ defmodule Venomous do
   ## Parameters
     - %SnakeArgs{} struct of :module, :func, :args 
     - {pid, pypid} tuple containing SnakeWorker pid and python pid
-    - python_timeout \\ @default_timeout non_neg_integer() | :infinity Timeout for python call.
-      In case of timeout it will kill python worker/process and return {error: :timeout}
+    - opts \\ []
+  ## Opts
+  - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
+
 
   ## Returns 
     - any() | {error: :timeout} | %SnakeError{} retrieves output of python function or error
 
   """
-  @spec snake_run(SnakeArgs.t(), {pid(), pid()}, non_neg_integer()) :: any()
-  def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, python_timeout \\ @default_timeout) do
+  @spec snake_run(SnakeArgs.t(), {pid(), pid()}, keyword()) :: any()
+  @spec snake_run(SnakeArgs.t(), {pid(), pid()}) :: any()
+  def snake_run(%SnakeArgs{} = snake_args, {pid, pypid}, opts \\ []) do
     Process.flag(:trap_exit, true)
+
+    python_timeout = Keyword.get(opts, :python_timeout, @default_timeout)
+    kill_python_on_exception = Keyword.get(opts, :kill_on_exception, true)
+
     GenServer.call(SnakeManager, {:molt_snake, :busy, pid, pypid}, :infinity)
 
     try do
@@ -181,7 +189,7 @@ defmodule Venomous do
         data
 
       {:SNAKE_ERROR, error} ->
-        slay_python_worker({pid, pypid})
+        if kill_python_on_exception, do: slay_python_worker({pid, pypid})
         error
     after
       python_timeout ->
@@ -196,28 +204,38 @@ defmodule Venomous do
   In case :EXIT happens, it will kill python worker/process and exit(reason)
   ## Parameters
     - %SnakeArgs{} struct of :module, :func, :args 
-    - python_timeout \\ @default_timeout non_neg_integer() | :infinity Timeout for python call.
-      In case of timeout it will kill python worker/process and return {error: :timeout}
+    - opts \\ []
+  ## Opts
+  - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
 
   ## Returns 
     - any() | {error: :timeout} | {error: any()} retrieves output of python function or error
   """
-  @spec python(SnakeArgs.t(), non_neg_integer()) :: any()
-  def python(%SnakeArgs{} = snake_args, python_timeout \\ @default_timeout) do
+  @spec python(SnakeArgs.t(), keyword()) :: any()
+  @spec python(SnakeArgs.t()) :: any()
+  def python(%SnakeArgs{} = snake_args, opts \\ []) do
     case retrieve_snake() do
       {:retrieve_error, msg} -> {:retrieve_error, msg}
-      pids -> snake_args |> snake_run(pids, python_timeout)
+      pids -> snake_args |> snake_run(pids, opts)
     end
   end
 
-  @doc "If no Snake is available will continue requesting it with the given interval until any gets freed or receives :EXIT signal"
-  @spec python!(SnakeArgs.t(), non_neg_integer(), non_neg_integer()) :: any()
+  @doc """
+  If no Snake is available will continue requesting it with the given interval until any gets freed or receives :EXIT signal
+  ## Opts
+  - `:retrieve_interval` ms to wait before requesting snake again Default: 200
+  - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
+  """
+  @spec python!(SnakeArgs.t(), keyword()) :: any()
+  @spec python!(SnakeArgs.t()) :: any()
   def python!(
         %SnakeArgs{} = snake_args,
-        python_timeout \\ @default_timeout,
-        retrieve_interval \\ @default_interval
+        opts \\ []
       ) do
-    snake_pids = retrieve_snake!(retrieve_interval)
-    snake_args |> snake_run(snake_pids, python_timeout)
+    {interval, opts} = Keyword.pop(opts, :retrieve_interval, @default_interval)
+    snake_pids = retrieve_snake!(interval)
+    snake_args |> snake_run(snake_pids, opts)
   end
 end
