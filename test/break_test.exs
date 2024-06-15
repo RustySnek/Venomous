@@ -1,7 +1,5 @@
 defmodule VenomousTest.BreakTest do
   alias Venomous.SnakeWorker
-  alias Venomous.SnakeError
-  alias Venomous.SnakeSupervisor
   use ExUnit.Case
   import Venomous
   alias Venomous.SnakeArgs
@@ -47,7 +45,7 @@ defmodule VenomousTest.BreakTest do
 
     me = self()
 
-    Enum.map(0..100, fn i ->
+    Enum.map(0..100, fn _ ->
       {:ok, pid} =
         Task.start(fn ->
           python!(args)
