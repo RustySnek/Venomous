@@ -105,20 +105,23 @@ defmodule Venomous.SnakeManager do
     {:reply, :ets.tab2list(state.table), state}
   end
 
-  def handle_call({:get_ready_snake, set_ready}, _from, state) do
+  def handle_call(:get_ready_snake, from, state) do
     available? = state.table |> :ets.match({:"$1", :"$2", :"$3", :ready, :_}) |> Enum.at(0)
 
-    snake =
-      case available? do
-        nil ->
-          deploy_new_snake(state.table, state.python_opts)
+    case available? do
+      nil ->
+        Task.async(fn ->
+          snake = deploy_new_snake(state.table, state.python_opts)
+          GenServer.reply(from, snake)
+        end)
 
-        [pid, pypid, os_pid] ->
-          :ets.insert(state.table, {pid, pypid, os_pid, :retrieved, DateTime.utc_now()})
-          %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}
-      end
+        {:noreply, state}
 
-    {:reply, snake, state}
+      [pid, pypid, os_pid] ->
+        :ets.insert(state.table, {pid, pypid, os_pid, :retrieved, DateTime.utc_now()})
+
+        {:reply, %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, state}
+    end
   end
 
   def handle_call({:remove_snake, pid}, _from, state) do
@@ -144,7 +147,7 @@ defmodule Venomous.SnakeManager do
   end
 
   defp deploy_new_snake({:error, message}, _table) do
-    # Logger.error("Error while creating new snake: #{message}")
+    Logger.error("Error while creating new snake: #{message}")
     {:retrieve_error, message}
   end
 

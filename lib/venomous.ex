@@ -33,6 +33,7 @@ defmodule Venomous do
   - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will `kill -9` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
 
   """
+  require Logger
   alias Venomous.SnakeWorker
   alias Venomous.SnakeArgs
   alias Venomous.SnakeManager
@@ -104,7 +105,7 @@ defmodule Venomous do
     - A tuple `{pid, pid}` containing the process IDs of the SnakeWorker and python processes. In case of error `{:retrieve_error, message}`
   """
   def retrieve_snake(set_ready \\ false) do
-    GenServer.call(SnakeManager, {:get_ready_snake, set_ready}, :infinity)
+    GenServer.call(SnakeManager, :get_ready_snake, :infinity)
   end
 
   @spec retrieve_snake!(non_neg_integer()) :: SnakeWorker.t()
@@ -164,6 +165,7 @@ defmodule Venomous do
         %SnakeWorker{pid: pid, pypid: _pypid, os_pid: _os_pid} = worker,
         opts \\ []
       ) do
+    Process.flag(:trap_exit, true)
     python_timeout = Keyword.get(opts, :python_timeout, @default_timeout)
     kill_python_on_exception = Keyword.get(opts, :kill_on_exception, true)
 
@@ -241,7 +243,10 @@ defmodule Venomous do
         opts \\ []
       ) do
     {interval, opts} = Keyword.pop(opts, :retrieve_interval, @default_interval)
+
+    Logger.warning("STARTED")
     snake_pids = retrieve_snake!(interval)
+    Logger.warning("RETRIEVED")
     snake_args |> snake_run(snake_pids, opts)
   end
 end
