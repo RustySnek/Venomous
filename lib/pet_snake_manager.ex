@@ -1,8 +1,8 @@
 defmodule Venomous.PetSnakeManager do
+  @moduledoc "SnakeManager but for pets..."
   use GenServer
   require Logger
   alias Venomous.PetSnakeSupervisor
-  alias Venomous.SnakeWorker
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)

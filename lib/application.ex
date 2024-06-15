@@ -1,7 +1,6 @@
 defmodule Venomous.Application do
   @moduledoc """
-  This module initializes the application supervision tree.
-  It starts the supervisor for managing SnakeManager process with the given Application config.
+    Initializes Snake Managers and handles config
   """
   use Application
   @default_ttl_minutes 15
@@ -14,6 +13,12 @@ defmodule Venomous.Application do
         Supervisor.child_spec(
           {Venomous.SnakeManager, snake_manager_specs()},
           id: Venomous.SnakeManager,
+          restart: :permanent
+        ),
+        Supervisor.child_spec(
+          {Venomous.PetSnakeManager,
+           %{table: :ets.new(:adopted_snake_terrarium, [:set, :public])}},
+          id: Venomous.PetSnakeManager,
           restart: :permanent
         )
       ] ++ snake_supervisor_spec()
@@ -50,7 +55,10 @@ defmodule Venomous.Application do
 
   defp snake_supervisor_spec() do
     if Application.get_env(:venomous, :snake_supervisor_enabled, false) do
-      [{Venomous.SnakeSupervisor, [strategy: :one_for_one, max_restarts: 0, max_children: 50]}]
+      [
+        {Venomous.SnakeSupervisor, [strategy: :one_for_one, max_restarts: 0, max_children: 50]},
+        {Venomous.PetSnakeSupervisor, [strategy: :one_for_one, max_children: 10]}
+      ]
     else
       []
     end

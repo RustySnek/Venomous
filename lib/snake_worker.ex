@@ -8,6 +8,7 @@ defmodule Venomous.SnakeWorker do
 
   ## Configuration
     Python options can be configured inside :venomous :python_opts config key
+
     All of these are optional. However you will most likely want to set module_paths
    ```elixir
     @available_opts [
@@ -18,20 +19,7 @@ defmodule Venomous.SnakeWorker do
     :packet_bytes, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
     :python_executable # path to python executable to use.
   ]
-  ``` 
-
-  ## Features
-
-  - Starts and initializes a Python process.
-  - Executes Python functions with given arguments.
-  - Handles the results of the Python function calls, including errors.
-  - Returns the result with a signal to caller process
-
-  ## Process Lifecycle
-
-  - On initialization, the worker starts a Python process.
-  - If provided, the worker initializes an encoder by calling a specified Python function with arguments.
-  - The worker can run Python functions on demand and return the results to the caller.
+  ```
   """
   alias Venomous.SnakeArgs
   alias Venomous.SnakeError

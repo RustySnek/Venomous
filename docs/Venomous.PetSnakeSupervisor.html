@@ -8,7 +8,7 @@
     <meta name="project" content="Venomous v0.3.0">
 
 
-    <title>Venomous.SnakeError — Venomous v0.3.0</title>
+    <title>Venomous.PetSnakeSupervisor — Venomous v0.3.0</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -116,20 +116,20 @@ Pages
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/structs/snake_error.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/pet_snake_supervisor.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Venomous.SnakeError</span> 
+    <span translate="no">Venomous.PetSnakeSupervisor</span> 
     <small class="app-vsn" translate="no">(Venomous v0.3.0)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>A module to handle errors raised during Python function calls.</p><p>This module defines a struct for storing exception information,
-including the exception itself, the error message, and the backtrace.</p>
+<p>DynamicSupervisor for named <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>
+The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> is defined with :max_children option</p>
     </section>
 
 </div>
@@ -141,14 +141,44 @@ including the exception itself, the error message, and the backtrace.</p>
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-types summary">
+<div class="summary-functions summary">
   <h2>
-    <a href="#types">Types</a>
+    <a href="#functions">Functions</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+        <a href="#child_spec/1" data-no-tooltip translate="no">child_spec(arg)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Returns a specification to start this module under a supervisor.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#deploy_snake_pet/1" data-no-tooltip translate="no">deploy_snake_pet(opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Deploys a named snake with its own specified encoder and options </p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#init/1" data-no-tooltip translate="no">init(opts)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html#c:init/1"><code class="inline">DynamicSupervisor.init/1</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#start_link/1" data-no-tooltip translate="no">start_link(opts \\ [strategy: :one_for_one, max_children: 10])</a>
 
       </div>
 
@@ -159,24 +189,24 @@ including the exception itself, the error message, and the backtrace.</p>
   </section>
 
 
-  <section id="types" class="details-list">
+  <section id="functions" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#types">
+      <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Types</span>
+      <span class="text">Functions</span>
     </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
+    <div class="functions-list">
+<section class="detail" id="child_spec/1">
 
   <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
+    <a href="#child_spec/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this type</span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">t()</h1>
+    <h1 class="signature" translate="no">child_spec(arg)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/structs/snake_error.ex#L9" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/pet_snake_supervisor.ex#L7" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -186,15 +216,75 @@ including the exception itself, the error message, and the backtrace.</p>
 
   <section class="docstring">
 
-      <div class="specs">
+<p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="deploy_snake_pet/1">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Venomous.SnakeError{
-  backtrace: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  error: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  exception: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
-}</pre>
+    <span id="deploy_snake_pet/0"></span>
 
-      </div>
+  <div class="detail-header">
+    <a href="#deploy_snake_pet/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">deploy_snake_pet(opts \\ [])</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/pet_snake_supervisor.ex#L20" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Deploys a named snake with its own specified encoder and options </p>
+  </section>
+</section>
+<section class="detail" id="init/1">
+
+  <div class="detail-header">
+    <a href="#init/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">init(opts)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/pet_snake_supervisor.ex#L13" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html#c:init/1"><code class="inline">DynamicSupervisor.init/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="start_link/1">
+
+    <span id="start_link/0"></span>
+
+  <div class="detail-header">
+    <a href="#start_link/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">start_link(opts \\ [strategy: :one_for_one, max_children: 10])</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/pet_snake_supervisor.ex#L9" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
 
 
   </section>

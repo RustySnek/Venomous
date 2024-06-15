@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-7B429EBA.js"></script>
+    <script src="dist/sidebar_items-B2555AB5.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
@@ -134,13 +134,15 @@ Pages
   </a>
   <span class="text">Main Functionality</span>
 </h2>
-<ul><li><a href="#python/2"><code class="inline">python/2</code></a>: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a <code class="inline">SnakeArgs</code> struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.</li><li><p><a href="#python!/2"><code class="inline">python!/2</code></a> | <a href="#python!/1"><code class="inline">python!/1</code></a>: Will wait until any <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> is freed, requesting it with the given interval. </p></li></ul><h2 id="module-architecture" class="section-heading">
+<p>  ### Basic processes
+  These are automatically managed and made for concurrent operations</p><ul><li><a href="#python/2"><code class="inline">python/2</code></a>: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a <code class="inline">SnakeArgs</code> struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.</li><li><p><a href="#python!/2"><code class="inline">python!/2</code></a> | <a href="#python!/1"><code class="inline">python!/1</code></a>: Will wait until any <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> is freed, requesting it with the given interval. </p></li></ul><p>  ### Named processes
+  Python processes with unique names. Meant for miscellaneous processes.</p><ul><li><a href="#adopt_snake_pet/2"><code class="inline">adopt_snake_pet/2</code></a>: Creates a new <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> with a name inside <a href="Venomous.PetSnakeSupervisor.html"><code class="inline">Venomous.PetSnakeSupervisor</code></a></li><li><a href="#pet_snake_run/3"><code class="inline">pet_snake_run/3</code></a>: Runs given <a href="Venomous.SnakeArgs.html"><code class="inline">Venomous.SnakeArgs</code></a> inside the named python process</li></ul><h2 id="module-architecture" class="section-heading">
   <a href="#module-architecture" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Architecture</span>
 </h2>
-<p>Venomous consists of several key components:</p><ul><li><a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>: Manages the execution of Python processes.</li><li><a href="Venomous.SnakeSupervisor.html"><code class="inline">Venomous.SnakeSupervisor</code></a>: A DynamicSupervisor that oversees the SnakeWorkers.</li><li><a href="Venomous.SnakeManager.html"><code class="inline">Venomous.SnakeManager</code></a>: A GenServer that coordinates the SnakeWorkers and handles operations like spawning, retrieval and cleanup.</li></ul><h2 id="module-configuration-options" class="section-heading">
+<p>Venomous consists of several key components:</p><ul><li><a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>: Manages the execution of Python processes.</li><li><a href="Venomous.SnakeSupervisor.html"><code class="inline">Venomous.SnakeSupervisor</code></a>: A DynamicSupervisor that oversees the SnakeWorkers.</li><li><a href="Venomous.SnakeManager.html"><code class="inline">Venomous.SnakeManager</code></a>: A GenServer that coordinates the SnakeWorkers and handles operations like spawning, retrieval and cleanup.</li><li><a href="Venomous.PetSnakeSupervisor.html"><code class="inline">Venomous.PetSnakeSupervisor</code></a>: Similar to SnakeSupervisor but for named processes.</li><li><a href="Venomous.PetSnakeManager.html"><code class="inline">Venomous.PetSnakeManager</code></a>: Manages named python processes</li></ul><h2 id="module-configuration-options" class="section-heading">
   <a href="#module-configuration-options" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -158,15 +160,14 @@ Pages
   </a>
   <span class="text">Python options</span>
 </h3>
-<p>  Python options can be configured inside :venomous :python_opts config key
-  All of these are optional. However you will most likely want to set module_paths</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="5644768096-1">[</span><span class="w">
+<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="4727634461-1">[</span><span class="w">
   </span><span class="ss">:module_paths</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules</span><span class="w">
   </span><span class="ss">:cd</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
   </span><span class="ss">:compressed</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
   </span><span class="ss">:envvars</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
   </span><span class="ss">:packet_bytes</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
   </span><span class="ss">:python_executable</span><span class="w"> </span><span class="c1"># path to python executable to use.</span><span class="w">
-</span><span class="p" data-group-id="5644768096-1">]</span></code></pre><p>## Auxiliary Functions</p><p>- <a href="#list_alive_snakes/0"><code class="inline">list_alive_snakes/0</code></a>: Returns a list of :ets table containing currently alive Snakes.
+</span><span class="p" data-group-id="4727634461-1">]</span></code></pre><p>## Auxiliary Functions</p><p>- <a href="#list_alive_snakes/0"><code class="inline">list_alive_snakes/0</code></a>: Returns a list of :ets table containing currently alive Snakes.
 - <a href="#clean_inactive_snakes/0"><code class="inline">clean_inactive_snakes/0</code></a>: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.
 - <a href="#slay_python_worker/2"><code class="inline">slay_python_worker/2</code></a>: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will <code class="inline">kill -9</code> the os process of python which prevents the code from executing until it finalizes or goes through iteration.
 - <a href="#retrieve_snake/0"><code class="inline">retrieve_snake/0</code></a>: Retrieves a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> and sets its status to :retrieved
@@ -186,6 +187,16 @@ Pages
   <h2>
     <a href="#functions">Functions</a>
   </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#adopt_snake_pet/2" data-no-tooltip translate="no">adopt_snake_pet(name, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Creates a named <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> inside <a href="Venomous.PetSnakeSupervisor.html"><code class="inline">Venomous.PetSnakeSupervisor</code></a></p></div>
+
+    </div>
 
     <div class="summary-row">
       <div class="summary-signature">
@@ -214,6 +225,18 @@ Pages
       </div>
 
         <div class="summary-synopsis"><p>Returns list of :ets table containing alive snakes</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#pet_snake_run/3" data-no-tooltip translate="no">pet_snake_run(args, name, timeout \\ 15000)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Used to run given <a href="Venomous.SnakeArgs.html"><code class="inline">Venomous.SnakeArgs</code></a> inside named snake
+Does not handle :EXIT signals like <a href="#snake_run/2"><code class="inline">snake_run/2</code></a> does.
+If pet snake with name does not exist will return :not_found</p></div>
 
     </div>
 
@@ -296,6 +319,62 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
+<section class="detail" id="adopt_snake_pet/2">
+
+    <span id="adopt_snake_pet/1"></span>
+
+  <div class="detail-header">
+    <a href="#adopt_snake_pet/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">adopt_snake_pet(name, opts \\ [])</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L300" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> adopt_snake_pet(name :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, name :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()}</pre>
+
+      </div>
+
+<p>Creates a named <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> inside <a href="Venomous.PetSnakeSupervisor.html"><code class="inline">Venomous.PetSnakeSupervisor</code></a></p><h2 id="adopt_snake_pet/2-parameters" class="section-heading">
+  <a href="#adopt_snake_pet/2-parameters" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Parameters</span>
+</h2>
+<ul><li>an atom() name.</li><li>opts for python process</li></ul><h2 id="adopt_snake_pet/2-options" class="section-heading">
+  <a href="#adopt_snake_pet/2-options" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Options</span>
+</h2>
+<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see <a href="python.html">Handling Erlport API</a></li><li><pre><code class="makeup elixir" translate="no"><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="7993723404-1">[</span><span class="w">
+</span><span class="ss">:module_paths</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules</span><span class="w">
+</span><span class="ss">:cd</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
+</span><span class="ss">:compressed</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
+</span><span class="ss">:envvars</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
+</span><span class="ss">:packet_bytes</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
+</span><span class="ss">:python_executable</span><span class="w"> </span><span class="c1"># path to python executable to use.</span><span class="w">
+</span><span class="p" data-group-id="7993723404-1">]</span></code></pre><h2 id="adopt_snake_pet/2-returns" class="section-heading">
+  <a href="#adopt_snake_pet/2-returns" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Returns</span>
+</h2>
+<ul><li>:ok, name - in case of success</li><li>:error, message - in case of failure</li></ul></li></ul>
+  </section>
+</section>
 <section class="detail" id="clean_inactive_snakes/0">
 
   <div class="detail-header">
@@ -305,7 +384,7 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
     </a>
     <h1 class="signature" translate="no">clean_inactive_snakes()</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L65" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L76" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -333,7 +412,7 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
     </a>
     <h1 class="signature" translate="no">get_snakes_ready(amount)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L110" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L121" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -373,7 +452,7 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
     </a>
     <h1 class="signature" translate="no">list_alive_snakes()</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L61" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L72" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -392,6 +471,39 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
 <p>Returns list of :ets table containing alive snakes</p>
   </section>
 </section>
+<section class="detail" id="pet_snake_run/3">
+
+    <span id="pet_snake_run/2"></span>
+
+  <div class="detail-header">
+    <a href="#pet_snake_run/3" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">pet_snake_run(args, name, timeout \\ 15000)</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L312" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> pet_snake_run(<a href="Venomous.SnakeArgs.html#t:t/0">Venomous.SnakeArgs.t</a>(), name :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">timeout</a>()) ::
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>() | :not_found | %{error: :timeout}</pre>
+
+      </div>
+
+<p>Used to run given <a href="Venomous.SnakeArgs.html"><code class="inline">Venomous.SnakeArgs</code></a> inside named snake
+Does not handle :EXIT signals like <a href="#snake_run/2"><code class="inline">snake_run/2</code></a> does.
+If pet snake with name does not exist will return :not_found</p>
+  </section>
+</section>
 <section class="detail" id="python/2">
 
     <span id="python/1"></span>
@@ -403,7 +515,7 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
     </a>
     <h1 class="signature" translate="no">python(snake_args, opts \\ [])</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L235" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L246" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -456,7 +568,7 @@ In case :EXIT happens, it will kill python os process along with its worker and 
     </a>
     <h1 class="signature" translate="no">python!(snake_args, opts \\ [])</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L251" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L262" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -493,7 +605,7 @@ In case :EXIT happens, it will kill python os process along with its worker and 
     </a>
     <h1 class="signature" translate="no">retrieve_snake()</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L122" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L133" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -531,7 +643,7 @@ If all processes are busy and exceeds max_children will return {:retrieve_error,
     </a>
     <h1 class="signature" translate="no">retrieve_snake!(interval \\ 100)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L133" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L144" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -573,7 +685,7 @@ If all processes are busy and exceeds max_children will return {:retrieve_error,
     </a>
     <h1 class="signature" translate="no">slay_python_worker(snake_worker, termination_style \\ :peaceful)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L77" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L88" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -619,7 +731,7 @@ If all processes are busy and exceeds max_children will return {:retrieve_error,
     </a>
     <h1 class="signature" translate="no">snake_run(snake_args, worker, opts \\ [])</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L173" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/venomous.ex#L184" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>

@@ -21,7 +21,7 @@ defmodule Venomous.SnakeSupervisor do
   @doc """
   Deploys snake with given opts Map containing :erlport encoder/decoder module, func and args
   """
-  def deploy_snake_worker(opts \\ %{}) do
+  def deploy_snake_worker(opts \\ []) do
     spec = {SnakeWorker, opts}
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
