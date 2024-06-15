@@ -4,6 +4,8 @@ defmodule Venomous do
 
   The core concept revolves around "Snakes" which represent Python worker processes. These `Venomous.SnakeWorker` are managed and supervised with `Venomous.SnakeManager` GenServer to allow concurrent and efficient execution of Python code. The `Snakes` pids and python pids are stored inside `:ets` table and the Processes are handled by `DymanicSupervisor` called `Venomous.SnakeSupervisor`. The unused `Snakes` get automatically killed by `SnakeManager` depending on the given configuration.
 
+  You can checkout examples [here](https://github.com/RustySnek/venomous-examples)
+
   ## Main Functionality
     ### Basic processes
     These are automatically managed and made for concurrent operations
