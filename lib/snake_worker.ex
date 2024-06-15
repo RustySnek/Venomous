@@ -113,7 +113,8 @@ defmodule Venomous.SnakeWorker do
     {:noreply, pypid}
   end
 
-  @spec handle_call(:get_pypid, pid(), pid()) :: %__MODULE__{}
+  @spec handle_call(:get_pypid, _from :: {pid(), any()}, pid()) ::
+          {:reply, %__MODULE__{}, pypid :: pid()}
   def handle_call(:get_pypid, _from, pypid) do
     {:reply,
      %__MODULE__{
