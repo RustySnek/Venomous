@@ -24,7 +24,7 @@ defmodule VenomousTest.ConcurrencyTest do
 
     1..100
     |> Enum.map(fn _ ->
-      Task.async(fn -> python(args) end)
+      Task.async(fn -> python!(args) end)
     end)
     |> Task.await_many(:infinity)
 

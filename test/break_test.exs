@@ -1,4 +1,5 @@
 defmodule VenomousTest.BreakTest do
+  alias Venomous.SnakeWorker
   alias Venomous.SnakeError
   alias Venomous.SnakeSupervisor
   use ExUnit.Case
@@ -13,7 +14,9 @@ defmodule VenomousTest.BreakTest do
 
   test "snake abuse" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
+    |> Enum.each(fn {pid, pypid, os_pid, _, _} ->
+      slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
+    end)
 
     Enum.map(1..100, fn _ ->
       {:ok, pid} =
@@ -30,12 +33,15 @@ defmodule VenomousTest.BreakTest do
     end)
     |> Enum.each(&wait_for_process(&1))
 
-    assert list_alive_snakes() |> Enum.filter(fn {_, _, status, _} -> status != :ready end) == []
+    assert list_alive_snakes() |> Enum.filter(fn {_, _, _, status, _} -> status != :ready end) ==
+             []
   end
 
   test "exit abuse" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
+    |> Enum.each(fn {pid, pypid, os_pid, _, _} ->
+      slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
+    end)
 
     args = SnakeArgs.from_params(:time, :sleep, [10])
 

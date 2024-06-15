@@ -1,4 +1,5 @@
 defmodule VenomousTest do
+  alias Venomous.SnakeWorker
   alias Venomous.SnakeError
   alias Venomous.SnakeSupervisor
   use ExUnit.Case
@@ -8,7 +9,9 @@ defmodule VenomousTest do
 
   test "reuse alive snakes" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
+    |> Enum.each(fn {pid, pypid, os_pid, _, _} ->
+      slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
+    end)
 
     round_args =
       SnakeArgs.from_params(
@@ -53,7 +56,9 @@ defmodule VenomousTest do
 
   test "SLAY AND REVIVE SNEKS" do
     list_alive_snakes()
-    |> Enum.each(fn {pid, pypid, _, _} -> slay_python_worker({pid, pypid}, :brutal) end)
+    |> Enum.each(fn {pid, pypid, os_pid, _, _} ->
+      slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
+    end)
 
     assert list_alive_snakes() == []
     args = SnakeArgs.from_params(:builtins, :sum, [[1]])
