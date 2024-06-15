@@ -19,23 +19,38 @@ defmodule Venomous do
 
   ## Configuration Options
 
+  ### SnakeManager
   The behavior and management of Snakes can be configured through the following options inside :venomous :snake_manager config key:
-
-  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
   - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
   - `cleaner_interval: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
+  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
 
+  ### Python options 
+    Python options can be configured inside :venomous :python_opts config key
+    All of these are optional. However you will most likely want to set module_paths
+   ```elixir
+    @available_opts [
+    :module_paths, # List of paths to your python modules
+    :cd, # Change python's directory on spawn. Default is $PWD
+    :compressed, # Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)
+    :envvars, # additional python process envvars
+    :packet_bytes, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
+    :python_executable # path to python executable to use.
+  ]
+  ``` 
   ## Auxiliary Functions
 
   - `list_alive_snakes/0`: Returns a list of :ets table containing currently alive Snakes.
   - `clean_inactive_snakes/0`: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.
   - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will `kill -9` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
+  - `retrieve_snake/0`: Retrieves a `Venomous.SnakeWorker` and sets its status to :retrieved
+  - `get_snakes_ready/1`: Retrieves given amount of `Venomous.SnakeWorker`s
 
   """
-  alias Venomous.SnakeWorker
   alias Venomous.SnakeArgs
   alias Venomous.SnakeManager
+  alias Venomous.SnakeWorker
 
   @wait_for_snake_interval 100
   @default_timeout 15_000
@@ -53,17 +68,18 @@ defmodule Venomous do
   Kills python process and its SnakeWorker
   :brutal also kills the OS process of python, ensuring the process does not continue execution.
   ## Parameters
-    - SnakeWorker pid, Python pid tuple
-    - a Way to kill process. default: :brutal additionally kills with kill -9 ensuring the python does not execute further
+    - `Venomous.SnakeWorker` struct
+    - a Way to kill process. :brutal additionally kills with kill -9 ensuring the python does not execute further. Default: :peaceful
   ## Returns 
     :ok
   """
-  @spec slay_python_worker(SnakeWorker.t(), atom() | SnakeWorker.t()) :: :ok
+  @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom() | SnakeWorker.t()) :: :ok
   def slay_python_worker(
         %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid},
         termination_style \\ :peaceful
       ) do
     send(SnakeManager, {:sacrifice_snake, pid})
+    :python.stop(pypid)
     # We exterminate the snake in the sanest way possible.
     if termination_style == :brutal, do: System.cmd("kill", ["-9", "#{os_pid}"])
 
@@ -81,41 +97,38 @@ defmodule Venomous do
 
   @spec get_snakes_ready(non_neg_integer()) :: list(SnakeWorker.t())
   @doc """
-  Retrieves x amount of ready snakes. In case of hitting max_children cap, stops and returns all available snakes.
+  Retrieves x amount of ready snakes and sets their status to :retrieved. In case of hitting max_children cap, stops and returns all available snakes.
+  > #### Warning {: .warning}
+  > In case of retrieving all available snakes and not using them right away, functions like `python!/2` and `retrieve_snake!/0` will loop until they are freed.
   ## Parameters
     - amount of snakes to retrieve
 
   ## Returns
-    - A list of tuples `{pid, pid}`
+    - A list of `Venomous.SnakeWorker` structs
 
   """
   def get_snakes_ready(amount)
       when is_integer(amount),
       do: get_snakes_ready(amount, [])
 
-  @spec retrieve_snake() :: {:retrieve_error, reason :: term()} | SnakeWorker.t()
-  @spec retrieve_snake(boolean()) :: {:retrieve_error, reason :: term()} | SnakeWorker.t()
   @doc """
-  Retrieves ready SnakeWorker and python pids.
+  Retrieves `Venomous.SnakeWorker` struct and sets it's status to :retrieved preventing other processes from accessing it.
   If all processes are busy and exceeds max_children will return {:retrieve_error, message}.
 
   ## Returns
-    - A tuple `{pid, pid}` containing the process IDs of the SnakeWorker and python processes. In case of error `{:retrieve_error, message}`
+    - `Venomous.SnakeWorker` struct. In case of error `{:retrieve_error, message}`
   """
-  def retrieve_snake(set_ready \\ false) do
-    GenServer.call(SnakeManager, :get_ready_snake, :infinity)
-  end
+  @spec retrieve_snake() :: {:retrieve_error, reason :: term()} | SnakeWorker.t()
+  def retrieve_snake(), do: GenServer.call(SnakeManager, :get_ready_snake, :infinity)
 
   @spec retrieve_snake!(non_neg_integer()) :: SnakeWorker.t()
   @doc """
-  Retrieves ready SnakeWorker and python pids.
-  The worker is then set to :busy until its ran with snake_run(), preventing it from getting removed automatically or used by other process
   If all processes are busy and exceeds max_children will wait for interval ms and try again. Traps the exit signals, to safely escape loop.
   ## Parameters
    - interval: The time to wait in milliseconds before retrying. Default is `@wait_for_snake_interval`.
 
   ## Returns
-    - A tuple `{pid, pid}` containing the process IDs of the SnakeWorker and python processes.
+    - `Venomous.SnakeWorker` struct.
   """
   def retrieve_snake!(interval \\ @wait_for_snake_interval) do
     Process.flag(:trap_exit, true)
@@ -133,27 +146,26 @@ defmodule Venomous do
             retrieve_snake!(interval)
         end
 
-      process_ids ->
-        process_ids
+      snake_worker ->
+        snake_worker
     end
   end
 
   @doc """
-  Runs given %SnakeArgs{} inside given Snake pids. Takes in a python_timeout which brutally kills the python process after surpassing it.
+  Runs `Venomous.SnakeArgs` inside given `Venomous.SnakeWorker`.
   Traps exit and awaits signals [:SNAKE_DONE, :SNAKE_ERROR, :EXIT]
   In case of an exit, brutally kills the python process ensuring it doesn't get executed any further.
 
   ## Parameters
-    - %SnakeArgs{} struct of :module, :func, :args 
-    - {pid, pypid} tuple containing SnakeWorker pid and python pid
-    - opts \\ []
+    - `Venomous.SnakeArgs` struct of :module, :func, :args 
+    - `Venomous.SnakeWorker` struct
+    - opts Keywords
   ## Opts
   - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
-  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
-
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | {error: :timeout} | %SnakeError{} retrieves output of python function or error
+    - any() | %{error: :timeout} | %SnakeError{} retrieves output of python function or error
 
   """
   @spec snake_run(SnakeArgs.t(), SnakeWorker.t(), keyword()) :: any()
@@ -165,7 +177,7 @@ defmodule Venomous do
       ) do
     Process.flag(:trap_exit, true)
     python_timeout = Keyword.get(opts, :python_timeout, @default_timeout)
-    kill_python_on_exception = Keyword.get(opts, :kill_on_exception, true)
+    kill_python_on_exception = Keyword.get(opts, :kill_on_exception, false)
 
     GenServer.call(SnakeManager, {:molt_snake, :busy, worker}, :infinity)
 
@@ -205,18 +217,18 @@ defmodule Venomous do
   end
 
   @doc """
-  Wrapper for python workers
-  Tries to retrieve `Venomous.SnakeWorker` which then runs given function inside module with args. In case of failure will return {:error, message}.
-  In case :EXIT happens, it will kill python worker/process and exit(reason)
+  Wrapper for calling python process
+  Tries to retrieve `Venomous.SnakeWorker` which then runs the given `Venomous.SnakeArgs`. In case of failure will return {:retrieve_error, message}.
+  In case :EXIT happens, it will kill python os process along with its worker and exit(reason)
   ## Parameters
-    - %SnakeArgs{} struct of :module, :func, :args 
+    - `Venomous.SnakeArgs` struct of :module, :func, :args 
     - opts \\ []
   ## Opts
   - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
-  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | {error: :timeout} | {error: any()} retrieves output of python function or error
+    - any() | %{error: :timeout} | {retrieve_error: any()} retrieves output of python function or error
   """
   @spec python(SnakeArgs.t(), keyword()) :: any()
   @spec python(SnakeArgs.t()) :: any()
@@ -232,7 +244,7 @@ defmodule Venomous do
   ## Opts
   - `:retrieve_interval` ms to wait before requesting snake again Default: 200
   - `:python_timeout` ms timeout. Kills python OS process on timeout. Default: 15_000
-  - `:kill_python_on_exception` Should python process be killed on exception. Should be fine to set to `true` if your are sure the Python process won't exit(). In case exit() happens and it's set to true, Python will never reply, waiting till timeout. Default: false
+  - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
   """
   @spec python!(SnakeArgs.t(), keyword()) :: any()
   @spec python!(SnakeArgs.t()) :: any()

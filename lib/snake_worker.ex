@@ -6,6 +6,20 @@ defmodule Venomous.SnakeWorker do
   This module defines a GenServer that manages a snake worker, which interacts with a Python process to execute specified functions asynchronously.
   The main :run_snake call, creates a `Task.async/1` which calls python and handles exceptions returning python result or an Error struct which gets sent with signal to the caller process. This `Task` gets awaited inside the :run cast(). The original call() returns :ok
 
+  ## Configuration
+    Python options can be configured inside :venomous :python_opts config key
+    All of these are optional. However you will most likely want to set module_paths
+   ```elixir
+    @available_opts [
+    :module_paths, # List of paths to your python modules
+    :cd, # Change python's directory on spawn. Default is $PWD
+    :compressed, # Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)
+    :envvars, # additional python process envvars
+    :packet_bytes, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
+    :python_executable # path to python executable to use.
+  ]
+  ``` 
+
   ## Features
 
   - Starts and initializes a Python process.

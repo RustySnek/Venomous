@@ -3,9 +3,10 @@ defmodule Venomous.SnakeManager do
   Manager for brave 🐍 workers
 
   This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.
-    
+
   Main call `:get_ready_snake` retrieves/spawns a `Venomous.SnakeWorker` with :retrieved status.
-  Workers with status :ready, :retrieved, are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
+  Workers with status :ready and :retrieved are considered inactive and will be cleared up by main process loop running `:clean_inactive_workers` if they exceed their given TTL
+  Workers with :retrieved retrieved again until they are used.
 
   ## Configuration
   The following configurations are retrieved from :venomous :snake_manager Application env:
@@ -14,18 +15,11 @@ defmodule Venomous.SnakeManager do
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
   - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
   - `cleaner_interval: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
-
-  Defaults are provided in case these configurations are not set:
-
-  - Default encoder: none.
-  - Default time-to-live for a worker: 15 minutes.
-  - Default number of perpetual workers: 10.
-  - Default interval for cleaning inactive workers: 60,000 milliseconds.
   """
   use GenServer
   require Logger
-  alias Venomous.SnakeWorker
   alias Venomous.SnakeSupervisor
+  alias Venomous.SnakeWorker
 
   @default_ttl 15
   @default_perpetual 10
@@ -147,7 +141,7 @@ defmodule Venomous.SnakeManager do
   end
 
   defp deploy_new_snake({:error, message}, _table) do
-    Logger.error("Error while creating new snake: #{message}")
+    # Logger.error("Error while creating new snake: #{message}")
     {:retrieve_error, message}
   end
 
@@ -194,8 +188,7 @@ defmodule Venomous.SnakeManager do
   end
 
   def get_snake_worker_status(table, pid) when is_pid(pid) do
-    with [snake | _] <- :ets.lookup(table, pid) do
-      {_pid, pypid, os_pid, status, update_utc} = snake
+    with [{_pid, pypid, os_pid, status, update_utc} | _] <- :ets.lookup(table, pid) do
       {pypid, os_pid, status, update_utc}
     end
   end
