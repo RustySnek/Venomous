@@ -54,6 +54,7 @@ defmodule Venomous do
   - `list_alive_snakes/0`: Returns a list of :ets table containing currently alive Snakes.
   - `clean_inactive_snakes/0`: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.
   - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will `kill -9` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
+  - `slay_pet_worker/2`: Kills a named Python process
   - `retrieve_snake/0`: Retrieves a `Venomous.SnakeWorker` and sets its status to :retrieved
   - `get_snakes_ready/1`: Retrieves given amount of `Venomous.SnakeWorker`s
 
@@ -84,7 +85,8 @@ defmodule Venomous do
   ## Returns 
     :ok
   """
-  @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom() | SnakeWorker.t()) :: :ok
+  @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom()) :: :ok
+  @spec slay_python_worker(SnakeWorker.t()) :: :ok
   def slay_python_worker(
         %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid},
         termination_style \\ :peaceful
@@ -94,6 +96,22 @@ defmodule Venomous do
     # We exterminate the snake in the sanest way possible.
     if termination_style == :brutal, do: System.cmd("kill", ["-9", "#{os_pid}"])
 
+    :ok
+  end
+
+  @doc """
+  Kills the named python process
+  :brutal also kills the OS process of python, ensuring the process does not continue execution.
+  ## Parameters
+  - `name` atom
+  - a Way to kill process. :brutal additionally kills with kill -9 ensuring the python does not execute further. Default: :peaceful
+  ## Returns 
+  :ok
+  """
+  @spec slay_pet_worker(name :: atom(), termination_style :: atom()) :: :ok
+  @spec slay_pet_worker(name :: atom()) :: :ok
+  def slay_pet_worker(name, termination_style \\ :peaceful) when is_atom(name) do
+    send(PetSnakeManager, {:reject_pet, name, termination_style})
     :ok
   end
 

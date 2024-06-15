@@ -14,6 +14,21 @@ defmodule Venomous.PetSnakeManager do
     {:ok, state}
   end
 
+  def handle_info({:reject_pet, name, style}, state) do
+    case state.table |> :ets.lookup(name) do
+      [] ->
+        :ok
+
+      [{_name, pid, pypid, os_pid}] ->
+        :python.stop(pypid)
+        DynamicSupervisor.terminate_child(PetSnakeSupervisor, pid)
+        if style == :brutal, do: System.cmd("kill", ["-9", "#{os_pid}"])
+        :ets.delete(state.table, name)
+    end
+
+    {:noreply, state}
+  end
+
   defp adopt_snake({:error, message}, _name, _table), do: {:error, message}
 
   defp adopt_snake({:ok, pid}, name, table) do
