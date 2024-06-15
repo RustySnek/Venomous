@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-403D331C.js"></script>
+    <script src="dist/sidebar_items-7B429EBA.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
@@ -130,19 +130,26 @@ Pages
     <section id="moduledoc">
 <p>🔨🐍
 A brave snake worker slithering across...</p><p>This module defines a GenServer that manages a snake worker, which interacts with a Python process to execute specified functions asynchronously.
-The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html#async/1"><code class="inline">Task.async/1</code></a> which calls python and handles exceptions returning python result or an Error struct which gets sent with signal to the caller process. This <a href="https://hexdocs.pm/elixir/Task.html"><code class="inline">Task</code></a> gets awaited inside the :run cast(). The original call() returns :ok</p><h2 id="module-features" class="section-heading">
-  <a href="#module-features" class="hover-link">
+The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html#async/1"><code class="inline">Task.async/1</code></a> which calls python and handles exceptions returning python result or an Error struct which gets sent with signal to the caller process. This <a href="https://hexdocs.pm/elixir/Task.html"><code class="inline">Task</code></a> gets awaited inside the :run cast(). The original call() returns :ok</p><h2 id="module-configuration" class="section-heading">
+  <a href="#module-configuration" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">Features</span>
+  <span class="text">Configuration</span>
 </h2>
-<ul><li>Starts and initializes a Python process.</li><li>Executes Python functions with given arguments.</li><li>Handles the results of the Python function calls, including errors.</li><li>Returns the result with a signal to caller process</li></ul><h2 id="module-process-lifecycle" class="section-heading">
-  <a href="#module-process-lifecycle" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Process Lifecycle</span>
-</h2>
-<ul><li>On initialization, the worker starts a Python process.</li><li>If provided, the worker initializes an encoder by calling a specified Python function with arguments.</li><li>The worker can run Python functions on demand and return the results to the caller.</li></ul>
+<p>  Python options can be configured inside :venomous :python_opts config key
+  All of these are optional. However you will most likely want to set module_paths</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="5128986764-1">[</span><span class="w">
+  </span><span class="ss">:module_paths</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules</span><span class="w">
+  </span><span class="ss">:cd</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
+  </span><span class="ss">:compressed</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
+  </span><span class="ss">:envvars</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
+  </span><span class="ss">:packet_bytes</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
+  </span><span class="ss">:python_executable</span><span class="w"> </span><span class="c1"># path to python executable to use.</span><span class="w">
+</span><span class="p" data-group-id="5128986764-1">]</span></code></pre><p>## Features</p><p>- Starts and initializes a Python process.
+- Executes Python functions with given arguments.
+- Handles the results of the Python function calls, including errors.
+- Returns the result with a signal to caller process</p><p>## Process Lifecycle</p><p>- On initialization, the worker starts a Python process.
+- If provided, the worker initializes an encoder by calling a specified Python function with arguments.
+- The worker can run Python functions on demand and return the results to the caller.</p>
     </section>
 
 </div>
@@ -154,6 +161,20 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -181,7 +202,7 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#init/1" data-no-tooltip translate="no">init(args)</a>
+        <a href="#init/1" data-no-tooltip translate="no">init(opts)</a>
 
       </div>
 
@@ -202,6 +223,50 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
   </section>
 
 
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+    <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">t()</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L48" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Venomous.SnakeWorker{
+  os_pid: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  pid: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(),
+  pypid: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
+
   <section id="functions" class="details-list">
     <h1 class="section-heading">
       <a class="hover-link" href="#functions">
@@ -219,7 +284,7 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
     </a>
     <h1 class="signature" translate="no">child_spec(init_arg)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L25" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L39" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -241,7 +306,7 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
     </a>
     <h1 class="signature" translate="no">handle_continue(arg, pypid)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L48" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L111" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -261,9 +326,9 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">init(args)</h1>
+    <h1 class="signature" translate="no">init(opts)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L31" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L89" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -285,7 +350,7 @@ The main :run_snake call, creates a <a href="https://hexdocs.pm/elixir/Task.html
     </a>
     <h1 class="signature" translate="no">start_link(args)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L27" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_worker.ex#L63" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>

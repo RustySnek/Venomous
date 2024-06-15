@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-403D331C.js"></script>
+    <script src="dist/sidebar_items-7B429EBA.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-Q4PYR6ZR.js"></script>
 
@@ -129,13 +129,14 @@ Pages
 
     <section id="moduledoc">
 <p>Manager for brave 🐍 workers</p><p>This module manages the snake workers, ensuring that inactive workers are cleaned up periodically.</p><p>Main call <code class="inline">:get_ready_snake</code> retrieves/spawns a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> with :retrieved status.
-Workers with status :ready, :retrieved, are considered inactive and will be cleared up by main process loop running <code class="inline">:clean_inactive_workers</code> if they exceed their given TTL</p><h2 id="module-configuration" class="section-heading">
+Workers with status :ready and :retrieved are considered inactive and will be cleared up by main process loop running <code class="inline">:clean_inactive_workers</code> if they exceed their given TTL
+Workers with :retrieved retrieved again until they are used.</p><h2 id="module-configuration" class="section-heading">
   <a href="#module-configuration" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Configuration</span>
 </h2>
-<p>The following configurations are retrieved from :venomous :snake_manager Application env:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types. The function can also provide any callbacks from :erlport documentation like .cast() message handler</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul><p>Defaults are provided in case these configurations are not set:</p><ul><li>Default encoder: none.</li><li>Default time-to-live for a worker: 15 minutes.</li><li>Default number of perpetual workers: 10.</li><li>Default interval for cleaning inactive workers: 60,000 milliseconds.</li></ul>
+<p>The following configurations are retrieved from :venomous :snake_manager Application env:</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types. The function can also provide any callbacks from :erlport documentation like .cast() message handler</li><li><code class="inline">snake_ttl_minutes: non_neg_integer()</code>: Time-to-live for a Snake in minutes. Default is 15 min.</li><li><code class="inline">perpetual_workers: non_neg_integer()</code>: Number of Snakes to keep alive perpetually. Default is 10.</li><li><code class="inline">cleaner_interval: non_neg_integer()</code>: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.</li></ul>
     </section>
 
 </div>
@@ -220,7 +221,7 @@ Workers with status :ready, :retrieved, are considered inactive and will be clea
     </a>
     <h1 class="signature" translate="no">child_spec(init_arg)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L25" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L19" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -242,7 +243,7 @@ Workers with status :ready, :retrieved, are considered inactive and will be clea
     </a>
     <h1 class="signature" translate="no">get_snake_worker_status(table, pid)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L183" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L190" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -264,7 +265,7 @@ Workers with status :ready, :retrieved, are considered inactive and will be clea
     </a>
     <h1 class="signature" translate="no">handle_continue(atom, state)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L43" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L38" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -286,7 +287,7 @@ Workers with status :ready, :retrieved, are considered inactive and will be clea
     </a>
     <h1 class="signature" translate="no">init(state)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L37" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L32" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -308,7 +309,7 @@ Workers with status :ready, :retrieved, are considered inactive and will be clea
     </a>
     <h1 class="signature" translate="no">start_link(args)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L33" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_manager.ex#L28" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
