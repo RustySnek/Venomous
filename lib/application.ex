@@ -38,7 +38,6 @@ defmodule Venomous.Application do
       config
       |> Map.get(:python_opts, [])
       |> Keyword.merge(erlport_encoder: Map.get(config, :erlport_encoder, %{}))
-      |> dbg
 
     %{
       table: table,

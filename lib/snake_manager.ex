@@ -56,13 +56,13 @@ defmodule Venomous.SnakeManager do
   end
 
   def handle_info({:DOWN, _ref, :process, _pid, _reason}, state) do
-    Logger.error("Snake Crashed")
+    Logger.error("Snake Crashed ")
     {:noreply, state}
   end
 
   def handle_info({:sacrifice_snake, pid}, state) do
     try do
-      DynamicSupervisor.terminate_child(SnakeSupervisor, pid) |> dbg
+      DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
 
       :ets.delete(state.table, pid)
     catch
@@ -110,7 +110,7 @@ defmodule Venomous.SnakeManager do
 
     case available? do
       nil ->
-        Task.async(fn ->
+        Task.start(fn ->
           snake = deploy_new_snake(state.table, state.python_opts)
           GenServer.reply(from, snake)
         end)
