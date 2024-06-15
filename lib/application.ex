@@ -26,7 +26,6 @@ defmodule Venomous.Application do
     table = :ets.new(:snake_terrarium, [:set, :public])
 
     config = Application.get_env(:venomous, :snake_manager, %{})
-    encoder_decoder = Map.get(config, :erlport_encoder, %{})
     snake_ttl = Map.get(config, :snake_ttl_minutes, @default_ttl_minutes)
 
     perpetual_workers =
@@ -35,12 +34,18 @@ defmodule Venomous.Application do
     cleaner_interval_ms =
       Map.get(config, :cleaner_interval, @default_cleaner_interval)
 
+    python_opts =
+      config
+      |> Map.get(:python_opts, [])
+      |> Keyword.merge(erlport_encoder: Map.get(config, :erlport_encoder, %{}))
+      |> dbg
+
     %{
       table: table,
       snake_ttl_minutes: snake_ttl,
       perpetual_workers: perpetual_workers,
       cleaner_interval_ms: cleaner_interval_ms,
-      erlport_encoder: encoder_decoder
+      python_opts: python_opts
     }
   end
 

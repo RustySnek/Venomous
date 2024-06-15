@@ -24,6 +24,7 @@ defmodule Venomous.SnakeManager do
   """
   use GenServer
   require Logger
+  alias Venomous.SnakeWorker
   alias Venomous.SnakeSupervisor
 
   @default_ttl 15
@@ -61,7 +62,7 @@ defmodule Venomous.SnakeManager do
 
   def handle_info({:sacrifice_snake, pid}, state) do
     try do
-      DynamicSupervisor.terminate_child(SnakeSupervisor, pid)
+      DynamicSupervisor.terminate_child(SnakeSupervisor, pid) |> dbg
 
       :ets.delete(state.table, pid)
     catch
@@ -85,11 +86,15 @@ defmodule Venomous.SnakeManager do
     {:reply, clean_inactive_workers(state), state}
   end
 
-  def handle_call({:molt_snake, status, pid, pypid}, from, state) do
+  def handle_call(
+        {:molt_snake, status, %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}},
+        from,
+        state
+      ) do
     # Does Task even make a difference here? lol
     Task.start(fn ->
       now = DateTime.utc_now()
-      :ets.insert(state.table, {pid, pypid, status, now})
+      :ets.insert(state.table, {pid, pypid, os_pid, status, now})
       GenServer.reply(from, :ok)
     end)
 
@@ -100,17 +105,17 @@ defmodule Venomous.SnakeManager do
     {:reply, :ets.tab2list(state.table), state}
   end
 
-  def handle_call(:get_ready_snake, _from, state) do
-    available? = state.table |> :ets.match({:"$1", :"$2", :ready, :_}) |> Enum.at(0)
+  def handle_call({:get_ready_snake, set_ready}, _from, state) do
+    available? = state.table |> :ets.match({:"$1", :"$2", :"$3", :ready, :_}) |> Enum.at(0)
 
     snake =
       case available? do
         nil ->
-          deploy_new_snake(state.table, state.erlport_encoder)
+          deploy_new_snake(state.table, state.python_opts)
 
-        [pid, pypid] ->
-          :ets.insert(state.table, {pid, pypid, :retrieved, DateTime.utc_now()})
-          {pid, pypid}
+        [pid, pypid, os_pid] ->
+          :ets.insert(state.table, {pid, pypid, os_pid, :retrieved, DateTime.utc_now()})
+          %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}
       end
 
     {:reply, snake, state}
@@ -123,9 +128,14 @@ defmodule Venomous.SnakeManager do
 
   defp deploy_new_snake({:ok, pid}, table) do
     try do
-      pypid = GenServer.call(pid, :get_pypid)
-      :ets.insert(table, {pid, pypid, :retrieved, DateTime.utc_now()})
-      {pid, pypid}
+      worker = GenServer.call(pid, :get_pypid)
+
+      :ets.insert(
+        table,
+        {worker.pid, worker.pypid, worker.os_pid, :retrieved, DateTime.utc_now()}
+      )
+
+      worker
     catch
       :exit, reason ->
         Logger.error("Crashed at deploying new snake: #{inspect(reason)}")
@@ -138,8 +148,8 @@ defmodule Venomous.SnakeManager do
     {:retrieve_error, message}
   end
 
-  defp deploy_new_snake(table, encoder) do
-    SnakeSupervisor.deploy_snake_worker(encoder) |> deploy_new_snake(table)
+  defp deploy_new_snake(table, python_opts) do
+    SnakeSupervisor.deploy_snake_worker(python_opts) |> deploy_new_snake(table)
   end
 
   defp clean_inactive_workers(state) do
@@ -148,7 +158,7 @@ defmodule Venomous.SnakeManager do
     clean_inactive_workers(state.table, perpetual_workers, ttl)
   end
 
-  defp clean_inactive_workers({pid, _pypid, status, update_utc}, table, ttl) do
+  defp clean_inactive_workers({pid, _pypid, _os_pid, status, update_utc}, table, ttl) do
     now = DateTime.utc_now()
 
     max_ttl =
@@ -182,8 +192,8 @@ defmodule Venomous.SnakeManager do
 
   def get_snake_worker_status(table, pid) when is_pid(pid) do
     with [snake | _] <- :ets.lookup(table, pid) do
-      {_pid, pypid, status, update_utc} = snake
-      {pypid, status, update_utc}
+      {_pid, pypid, os_pid, status, update_utc} = snake
+      {pypid, os_pid, status, update_utc}
     end
   end
 end
