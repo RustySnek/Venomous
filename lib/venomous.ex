@@ -6,13 +6,16 @@ defmodule Venomous do
 
   You can checkout examples [here](https://github.com/RustySnek/venomous-examples)
 
-  ## Main Functionality
-    ### Basic processes
+  Be sure to also check the [README](readme.html)
+
+  ## Main Functionality  ### Basic processes
+
     These are automatically managed and made for concurrent operations
     - `python/2`: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a `SnakeArgs` struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.
     - `python!/2` | `python!/1`: Will wait until any `Venomous.SnakeWorker` is freed, requesting it with the given interval. 
 
-    ### Named processes
+  ### Named processes
+
     Python processes with unique names. Meant for miscellaneous processes.
     - `adopt_snake_pet/2`: Creates a new `Venomous.SnakeWorker` with a name inside `Venomous.PetSnakeSupervisor`
     - `pet_snake_run/3`: Runs given `Venomous.SnakeArgs` inside the named python process
@@ -31,6 +34,7 @@ defmodule Venomous do
   ## Configuration Options
 
   ### SnakeManager
+
   The behavior and management of Snakes can be configured through the following options inside :venomous :snake_manager config key:
   - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
   - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
@@ -38,6 +42,7 @@ defmodule Venomous do
   - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
 
   ### Python options 
+
     Python options can be configured inside :venomous :python_opts config key
 
     All of these are optional. However you will most likely want to set module_paths
@@ -54,10 +59,15 @@ defmodule Venomous do
   ## Auxiliary Functions
 
   - `list_alive_snakes/0`: Returns a list of :ets table containing currently alive Snakes.
+
   - `clean_inactive_snakes/0`: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.
+
   - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will `kill -9` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
+
   - `slay_pet_worker/2`: Kills a named Python process
+
   - `retrieve_snake/0`: Retrieves a `Venomous.SnakeWorker` and sets its status to :retrieved
+   
   - `get_snakes_ready/1`: Retrieves given amount of `Venomous.SnakeWorker`s
 
   """

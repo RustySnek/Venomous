@@ -27,7 +27,7 @@ end
 
   You can checkout examples [here](https://github.com/RustySnek/venomous-examples)
 
-  ### Configure the SnakeManager options
+### Configure the SnakeManager options
   ```elixir
   config :venomous, :snake_manager, %{
     # Optional :erlport encoder/decoder for type conversion between elixir/python applied to all workers. The function may also include any :erlport callbacks from python api
@@ -54,7 +54,7 @@ end
         ]
   }
   ```
-  ### Configure the SnakeSupervisor and PetSnakeSupervisor (if needed) to start on application boot.
+### Configure the SnakeSupervisor and PetSnakeSupervisor (if needed) to start on application boot.
   ```elixir
   defmodule YourApp.Application do
     @moduledoc false
