@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.34.0">
-    <meta name="project" content="Venomous v0.3.0">
+    <meta name="project" content="Venomous v0.4.0">
 
 
-    <title>Venomous — Venomous v0.3.0</title>
+    <title>Venomous — Venomous v0.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -54,7 +54,7 @@
 Venomous
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.3.0
+          v0.4.0
         </div>
       </div>
     </div>
@@ -122,7 +122,7 @@ Pages
       </a>
 
     <span translate="no">Venomous</span> 
-    <small class="app-vsn" translate="no">(Venomous v0.3.0)</small>
+    <small class="app-vsn" translate="no">(Venomous v0.4.0)</small>
 
   </h1>
 
@@ -164,14 +164,14 @@ Pages
   </a>
   <span class="text">Python options</span>
 </h3>
-<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="9367369114-1">[</span><span class="w">
+<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="1473524466-1">[</span><span class="w">
   </span><span class="ss">:module_paths</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules</span><span class="w">
   </span><span class="ss">:cd</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
   </span><span class="ss">:compressed</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
   </span><span class="ss">:envvars</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
   </span><span class="ss">:packet_bytes</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
   </span><span class="ss">:python_executable</span><span class="w"> </span><span class="c1"># path to python executable to use.</span><span class="w">
-</span><span class="p" data-group-id="9367369114-1">]</span></code></pre><p>## Auxiliary Functions</p><p>- <a href="#list_alive_snakes/0"><code class="inline">list_alive_snakes/0</code></a>: Returns a list of :ets table containing currently alive Snakes.</p><p>- <a href="#clean_inactive_snakes/0"><code class="inline">clean_inactive_snakes/0</code></a>: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.</p><p>- <a href="#slay_python_worker/2"><code class="inline">slay_python_worker/2</code></a>: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will <code class="inline">kill -9</code> the os process of python which prevents the code from executing until it finalizes or goes through iteration.</p><p>- <a href="#slay_pet_worker/2"><code class="inline">slay_pet_worker/2</code></a>: Kills a named Python process</p><p>- <a href="#retrieve_snake/0"><code class="inline">retrieve_snake/0</code></a>: Retrieves a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> and sets its status to :retrieved</p><p>- <a href="#get_snakes_ready/1"><code class="inline">get_snakes_ready/1</code></a>: Retrieves given amount of <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>s</p>
+</span><span class="p" data-group-id="1473524466-1">]</span></code></pre><p>## Auxiliary Functions</p><p>- <a href="#list_alive_snakes/0"><code class="inline">list_alive_snakes/0</code></a>: Returns a list of :ets table containing currently alive Snakes.</p><p>- <a href="#clean_inactive_snakes/0"><code class="inline">clean_inactive_snakes/0</code></a>: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.</p><p>- <a href="#slay_python_worker/2"><code class="inline">slay_python_worker/2</code></a>: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will <code class="inline">kill -9</code> the os process of python which prevents the code from executing until it finalizes or goes through iteration.</p><p>- <a href="#slay_pet_worker/2"><code class="inline">slay_pet_worker/2</code></a>: Kills a named Python process</p><p>- <a href="#retrieve_snake/0"><code class="inline">retrieve_snake/0</code></a>: Retrieves a <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> and sets its status to :retrieved</p><p>- <a href="#get_snakes_ready/1"><code class="inline">get_snakes_ready/1</code></a>: Retrieves given amount of <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a>s</p>
     </section>
 
 </div>
@@ -370,14 +370,14 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
   </a>
   <span class="text">Options</span>
 </h2>
-<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see <a href="python.html">Handling Erlport API</a></li><li><pre><code class="makeup elixir" translate="no"><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="7741141903-1">[</span><span class="w">
+<p>  Python options can be configured inside :venomous :python_opts config key</p><p>  All of these are optional. However you will most likely want to set module_paths</p><ul><li><code class="inline">erlport_encoder: %{module: atom(), func: atom(), args: list(any())}</code>: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see <a href="python.html">Handling Erlport API</a></li><li><pre><code class="makeup elixir" translate="no"><span class="na">@available_opts</span><span class="w"> </span><span class="p" data-group-id="8548638833-1">[</span><span class="w">
 </span><span class="ss">:module_paths</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules</span><span class="w">
 </span><span class="ss">:cd</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
 </span><span class="ss">:compressed</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
 </span><span class="ss">:envvars</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
 </span><span class="ss">:packet_bytes</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
 </span><span class="ss">:python_executable</span><span class="w"> </span><span class="c1"># path to python executable to use.</span><span class="w">
-</span><span class="p" data-group-id="7741141903-1">]</span></code></pre><h2 id="adopt_snake_pet/2-returns" class="section-heading">
+</span><span class="p" data-group-id="8548638833-1">]</span></code></pre><h2 id="adopt_snake_pet/2-returns" class="section-heading">
   <a href="#adopt_snake_pet/2-returns" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -829,9 +829,9 @@ In case of an exit, brutally kills the python process ensuring it doesn't get ex
       <p>
 
           <span class="line">
-            <a href="https://hex.pm/packages/venomous/0.3.0" class="footer-hex-package">Hex Package</a>
+            <a href="https://hex.pm/packages/venomous/0.4.0" class="footer-hex-package">Hex Package</a>
 
-            <a href="https://preview.hex.pm/preview/venomous/0.3.0">Hex Preview</a>
+            <a href="https://preview.hex.pm/preview/venomous/0.4.0">Hex Preview</a>
 
           </span>
 
