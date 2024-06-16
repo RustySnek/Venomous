@@ -159,8 +159,10 @@ defmodule Venomous.SnakeManager do
     now = DateTime.utc_now()
 
     max_ttl =
-      Timex.shift(update_utc,
-        minutes: ttl
+      DateTime.add(
+        update_utc,
+        ttl,
+        :minute
       )
 
     active =
