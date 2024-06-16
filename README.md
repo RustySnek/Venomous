@@ -13,7 +13,7 @@ Add `:venomous` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:venomous, "~> 0.4.0"}
+    {:venomous, "~> 0.4.1"}
   ]
 end
 ```
