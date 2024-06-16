@@ -7,6 +7,7 @@ You can find the default data types mapping [here](http://erlport.org/docs/pytho
 The function passed to the snake_manager's erlport_encoder should be a main function containing everything you will setup further.
 ```python
 from erlport.erlang import set_decoder, set_encoder, set_message_handler
+from erlport.erlterms import Atom
 
 def main_encoder():
   set_decoder(decoder_func)
@@ -62,7 +63,7 @@ def decoder(value: any):
   # Elixir strings convert to bytes, we can decode them into utf-8 strings.
   if isinstance(value, bytes):
     return value.decode('utf-8')
-  if isistance(value, Map):
+  if isinstance(value, Map):
       # If its a Map custom type we decode bytes into utf-8 strings
       return {
             key.decode("utf-8"): [v.decode("utf-8") for v in val]
