@@ -1,6 +1,7 @@
 defmodule VenomousTest.BreakTest do
   alias Venomous.SnakeWorker
   use ExUnit.Case
+  import ExUnit.CaptureLog
   import Venomous
   alias Venomous.SnakeArgs
 
@@ -41,16 +42,18 @@ defmodule VenomousTest.BreakTest do
       slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
     end)
 
-    args = SnakeArgs.from_params(:time, :sleep, [10])
+    args = SnakeArgs.from_params(:time, :sleep, [0.5])
 
     me = self()
 
     Enum.map(0..100, fn _ ->
       {:ok, pid} =
         Task.start(fn ->
-          python!(args)
+          capture_log(fn ->
+            python!(args)
 
-          send(me, :fail)
+            send(me, :fail)
+          end)
         end)
 
       pid
