@@ -1,4 +1,7 @@
 defmodule Venomous.SnakeOpts do
+  @moduledoc """
+    Module for converting Venomous python config keywords to erlport ones
+  """
   @available_opts [
     :module_paths,
     :cd,
