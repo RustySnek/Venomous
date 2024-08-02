@@ -21,6 +21,7 @@ defmodule Venomous.SnakeWorker do
   ]
   ```
   """
+  alias Venomous.SnakeOpts
   alias Venomous.SnakeArgs
   alias Venomous.SnakeError
   alias Venomous.SnakeManager
@@ -39,56 +40,24 @@ defmodule Venomous.SnakeWorker do
           os_pid: non_neg_integer()
         }
 
-  @available_opts [
-    :module_paths,
-    :cd,
-    :compressed,
-    :envvars,
-    :packet_bytes,
-    :python_executable
-  ]
-
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
 
-  defp construct_python_opts({:module_paths, paths}) when is_list(paths) do
-    {:python_path, Enum.map(paths, &to_charlist(&1))}
-  end
-
-  defp construct_python_opts({:module_paths, path}) when is_binary(path) do
-    {:python_path, to_charlist(path)}
-  end
-
-  defp construct_python_opts({:envvars, vars}) when is_list(vars) do
-    {:env, Enum.map(vars, fn {key, val} -> {to_charlist(key), to_charlist(val)} end)}
-  end
-
-  defp construct_python_opts({:python_executable, path}) when is_binary(path) do
-    {:python, to_charlist(path)}
-  end
-
-  defp construct_python_opts({:packet_bytes, bytes}) when is_integer(bytes) do
-    {:packet, bytes}
-  end
-
-  defp construct_python_opts(keyword), do: keyword
-
   def init(opts) do
     {encoder, opts} = Keyword.pop(opts, :erlport_encoder)
 
-    opts = opts |> Keyword.take(@available_opts) |> Keyword.new(&construct_python_opts(&1))
+    opts = SnakeOpts.to_erlport_opts(opts)
 
     case :python.start_link(opts) do
       {:error, reason} ->
-        # please no snake crashing...
         Logger.error("FAILED TO START PYTHON PROCESS")
-        {:EXIT, reason}
+        {:stop, reason, opts}
 
       {:ok, pypid} ->
         case encoder do
-          %{:module => module, :func => func, :args => args} ->
-            {:ok, pypid, {:continue, {:init_encoder, module, func, args}}}
+          %SnakeArgs{} = snake_args ->
+            {:ok, pypid, {:continue, {:init_encoder, snake_args}}}
 
           _ ->
             {:ok, pypid}
@@ -96,7 +65,15 @@ defmodule Venomous.SnakeWorker do
     end
   end
 
-  def handle_continue({:init_encoder, module, func, args}, pypid) do
+  def handle_continue({:init_encoder, %SnakeArgs{module: module, func: func, args: args}}, pypid) do
+    :python.call(pypid, module, func, args)
+    {:noreply, pypid}
+  end
+
+  def handle_info(
+        {:reload, %SnakeArgs{module: module, func: func, args: args}},
+        pypid
+      ) do
     :python.call(pypid, module, func, args)
     {:noreply, pypid}
   end
