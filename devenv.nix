@@ -14,4 +14,7 @@
 
   env.LANG = "en_US.UTF-8";
   dotenv.enable = true;
+  languages.python.enable = true;
+  languages.python.venv.enable = true;
+
 }
