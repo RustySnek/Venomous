@@ -30,8 +30,7 @@ defmodule Venomous.SnakeManager do
   end
 
   def init(state) do
-    Logger.info("Initialized snake manager")
-
+    Logger.info("Started Snake Manager")
     {:ok, state, {:continue, :clean_inactive}}
   end
 
@@ -42,6 +41,23 @@ defmodule Venomous.SnakeManager do
 
   def handle_info(:clean_inactive_info, state) do
     GenServer.cast(self(), :clean_inactive_workers)
+    {:noreply, state}
+  end
+
+  def handle_info({:reload, module}, state) do
+    reload_module = state.reload_module
+
+    serpent_opts = %Venomous.SnakeArgs{
+      module: reload_module,
+      func: :reload,
+      args: [module |> to_string()]
+    }
+
+    :ets.tab2list(state.table)
+    |> Enum.each(fn {pid, _pypid, _os_pid, _status, _date} ->
+      send(pid, {:reload, serpent_opts})
+    end)
+
     {:noreply, state}
   end
 
