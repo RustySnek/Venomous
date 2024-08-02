@@ -9,7 +9,7 @@ defmodule Venomous.PetSnakeManager do
   end
 
   def init(state) do
-    Logger.info("Initialized pet_snake manager")
+    Logger.info("Started Pet Snake Manager")
 
     {:ok, state}
   end
