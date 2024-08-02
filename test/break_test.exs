@@ -59,7 +59,7 @@ defmodule VenomousTest.BreakTest do
       pid
     end)
     |> Enum.each(fn pid ->
-      Process.send_after(pid, {:EXIT, :left}, 200)
+      Process.exit(pid, {:EXIT, :left})
     end)
 
     receive do
