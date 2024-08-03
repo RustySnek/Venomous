@@ -56,7 +56,7 @@ defmodule Venomous.SnakeWorker do
 
       {:ok, pypid} ->
         case encoder do
-          %SnakeArgs{} = snake_args ->
+          %{module: _module, func: _func, args: _args} = snake_args ->
             {:ok, pypid, {:continue, {:init_encoder, snake_args}}}
 
           _ ->
@@ -65,7 +65,7 @@ defmodule Venomous.SnakeWorker do
     end
   end
 
-  def handle_continue({:init_encoder, %SnakeArgs{module: module, func: func, args: args}}, pypid) do
+  def handle_continue({:init_encoder, %{module: module, func: func, args: args}}, pypid) do
     :python.call(pypid, module, func, args)
     {:noreply, pypid}
   end
