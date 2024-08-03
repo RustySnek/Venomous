@@ -1,10 +1,13 @@
 404.html
+Mix.Tasks.Venomous.Watchdog.html
 Venomous.Application.html
 Venomous.PetSnakeManager.html
 Venomous.PetSnakeSupervisor.html
+Venomous.SerpentWatcher.html
 Venomous.SnakeArgs.html
 Venomous.SnakeError.html
 Venomous.SnakeManager.html
+Venomous.SnakeOpts.html
 Venomous.SnakeSupervisor.html
 Venomous.SnakeWorker.html
 Venomous.html
@@ -27,8 +30,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-94C69E27.js
-dist/sidebar_items-CE153307.js
+dist/search_data-5910E6FF.js
+dist/sidebar_items-2D916514.js
 index.html
 python.html
 readme.html
