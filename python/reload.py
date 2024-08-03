@@ -4,10 +4,10 @@ from types import ModuleType
 
 
 def decode_module_name(module: str | bytes):
-    if isinstance(module, bytes):
-        return module.decode()
-    elif isinstance(module, str):
+    if isinstance(module, str):
         return module
+    elif isinstance(module, bytes):
+        return module.decode()
     else:
         raise Exception("Could not decode module name properly.")
 
