@@ -3,10 +3,10 @@ defmodule Venomous.SerpentWatcher do
   🐍🔎 📁 A snake spy watching every step...
 
 
-    Disabled by default.
+    Disabled by default. `config :venomous, :serpent_watcher, enable: true` to enable.
 
-    Starts python watchdog process, watching over every module/file visible by python.
-    Default watcher requires watchdog module, which can be installed with ...  
+    Starts python watchdog process, watching over every python module inside module_paths directories.
+    Default watcher requires watchdog module, which can be installed with `mix venomous.watchdog install` 
     Whenever file is edited/created/deleted watcher casts `:reload` with module name to SnakeManager.
     The default reload module function imports and reloads the module from its name.
 

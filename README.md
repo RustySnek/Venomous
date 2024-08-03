@@ -23,7 +23,7 @@ end
   For custom type conversion see the [Handling Erlport API](https://github.com/RustySnek/Venomous/blob/master/PYTHON.md)
 
   > By default the python modules to load are kept inside PYTHONPATH envvar.
-  > but I highly recommend setting them inside python_opts[:module_paths]
+  > but I highly recommend setting them inside python_opts[:module_paths] for hot reloading comp.
 
   You can checkout examples [here](https://github.com/RustySnek/venomous-examples)
 
@@ -42,6 +42,9 @@ end
     perpetual_workers: 1,
     # Interval for killing python processes past their ttl while inactive. Default: 60_000ms (1 min)
     cleaner_interval: 5_000,
+    # reload module for hot reloading.
+    # default is already provided inside venomous python/ directory
+    reload_module: :reload,
 
     # Erlport python options
     python_opts: [
@@ -51,8 +54,18 @@ end
     envvars: [SNAKE_VAR_ONE: "I'm a snake", SNAKE_VAR_TWO: "No, you are not"], # additional python process envvars
     packet_bytes: 4, # Size of erlport python packet. Default: 4 = max 4GB of data. Can also be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
     python_executable: "/bin/python" # Change the path to python executable to use.
-        ]
+    ]
   }
+  ```
+### Enable the Hot reloading
+  Currently only supports the SnakeManager's processes. Watches only directories specified in `module_paths`
+  ```elixir
+      config :venomous, :serpent_watcher, [
+        enable: true, # Defaults to false
+        module: :serpent_watcher, # Provided by default
+        func: :watch_directories, # Provided by default
+        args: [Venomous.SnakeManager], # Provided by default
+        ]
   ```
 ### Configure the SnakeSupervisor and PetSnakeSupervisor (if needed) to start on application boot.
   ```elixir

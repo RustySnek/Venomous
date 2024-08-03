@@ -8,7 +8,9 @@ defmodule Venomous do
 
   Be sure to also check the [README](readme.html)
 
-  ## Main Functionality  ### Basic processes
+  ## Main Functionality  
+
+  ### Basic processes
 
     These are automatically managed and made for concurrent operations
     - `python/2`: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a `SnakeArgs` struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.
@@ -25,6 +27,7 @@ defmodule Venomous do
 
   Venomous consists of several key components:
 
+  - `Venomous.SerpentWatcher`: Manages hot reloading.
   - `Venomous.SnakeWorker`: Manages the execution of Python processes.
   - `Venomous.SnakeSupervisor`: A DynamicSupervisor that oversees the SnakeWorkers.
   - `Venomous.SnakeManager`: A GenServer that coordinates the SnakeWorkers and handles operations like spawning, retrieval and cleanup.
@@ -33,29 +36,47 @@ defmodule Venomous do
 
   ## Configuration Options
 
+  ### Hot reload
+
+
   ### SnakeManager
 
-  The behavior and management of Snakes can be configured through the following options inside :venomous :snake_manager config key:
-  - `snake_ttl_minutes: non_neg_integer()`: Time-to-live for a Snake in minutes. Default is 15 min.
-  - `perpetual_workers: non_neg_integer()`: Number of Snakes to keep alive perpetually. Default is 10.
-  - `cleaner_interval: non_neg_integer()`: Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
-  - `erlport_encoder: %{module: atom(), func: atom(), args: list(any())}`: Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
+  The behavior and management of Snakes can be configured through the following options:
+  ```elixir
+  :venomous, :snake_manager, %{
+    snake_ttl_minutes: `non_neg_integer()`, # Time-to-live for a Snake in minutes. Default is 15 min.
+    perpetual_workers: `non_neg_integer()`, # Number of Snakes to keep alive perpetually. Default is 10.
+    cleaner_interval: `non_neg_integer()`, # Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
+    erlport_encoder: `%{module: atom(), func: atom(), args: list(any())}`, # Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
+    }
+  ```
 
   ### Python options 
 
-    Python options can be configured inside :venomous :python_opts config key
-
     All of these are optional. However you will most likely want to set module_paths
    ```elixir
-    @available_opts [
-    :module_paths, # List of paths to your python modules
-    :cd, # Change python's directory on spawn. Default is $PWD
-    :compressed, # Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)
-    :envvars, # additional python process envvars
-    :packet_bytes, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
-    :python_executable # path to python executable to use.
-  ]
+    config :venomous, :snake_manager, %{
+    ...
+    python_opts: [
+      module_paths: [], # List of paths to your python modules.
+      cd: "", # Change python's directory on spawn. Default is $PWD
+      compressed: 0, # Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)
+      envvars: [], # additional python process envvars
+      packet_bytes: 4, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
+      python_executable: "" # path to python executable to use. defaults to PATH
+    ]
+    ...
+  }
   ``` 
+
+  ### Hot reloading
+    Requires watchdog python module, which can be installed with `mix venomous.watchdog install`.
+    Only files inside `module_paths` config are watched.
+    ```elixir
+    config :venomous, :serpent_watcher, enable: true
+    ```
+    
+
   ## Auxiliary Functions
 
   - `list_alive_snakes/0`: Returns a list of :ets table containing currently alive Snakes.
