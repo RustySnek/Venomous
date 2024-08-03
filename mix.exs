@@ -1,7 +1,7 @@
 defmodule Venomous.MixProject do
   use Mix.Project
 
-  @version "0.4.1"
+  @version "0.5.0"
 
   def project do
     [
@@ -28,7 +28,15 @@ defmodule Venomous.MixProject do
       licenses: ["GPL-3.0-or-later"],
       links: %{
         "GitHub" => "https://github.com/RustySnek/Venomous"
-      }
+      },
+      files: [
+        "lib",
+        "README.md",
+        "LICENSE",
+        "PYTHON.md",
+        "python/serpent_watcher.py",
+        "python/reload.py"
+      ]
     ]
   end
 
