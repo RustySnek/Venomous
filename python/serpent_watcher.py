@@ -11,12 +11,13 @@ from watchdog.observers import Observer
 
 
 class ChangeHandler(FileSystemEventHandler):
-    def __init__(self, pid, paths):
+    def __init__(self, pid, paths, logging: bool = True):
         super().__init__()
         self.last_event_time = {}
         self.debounce_time = 0.5
         self.pid = pid
         self.paths = paths
+        self.logging = logging
 
     def on_modified(self, event):
         if event.src_path.endswith(".py"):
@@ -30,7 +31,7 @@ class ChangeHandler(FileSystemEventHandler):
         if event.src_path.endswith(".py"):
             self.handle_event("Deleted", event.src_path)
 
-    def handle_event(self, action, path):
+    def handle_event(self, action: str, path):
         current_time = time.time()
         if (
             path not in self.last_event_time
@@ -39,6 +40,14 @@ class ChangeHandler(FileSystemEventHandler):
             self.last_event_time[path] = current_time
             module_name = self.get_module_name(path)
             if module_name:
+                if self.logging:
+                    print(
+                        "Reloading module:",
+                        module_name,
+                        "Path:",
+                        path,
+                        f"[{action.upper()}]",
+                    )
                 try:
                     erlang.cast(self.pid, (Atom("reload".encode("utf-8")), module_name))
                 except:
@@ -57,9 +66,9 @@ class ChangeHandler(FileSystemEventHandler):
         return None
 
 
-def watch_directories(paths, pid):
+def watch_directories(pid, paths, logging):
     paths = [path.decode() for path in paths]
-    event_handler = ChangeHandler(pid, paths)
+    event_handler = ChangeHandler(pid, paths, logging)
     observer = Observer()
 
     for directory in paths:
