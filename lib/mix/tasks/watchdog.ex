@@ -13,7 +13,17 @@ defmodule Mix.Tasks.Venomous.Watchdog do
   def run(args) do
     case args do
       ["install"] -> install_watchdog(@github_repo, @tag)
+      ["uninstall"] -> uninstall_watchdog()
       _ -> Mix.raise("Invalid arguments. Usage: install / uninstall")
+    end
+  end
+
+  def uninstall_watchdog do
+    IO.puts("Removing watchdog...")
+
+    case System.cmd("rm", ["-r", "#{@path}/watchdog"]) do
+      {_out, 0} -> IO.puts("Successfully removed watchdog.")
+      {out, _exit_code} -> Mix.raise("Failed with #{out}")
     end
   end
 

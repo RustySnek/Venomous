@@ -36,18 +36,15 @@ defmodule Venomous do
 
   ## Configuration Options
 
-  ### Hot reload
-
-
   ### SnakeManager
 
   The behavior and management of Snakes can be configured through the following options:
   ```elixir
   :venomous, :snake_manager, %{
-    snake_ttl_minutes: `non_neg_integer()`, # Time-to-live for a Snake in minutes. Default is 15 min.
-    perpetual_workers: `non_neg_integer()`, # Number of Snakes to keep alive perpetually. Default is 10.
-    cleaner_interval: `non_neg_integer()`, # Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
-    erlport_encoder: `%{module: atom(), func: atom(), args: list(any())}`, # Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
+    snake_ttl_minutes: non_neg_integer(), # Time-to-live for a Snake in minutes. Default is 15 min.
+    perpetual_workers: non_neg_integer(), # Number of Snakes to keep alive perpetually. Default is 10.
+    cleaner_interval: non_neg_integer(), # Interval in milliseconds for cleaning up inactive Snakes. Default is 60_000 ms.
+    erlport_encoder: %{module: atom(), func: atom(), args: list(any())}, # Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
     }
   ```
 
