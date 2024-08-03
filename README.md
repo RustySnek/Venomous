@@ -45,8 +45,6 @@ end
     # reload module for hot reloading.
     # default is already provided inside venomous python/ directory
     reload_module: :reload,
-    # log every hot reload
-    reload_logging: true, 
 
     # Erlport python options
     python_opts: [
@@ -64,6 +62,7 @@ end
   ```elixir
       config :venomous, :serpent_watcher, [
         enable: true, # Defaults to false
+        logging: true, # log every hot reload. Default: true
         module: :serpent_watcher, # Provided by default
         func: :watch_directories, # Provided by default
         args: [Venomous.SnakeManager], # Provided by default
