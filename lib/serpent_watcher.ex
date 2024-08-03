@@ -24,6 +24,7 @@ defmodule Venomous.SerpentWatcher do
   config :venomous, :snake_manager, %{
     ...
     reload_module: :reload, # default. reload function is hard coded to :reload
+    reload_logging: true, # Hot reload logging. Enabled by default
     ...
   }
   ```

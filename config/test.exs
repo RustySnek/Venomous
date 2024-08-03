@@ -9,6 +9,7 @@ config :venomous,
 
 config :venomous, :snake_manager, %{
   erlport_encoder: %{},
+  reload_logging: false,
   python_opts: [
     module_paths: ["python/"]
   ]
