@@ -7,7 +7,6 @@ defmodule Venomous.Application do
   @default_cleaner_interval 60_000
   @default_perpetual_workers 10
   @default_serpent_config [
-    blacklist: [],
     module: :serpent_watcher,
     func: :watch_directories,
     args: [Venomous.SnakeManager]
