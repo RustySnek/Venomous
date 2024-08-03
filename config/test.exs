@@ -9,8 +9,5 @@ config :venomous,
   ]
 
 config :venomous, :snake_manager, %{
-  erlport_encoder: %{},
-  python_opts: [
-    module_paths: ["python/", ".devenv/state/venv/lib/python3.11/site-packages"]
-  ]
+  erlport_encoder: %{}
 }
