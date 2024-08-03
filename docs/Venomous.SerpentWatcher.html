@@ -8,7 +8,7 @@
     <meta name="project" content="Venomous v0.4.1">
 
 
-    <title>Venomous.SnakeSupervisor — Venomous v0.4.1</title>
+    <title>Venomous.SerpentWatcher — Venomous v0.4.1</title>
     <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
 
 
@@ -126,21 +126,32 @@ Pages
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_supervisor.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/serpent_watcher.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Venomous.SnakeSupervisor</span> 
+    <span translate="no">Venomous.SerpentWatcher</span> 
     <small class="app-vsn" translate="no">(Venomous v0.4.1)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>DynamicSupervisor for Snakes
-The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Venomous.SnakeWorker</code></a> is defined with :max_children option</p><blockquote><h4 class="warning">Warning</h4><p>The maximum amount of python processes is capped at your systems maximum number of open file-descriptors
-<code class="inline">ulimit -n</code> to check your limit</p></blockquote>
+<p>🐍🔎 📁 A snake spy watching every step...</p><p>  Disabled by default. <code class="inline">config :venomous, :serpent_watcher, enable: true</code> to enable.</p><p>  Starts python watchdog process, watching over every python module inside module_paths directories.
+  Default watcher requires watchdog module, which can be installed with <code class="inline">mix venomous.watchdog install</code> 
+  Whenever file is edited/created/deleted watcher casts <code class="inline">:reload</code> with module name to SnakeManager.
+  The default reload module function imports and reloads the module from its name.</p><p>  ## Configuration</p><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w">
+  </span><span class="ss">serpent_watcher</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0366776989-1">[</span><span class="w">
+    </span><span class="ss">enable</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w">
+    </span><span class="ss">module</span><span class="p">:</span><span class="w"> </span><span class="ss">:serpent_watcher</span><span class="p">,</span><span class="w"> </span><span class="c1"># default</span><span class="w">
+    </span><span class="ss">func</span><span class="p">:</span><span class="w"> </span><span class="ss">:watch_directories</span><span class="p">,</span><span class="w"> </span><span class="c1">#default</span><span class="w">
+    </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0366776989-2">[</span><span class="nc">Venomous.SnakeManager</span><span class="p" data-group-id="0366776989-2">]</span><span class="w"> </span><span class="c1"># default</span><span class="w">
+  </span><span class="p" data-group-id="0366776989-1">]</span></code></pre><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0469223711-1">%{</span><span class="w">
+  </span><span class="n">...</span><span class="w">
+  </span><span class="ss">reload_module</span><span class="p">:</span><span class="w"> </span><span class="ss">:reload</span><span class="p">,</span><span class="w"> </span><span class="c1"># default. reload function is hard coded to :reload</span><span class="w">
+  </span><span class="n">...</span><span class="w">
+</span><span class="p" data-group-id="0469223711-1">}</span></code></pre>
     </section>
 
 </div>
@@ -159,7 +170,7 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#child_spec/1" data-no-tooltip translate="no">child_spec(arg)</a>
+        <a href="#child_spec/1" data-no-tooltip translate="no">child_spec(init_arg)</a>
 
       </div>
 
@@ -169,27 +180,27 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#deploy_snake_worker/1" data-no-tooltip translate="no">deploy_snake_worker(opts \\ [])</a>
+        <a href="#handle_continue/2" data-no-tooltip translate="no">handle_continue(atom, state)</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Deploys snake with given opts Map containing :erlport encoder/decoder module, func and args</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/GenServer.html#c:handle_continue/2"><code class="inline">GenServer.handle_continue/2</code></a>.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#init/1" data-no-tooltip translate="no">init(opts)</a>
+        <a href="#init/1" data-no-tooltip translate="no">init(args)</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html#c:init/1"><code class="inline">DynamicSupervisor.init/1</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/GenServer.html#c:init/1"><code class="inline">GenServer.init/1</code></a>.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#start_link/1" data-no-tooltip translate="no">start_link(opts \\ [strategy: :one_for_one, max_children: 50])</a>
+        <a href="#start_link/1" data-no-tooltip translate="no">start_link(args)</a>
 
       </div>
 
@@ -215,9 +226,9 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">child_spec(arg)</h1>
+    <h1 class="signature" translate="no">child_spec(init_arg)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_supervisor.ex#L11" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/serpent_watcher.ex#L34" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -230,18 +241,16 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
 <p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="deploy_snake_worker/1">
-
-    <span id="deploy_snake_worker/0"></span>
+<section class="detail" id="handle_continue/2">
 
   <div class="detail-header">
-    <a href="#deploy_snake_worker/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#handle_continue/2" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">deploy_snake_worker(opts \\ [])</h1>
+    <h1 class="signature" translate="no">handle_continue(atom, state)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_supervisor.ex#L24" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/serpent_watcher.ex#L51" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -251,7 +260,7 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
 
   <section class="docstring">
 
-<p>Deploys snake with given opts Map containing :erlport encoder/decoder module, func and args</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/elixir/GenServer.html#c:handle_continue/2"><code class="inline">GenServer.handle_continue/2</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="init/1">
@@ -261,9 +270,9 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">init(opts)</h1>
+    <h1 class="signature" translate="no">init(args)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_supervisor.ex#L17" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/serpent_watcher.ex#L40" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -273,21 +282,19 @@ The maximum cap of <a href="Venomous.SnakeWorker.html"><code class="inline">Veno
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html#c:init/1"><code class="inline">DynamicSupervisor.init/1</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/elixir/GenServer.html#c:init/1"><code class="inline">GenServer.init/1</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="start_link/1">
-
-    <span id="start_link/0"></span>
 
   <div class="detail-header">
     <a href="#start_link/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">start_link(opts \\ [strategy: :one_for_one, max_children: 50])</h1>
+    <h1 class="signature" translate="no">start_link(args)</h1>
 
-      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/snake_supervisor.ex#L13" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/serpent_watcher.ex#L36" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
