@@ -41,6 +41,13 @@ defmodule Venomous.SerpentWatcher do
     {:ok, args, {:continue, :start_serpent}}
   end
 
+  defp create_abs_paths(nil), do: []
+  defp create_abs_paths(path) when is_binary(path), do: [Path.expand(path)]
+
+  defp create_abs_paths(paths) when is_list(paths) do
+    Enum.map(paths, &Path.expand(&1))
+  end
+
   def handle_continue(:start_serpent, state) do
     python_opts = SnakeOpts.to_erlport_opts(state)
 
@@ -51,7 +58,8 @@ defmodule Venomous.SerpentWatcher do
 
       {:ok, pypid} ->
         Logger.info("Started Serpent Watcher")
-        :python.call(pypid, state[:module], state[:func], state[:args])
+        watchlist = create_abs_paths(state[:module_paths])
+        :python.call(pypid, state[:module], state[:func], [watchlist | state[:args]])
         exit(:serpent_down)
     end
   end
