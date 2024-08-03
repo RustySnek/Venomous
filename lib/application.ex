@@ -98,6 +98,6 @@ defmodule Venomous.Application do
   defp python_opts(env \\ Application.get_env(:venomous, :snake_manager, %{})) do
     env
     |> Map.get(:python_opts, [])
-    |> Keyword.merge(erlport_encoder: Map.get(env, :erlport_encoder, %{}))
+    |> Keyword.merge(erlport_encoder: Map.get(env, :erlport_encoder))
   end
 end
