@@ -4,12 +4,12 @@ config :venomous, :test_snake_supervisor, true
 
 config :venomous,
   serpent_watcher: [
+    logging: true,
     enable: true
   ]
 
 config :venomous, :snake_manager, %{
   erlport_encoder: %{},
-  reload_logging: false,
   python_opts: [
     module_paths: ["python/"]
   ]
