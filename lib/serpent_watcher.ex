@@ -18,7 +18,7 @@ defmodule Venomous.SerpentWatcher do
       logging: true, # Hot reload logging. Enabled by default
       module: :serpent_watcher, # default
       func: :watch_directories, #default
-      args: [Venomous.SnakeManager] # default
+      manager_pid: Venomous.SnakeManager # default
     ]
   ```
   ```elixir
@@ -61,7 +61,13 @@ defmodule Venomous.SerpentWatcher do
         Logger.info("Started Serpent Watcher")
         watchlist = create_abs_paths(state[:module_paths])
         logging = state[:logging]
-        :python.call(pypid, state[:module], state[:func], [state[:args], watchlist, logging])
+
+        :python.call(pypid, state[:module], state[:func], [
+          state[:manager_pid],
+          watchlist,
+          logging
+        ])
+
         exit(:serpent_down)
     end
   end

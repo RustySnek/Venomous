@@ -10,7 +10,7 @@ defmodule Venomous.Application do
     logging: true,
     module: :serpent_watcher,
     func: :watch_directories,
-    args: [Venomous.SnakeManager]
+    manager_pid: Venomous.SnakeManager
   ]
 
   def start(_type, _args) do
@@ -57,7 +57,7 @@ defmodule Venomous.Application do
       perpetual_workers: perpetual_workers,
       cleaner_interval_ms: cleaner_interval_ms,
       python_opts: python_opts,
-      reload_module: reload_module,
+      reload_module: reload_module
     }
   end
 
