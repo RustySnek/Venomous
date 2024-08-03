@@ -40,15 +40,15 @@ class ChangeHandler(FileSystemEventHandler):
             self.last_event_time[path] = current_time
             module_name = self.get_module_name(path)
             if module_name:
-                if self.logging:
-                    print(
-                        "Reloading module:",
-                        module_name,
-                        "Path:",
-                        path,
-                        f"[{action.upper()}]",
-                    )
                 try:
+                    if self.logging:
+                        print(
+                            "Reloading module:",
+                            module_name,
+                            "Path:",
+                            path,
+                            f"[{action.upper()}]",
+                        )
                     erlang.cast(self.pid, (Atom("reload".encode("utf-8")), module_name))
                 except:
                     pass
