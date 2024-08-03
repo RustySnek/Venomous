@@ -7,6 +7,7 @@ defmodule Venomous.Application do
   @default_cleaner_interval 60_000
   @default_perpetual_workers 10
   @default_serpent_config [
+    logging: true,
     module: :serpent_watcher,
     func: :watch_directories,
     args: [Venomous.SnakeManager]
@@ -47,7 +48,6 @@ defmodule Venomous.Application do
       Map.get(config, :cleaner_interval, @default_cleaner_interval)
 
     reload_module = Map.get(config, :reload_module, :reload)
-    reload_logging = Map.get(config, :reload_logging, true)
 
     python_opts = python_opts(config)
 
@@ -58,7 +58,6 @@ defmodule Venomous.Application do
       cleaner_interval_ms: cleaner_interval_ms,
       python_opts: python_opts,
       reload_module: reload_module,
-      reload_logging: reload_logging
     }
   end
 
