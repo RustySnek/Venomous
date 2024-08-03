@@ -47,6 +47,7 @@ defmodule Venomous.Application do
       Map.get(config, :cleaner_interval, @default_cleaner_interval)
 
     reload_module = Map.get(config, :reload_module, :reload)
+    reload_logging = Map.get(config, :reload_logging, true)
 
     python_opts = python_opts(config)
 
@@ -56,7 +57,8 @@ defmodule Venomous.Application do
       perpetual_workers: perpetual_workers,
       cleaner_interval_ms: cleaner_interval_ms,
       python_opts: python_opts,
-      reload_module: reload_module
+      reload_module: reload_module,
+      reload_logging: reload_logging
     }
   end
 

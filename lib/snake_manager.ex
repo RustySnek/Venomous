@@ -46,11 +46,12 @@ defmodule Venomous.SnakeManager do
 
   def handle_info({:reload, module}, state) do
     reload_module = state.reload_module
+    logging = state.reload_logging
 
     serpent_opts = %Venomous.SnakeArgs{
       module: reload_module,
       func: :reload,
-      args: [module |> to_string()]
+      args: [module |> to_string(), logging]
     }
 
     :ets.tab2list(state.table)

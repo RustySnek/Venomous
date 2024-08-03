@@ -45,6 +45,8 @@ end
     # reload module for hot reloading.
     # default is already provided inside venomous python/ directory
     reload_module: :reload,
+    # log every hot reload
+    reload_logging: true, 
 
     # Erlport python options
     python_opts: [
