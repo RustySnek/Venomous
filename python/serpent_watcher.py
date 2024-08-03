@@ -1,4 +1,5 @@
 import importlib
+import importlib.util
 import os
 import pkgutil
 import time
@@ -8,34 +9,14 @@ from erlport.erlterms import Atom
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-PACKAGE_PATHS = set()
-
-
-def _is_forbidden(name: str):
-    return name.startswith("erlport") or name == "this"
-
-
-def _set_package_paths():
-    global PACKAGE_PATHS
-    for module_info in pkgutil.iter_modules():
-        try:
-            if _is_forbidden(module_info.name):
-                continue
-            module = importlib.import_module(module_info.name)
-            file = module.__file__
-            if file:
-                module_path = os.path.dirname(file)
-                PACKAGE_PATHS.add(module_path)
-        except:
-            continue
-
 
 class ChangeHandler(FileSystemEventHandler):
-    def __init__(self, pid):
+    def __init__(self, pid, paths):
         super().__init__()
         self.last_event_time = {}
         self.debounce_time = 0.5
         self.pid = pid
+        self.paths = paths
 
     def on_modified(self, event):
         if event.src_path.endswith(".py"):
@@ -67,20 +48,21 @@ class ChangeHandler(FileSystemEventHandler):
         if path.endswith(".py"):
             module_path = path[:-3]
             module_name = module_path.replace(os.path.sep, ".")
-            for package in PACKAGE_PATHS:
-                if module_name.startswith(package.replace(os.path.sep, ".")):
+            for package in self.paths:
+                package_name = package.replace(os.path.sep, ".")
+                if module_name.startswith(package_name):
                     return module_name[
                         len(package.replace(os.path.sep, ".")) + 1 :
                     ]  # Remove package prefix
         return None
 
 
-def watch_directories(pid):
-    _set_package_paths()
-    event_handler = ChangeHandler(pid)
+def watch_directories(paths, pid):
+    paths = [path.decode() for path in paths]
+    event_handler = ChangeHandler(pid, paths)
     observer = Observer()
 
-    for directory in PACKAGE_PATHS:
+    for directory in paths:
         if os.path.exists(directory):
             observer.schedule(event_handler, directory, recursive=True)
 
