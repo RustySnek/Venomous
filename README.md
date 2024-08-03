@@ -65,7 +65,7 @@ end
         logging: true, # log every hot reload. Default: true
         module: :serpent_watcher, # Provided by default
         func: :watch_directories, # Provided by default
-        args: [Venomous.SnakeManager], # Provided by default
+        manager_pid: Venomous.SnakeManager, # Provided by default
         ]
   ```
 ### Configure the SnakeSupervisor and PetSnakeSupervisor (if needed) to start on application boot.
