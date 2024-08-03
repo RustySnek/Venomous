@@ -9,6 +9,7 @@ defmodule Mix.Tasks.Venomous.Watchdog do
   @tag "v4.0.1"
   @path "#{File.cwd!()}/python"
 
+  @impl Mix.Task
   def run(args) do
     case args do
       ["install"] -> install_watchdog(@github_repo, @tag)
