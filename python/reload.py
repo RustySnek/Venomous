@@ -3,14 +3,10 @@ import pkgutil
 from types import ModuleType
 
 
-def reload(module: bytes, logging: bool = True):
+def reload(module: bytes):
     for _importer, modname, _ispkg in pkgutil.iter_modules():
-        if modname == module.decode():
+        if module.decode().startswith(modname):
             mod = importlib.import_module(modname)
             if isinstance(mod, ModuleType):
                 importlib.reload(mod)
-                if logging:
-                    print("Reloaded:", mod)
                 return
-            elif logging:
-                print("Failed to reload:", mod)
