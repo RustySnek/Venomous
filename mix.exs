@@ -31,6 +31,7 @@ defmodule Venomous.MixProject do
       },
       files: [
         "lib",
+        "mix.exs",
         "README.md",
         "LICENSE",
         "PYTHON.md",
