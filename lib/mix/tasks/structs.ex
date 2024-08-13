@@ -1,10 +1,11 @@
 defmodule Mix.Tasks.Venomous.Structs do
+  @moduledoc false
   use Mix.Task
 
   @default_imports """
   from typing import Any
   from dataclasses import dataclass
-  from venomous_trait import VenomousTrait
+  from venomous import VenomousTrait
   """
 
   @impl Mix.Task
@@ -67,7 +68,7 @@ defmodule Mix.Tasks.Venomous.Structs do
     attributes =
       args
       |> Enum.map(fn attr_atom ->
-        attr_atom |> to_string |> Kernel.<>(": Any")
+        attr_atom |> to_string |> Kernel.<>(": Any = None")
       end)
 
     """
@@ -164,7 +165,7 @@ defmodule Mix.Tasks.Venomous.Structs do
     struct_dic =
       Enum.reduce(structs, "\nvenomous_structs = {\n    ", fn struct_mod, acc ->
         name = to_string(struct_mod)
-        acc <> "\"#{name}\": #{sanitize_modulename(name)},\n    "
+        acc <> "Atom(b\"#{name}\"): #{sanitize_modulename(name)},\n    "
       end)
       |> Kernel.<>("}")
 
@@ -175,9 +176,21 @@ defmodule Mix.Tasks.Venomous.Structs do
       end)
       |> Enum.map(&generate_python_class/1)
 
-    ("""
-     #{@default_imports} 
-     """ <> Enum.join(struct_classes, "\n") <> struct_dic)
+    """
+    #{@default_imports}
+    #{Enum.join(struct_classes, "\n")}#{struct_dic}
+
+    def encoder(value: Any) -> Any:
+        if isinstance(value, VenomousTrait):
+           return value.into_erl()
+        return value
+
+    def decoder(value: Any) -> Any:
+       if isinstance(value, Map):
+          if struct := value.get(Atom(b"__struct__")):
+             return venomous_structs[struct].from_dict(value)
+       return value
+    """
     |> IO.puts()
   end
 end
