@@ -70,6 +70,14 @@ defmodule Venomous.SnakeWorker do
     {:noreply, pypid}
   end
 
+  def handle_info({_ref, :done}, state) do
+    {:noreply, state}
+  end
+
+  def handle_info({:DOWN, _ref, :process, _pid, _reason}, state) do
+    {:noreply, state}
+  end
+
   def handle_info(
         {:reload, %SnakeArgs{module: module, func: func, args: args}},
         pypid
@@ -90,7 +98,7 @@ defmodule Venomous.SnakeWorker do
   end
 
   def handle_call({:run_snake, origin, %SnakeArgs{} = snake_args}, _from, pypid) do
-    Task.start(fn ->
+    Task.async(fn ->
       data =
         try do
           :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)
@@ -105,6 +113,9 @@ defmodule Venomous.SnakeWorker do
                     backtrace: backtrace
                   }
 
+                %ErlangError{original: reason} ->
+                  reason
+
                 exception ->
                   exception
               end
@@ -115,9 +126,11 @@ defmodule Venomous.SnakeWorker do
       case data do
         %{:error => error_data} ->
           send(origin, {:SNAKE_ERROR, error_data})
+          :done
 
         _ ->
           send(origin, {:SNAKE_DONE, data})
+          :done
       end
     end)
 
