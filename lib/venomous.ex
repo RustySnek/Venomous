@@ -118,11 +118,10 @@ defmodule Venomous do
   @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom()) :: :ok
   @spec slay_python_worker(SnakeWorker.t()) :: :ok
   def slay_python_worker(
-        %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid},
+        %SnakeWorker{pid: pid, pypid: _pypid, os_pid: os_pid},
         termination_style \\ :peaceful
       ) do
     send(SnakeManager, {:sacrifice_snake, pid})
-    :python.stop(pypid)
     # We exterminate the snake in the sanest way possible.
     if termination_style == :brutal,
       do: System.cmd("sh", ["-c", "kill -9 #{os_pid} 2&>/dev/null"], parallelism: true)
@@ -249,12 +248,16 @@ defmodule Venomous do
     end
 
     receive do
-      {:EXIT, _from, reason} ->
-        slay_python_worker(worker, :brutal)
-        exit(reason)
+      # {:EXIT, _from, reason} ->
+      #  dbg(_from)
+      #  slay_python_worker(worker, :brutal)
+
+      # exit(reason)
 
       {:EXIT, reason} ->
+        dbg(reason)
         slay_python_worker(worker, :brutal)
+
         exit(reason)
 
       {:SNAKE_DONE, data} ->
