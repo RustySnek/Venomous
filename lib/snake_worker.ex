@@ -120,11 +120,11 @@ defmodule Venomous.SnakeWorker do
                   exception
               end
 
-            %{error: error_message}
+            {:error, error_message}
         end
 
       case data do
-        %{:error => error_data} ->
+        {:error, error_data} ->
           send(origin, {:SNAKE_ERROR, error_data})
           :done
 
