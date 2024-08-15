@@ -39,10 +39,20 @@ defmodule VenomousTest do
   end
 
   test "python timeout" do
-    result =
-      SnakeArgs.from_params(:time, :sleep, [0.5]) |> python(python_timeout: 100)
+    slip = SnakeArgs.from_params(:time, :sleep, [0.5])
 
-    assert result == %{error: :timeout}
+    result =
+      slip |> python(python_timeout: 100)
+
+    result2 =
+      slip |> python(python_timeout: 100)
+
+    snake = retrieve_snake!()
+    snake_run(slip, snake, python_timeout: 100)
+    assert snake_run(slip, snake, python_timeout: 100) == {:error, :process_is_dead}
+
+    assert result == {:error, :timeout}
+    assert result2 == {:error, :timeout}
   end
 
   test "snake errors" do
