@@ -118,7 +118,7 @@ defmodule Venomous do
   @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom()) :: :ok
   @spec slay_python_worker(SnakeWorker.t()) :: :ok
   def slay_python_worker(
-        %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid},
+        %SnakeWorker{pid: pid, pypid: _pypid, os_pid: os_pid},
         termination_style \\ :peaceful
       ) do
     send(SnakeManager, {:sacrifice_snake, pid})
