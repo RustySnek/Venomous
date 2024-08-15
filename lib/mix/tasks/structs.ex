@@ -56,7 +56,7 @@ defmodule Mix.Tasks.Venomous.Structs do
     class #{class_name}Struct(VenomousTrait, #{class_name}):
         __struct__: str = "#{name}"
         
-        def __init__(self) -> None:
+        def __post_init__(self) -> None:
             #{class_name}.__init__(self)
 
     """

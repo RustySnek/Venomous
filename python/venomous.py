@@ -7,15 +7,18 @@ from erlport.erlterms import Atom, Map
 def encode_basic_type_strings(data):
     if isinstance(data, str):
         return data.encode("utf-8")
-    elif isinstance(data, list):
-        return [encode_basic_type_strings(item) for item in data]
-    elif isinstance(data, tuple):
-        return tuple(encode_basic_type_strings(item) for item in data)
+    elif isinstance(data, (list, tuple, set)):
+        return type(data)(encode_basic_type_strings(item) for item in data)
     elif isinstance(data, dict):
         return {
             encode_basic_type_strings(key): encode_basic_type_strings(value)
             for key, value in data.items()
         }
+    elif isinstance(data, VenomousTrait):
+        return data.into_erl()
+
+    elif (_dic := getattr(data, "__dict__", None)) != None:
+        return encode_basic_type_strings(_dic)
     else:
         return data
 
@@ -34,7 +37,7 @@ class VenomousTrait:
                 continue
             if isinstance(val, VenomousTrait):
                 val = val.into_erl()
-            elif _val := getattr(val, "__dict__", None):
+            elif (_val := getattr(val, "__dict__", None)) != None:
                 val = encode_basic_type_strings(_val)
 
             setattr(self, key, val)
