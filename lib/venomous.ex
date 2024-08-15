@@ -118,10 +118,11 @@ defmodule Venomous do
   @spec slay_python_worker(SnakeWorker.t(), termination_style :: atom()) :: :ok
   @spec slay_python_worker(SnakeWorker.t()) :: :ok
   def slay_python_worker(
-        %SnakeWorker{pid: pid, pypid: _pypid, os_pid: os_pid},
+        %SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid},
         termination_style \\ :peaceful
       ) do
     send(SnakeManager, {:sacrifice_snake, pid})
+
     # We exterminate the snake in the sanest way possible.
     if termination_style == :brutal,
       do: System.cmd("sh", ["-c", "kill -9 #{os_pid} 2&>/dev/null"], parallelism: true)
@@ -224,7 +225,7 @@ defmodule Venomous do
   - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | %{error: :timeout} | %SnakeError{} retrieves output of python function or error
+    - any() | {:error, :timeout} | %SnakeError{} retrieves output of python function or error
 
   """
   @spec snake_run(SnakeArgs.t(), SnakeWorker.t(), keyword()) :: any()
@@ -243,19 +244,16 @@ defmodule Venomous do
     try do
       GenServer.call(pid, {:run_snake, self(), snake_args})
     catch
-      :exit, _reason ->
+      :exit, {:noproc, _genserver} ->
         slay_python_worker(worker, :brutal)
+        send(self(), :SNAKE_DEAD)
     end
 
     receive do
-      # {:EXIT, _from, reason} ->
-      #  dbg(_from)
-      #  slay_python_worker(worker, :brutal)
-
-      # exit(reason)
+      :SNAKE_DEAD ->
+        {:error, :process_is_dead}
 
       {:EXIT, reason} ->
-        dbg(reason)
         slay_python_worker(worker, :brutal)
 
         exit(reason)
@@ -275,7 +273,7 @@ defmodule Venomous do
     after
       python_timeout ->
         slay_python_worker(worker, :brutal)
-        %{error: :timeout}
+        {:error, :timeout}
     end
   end
 
@@ -291,7 +289,7 @@ defmodule Venomous do
   - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | %{error: :timeout} | {retrieve_error: any()} retrieves output of python function or error
+    - any() | {:error, :timeout} | {retrieve_error: any()} retrieves output of python function or error
   """
   @spec python(SnakeArgs.t(), keyword()) :: any()
   @spec python(SnakeArgs.t()) :: any()
@@ -360,7 +358,7 @@ defmodule Venomous do
   """
   @spec pet_snake_run(SnakeArgs.t(), name :: atom()) :: any() | :not_found
   @spec pet_snake_run(SnakeArgs.t(), name :: atom(), timeout()) ::
-          any() | :not_found | %{error: :timeout}
+          any() | :not_found | {:error, :timeout}
   def pet_snake_run(%SnakeArgs{} = args, name, timeout \\ @default_timeout) do
     case GenServer.call(PetSnakeManager, {:get_snake, name}) do
       {:error, reason} ->
@@ -378,7 +376,7 @@ defmodule Venomous do
         error
     after
       timeout ->
-        %{error: :timeout}
+        {:error, :timeout}
     end
   end
 end
