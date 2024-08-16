@@ -142,17 +142,17 @@ Pages
   Default watcher requires watchdog module, which can be installed with <code class="inline">mix venomous.watchdog install</code> 
   Whenever file is edited/created/deleted watcher casts <code class="inline">:reload</code> with module name to SnakeManager.
   The default reload module function imports and reloads the module from its name.</p><p>  ## Configuration</p><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w">
-  </span><span class="ss">serpent_watcher</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7672996352-1">[</span><span class="w">
+  </span><span class="ss">serpent_watcher</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7465346879-1">[</span><span class="w">
     </span><span class="ss">enable</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="c1"># Disabled by default</span><span class="w">
     </span><span class="ss">logging</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="c1"># Hot reload logging. Enabled by default</span><span class="w">
     </span><span class="ss">module</span><span class="p">:</span><span class="w"> </span><span class="ss">:serpent_watcher</span><span class="p">,</span><span class="w"> </span><span class="c1"># default</span><span class="w">
     </span><span class="ss">func</span><span class="p">:</span><span class="w"> </span><span class="ss">:watch_directories</span><span class="p">,</span><span class="w"> </span><span class="c1">#default</span><span class="w">
     </span><span class="ss">manager_pid</span><span class="p">:</span><span class="w"> </span><span class="nc">Venomous.SnakeManager</span><span class="w"> </span><span class="c1"># default</span><span class="w">
-  </span><span class="p" data-group-id="7672996352-1">]</span></code></pre><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0291245919-1">%{</span><span class="w">
+  </span><span class="p" data-group-id="7465346879-1">]</span></code></pre><pre><code class="makeup elixir" translate="no"><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8107251048-1">%{</span><span class="w">
   </span><span class="n">...</span><span class="w">
   </span><span class="ss">reload_module</span><span class="p">:</span><span class="w"> </span><span class="ss">:reload</span><span class="p">,</span><span class="w"> </span><span class="c1"># default. reload function is hard coded to :reload</span><span class="w">
   </span><span class="n">...</span><span class="w">
-</span><span class="p" data-group-id="0291245919-1">}</span></code></pre>
+</span><span class="p" data-group-id="8107251048-1">}</span></code></pre>
     </section>
 
 </div>
