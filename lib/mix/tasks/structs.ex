@@ -123,9 +123,17 @@ defmodule Mix.Tasks.Venomous.Structs do
   end
 
   defp both_way_modules(modules) do
+    encoder = """
+        if isinstance(value, dict):
+            return {key: encoder(value) for key, value in value.items()}
+        if isinstance(value, (list, tuple, set)):
+            return type(value)(encoder(item) for item in value)
+
+    """
+
     {classes, keypairs, encoders} =
       modules
-      |> Enum.reduce({"", "", ""}, fn module, classes_and_keypair_and_encoder ->
+      |> Enum.reduce({"", "", encoder}, fn module, classes_and_keypair_and_encoder ->
         module = prefix_elixir_to_module(module)
 
         String.split(module, ":") |> create_class_and_keypair(classes_and_keypair_and_encoder)
@@ -141,11 +149,14 @@ defmodule Mix.Tasks.Venomous.Structs do
         return value
 
     def decoder(value: Any) -> Any:
-        if isinstance(value, Map):
+        if isinstance(value, (Map, dict)):
             if struct := value.get(Atom(b"__struct__")):
-                return venomous_structs[struct].from_dict(value)
-        return value
+                return venomous_structs[struct].from_dict(value, venomous_structs)
+            return {decoder(key): decoder(val) for key, val in value.items()}
+        elif isinstance(value, (set, list, tuple)):
+            return type(value)(decoder(_val) for _val in value)
 
+        return value
     """
   end
 
@@ -186,10 +197,11 @@ defmodule Mix.Tasks.Venomous.Structs do
         return value
 
     def decoder(value: Any) -> Any:
-       if isinstance(value, Map):
-          if struct := value.get(Atom(b"__struct__")):
-             return venomous_structs[struct].from_dict(value)
-       return value
+        if isinstance(value, Map):
+            if struct := value.get(Atom(b"__struct__")):
+                return venomous_structs[struct].from_dict(value)
+        return value
+
     """
     |> IO.puts()
   end
