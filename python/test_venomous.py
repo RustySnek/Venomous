@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from encoder import encode_basic_type_strings
-
 
 @dataclass
 class Test:
@@ -20,7 +18,11 @@ from typing import Any
 from erlport.erlang import set_decoder, set_encoder
 from erlport.erlterms import Atom, Map
 
-from venomous import VenomousTrait, decode_basic_types_strings
+from venomous import (
+    VenomousTrait,
+    decode_basic_types_strings,
+    encode_basic_type_strings,
+)
 
 
 @dataclass
