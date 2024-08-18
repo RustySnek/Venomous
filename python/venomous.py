@@ -62,8 +62,11 @@ class VenomousTrait:
         """
         returns object with attrs from given Map/dict
         """
-        self = cls()  # if you are missing __struct__, bad luck
+        self = cls.__new__(cls)  # if you are missing __struct__, bad luck
+        self.__struct__ = cls.__struct__
         for key, val in erl_map.items():
+            if key == Atom(b"__struct__"):
+                continue
             if isinstance(key, bytes):
                 key = key.decode("utf-8")
             if getattr(self, key, None) and val == b"nil":
@@ -86,6 +89,7 @@ class VenomousTrait:
                 val = encode_basic_type_strings(_val)
 
             setattr(self, key, val)
+
         return self
 
     def into_erl(self) -> Dict:

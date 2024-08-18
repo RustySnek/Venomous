@@ -5,6 +5,7 @@ defmodule Mix.Tasks.Venomous.Structs do
   @default_imports """
   from typing import Any
   from dataclasses import dataclass
+  from erlport.erlterms import Map, Atom
   from venomous import VenomousTrait
   """
 
@@ -54,10 +55,7 @@ defmodule Mix.Tasks.Venomous.Structs do
     """
     @dataclass
     class #{class_name}Struct(VenomousTrait, #{class_name}):
-        __struct__: str = "#{name}"
-        
-        def __post_init__(self) -> None:
-            #{class_name}.__init__(self)
+        __struct__: Atom = Atom(b"#{name}")
 
     """
   end
@@ -75,7 +73,7 @@ defmodule Mix.Tasks.Venomous.Structs do
     @dataclass
     class #{remove_prefix}(VenomousTrait):
         #{Enum.join(attributes, "\n    ")}
-        __struct__: str = "#{name}"
+        __struct__: Atom = Atom(b"#{name}")
     """
   end
 
@@ -125,7 +123,7 @@ defmodule Mix.Tasks.Venomous.Structs do
   defp both_way_modules(modules) do
     encoder = """
         if isinstance(value, dict):
-            return {key: encoder(value) for key, value in value.items()}
+            return {encoder(key): encoder(value) for key, value in value.items()}
         if isinstance(value, (list, tuple, set)):
             return type(value)(encoder(item) for item in value)
 

@@ -1,7 +1,4 @@
-import importlib
-import importlib.util
 import os
-import pkgutil
 import time
 
 from erlport import erlang
