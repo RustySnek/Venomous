@@ -72,7 +72,31 @@ defmodule Venomous do
     ```elixir
     config :venomous, :serpent_watcher, enable: true
     ```
-    
+  ### Struct/Class comp
+    Venomous provides an easy way to convert structs into classes and back with VenomousTrait class and `mix venomous.structs ...` task.
+    ```
+    $ mix venomous.structs
+    Simple utility to create python elixir compatible classes.
+
+            VenomousTrait class provides 2 functions: 
+              - def from_dict(cls, erl_map: Map | Dict, structs: Dict = {}) -> cls
+                # converts Erlport Map or a Dict into the object class
+              - def into_erl(self) -> Map
+                # returns erlang compatible struct from self
+
+               
+            To create basic python classes and encode/decode functions based on structs: 
+                - mix venomous.structs MyModule.MyStruct MyModule.MoreStructs ...
+
+            To create extended classes depending on existing python class: 
+                - mix venomous.structs MyModule.MyStruct:PythonClassName ...
+
+            To create for all available structs inside an application
+                - mix venomous.structs all my_application
+    ```
+
+    You can see this used in the [test_struct.exs](https://github.com/RustySnek/Venomous/blob/struct_class_handling/test/test_struct.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/struct_class_handling/python/test_venomous.py)
+
 
   ## Auxiliary Functions
 
