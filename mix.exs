@@ -1,7 +1,7 @@
 defmodule Venomous.MixProject do
   use Mix.Project
 
-  @version "0.5.2"
+  @version "0.6.0"
 
   def project do
     [
@@ -36,6 +36,7 @@ defmodule Venomous.MixProject do
         "LICENSE",
         "PYTHON.md",
         "python/serpent_watcher.py",
+        "python/venomous.py",
         "python/reload.py"
       ]
     ]
