@@ -73,7 +73,6 @@ def erl_encode():
 
 def test_venomous_trait(test):
     [test, abc] = test
-    print(test)
     test = test[0]["x"]
 
     return [Venom(test_struct=test), abc]
