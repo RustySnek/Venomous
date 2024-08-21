@@ -277,6 +277,10 @@ defmodule Venomous do
       :SNAKE_DEAD ->
         {:error, :process_is_dead}
 
+      {:EXIT, pid, reason} when not is_port(pid) ->
+        slay_python_worker(worker, :brutal)
+        exit(reason)
+
       {:EXIT, reason} ->
         slay_python_worker(worker, :brutal)
 
