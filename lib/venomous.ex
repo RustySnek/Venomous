@@ -221,10 +221,10 @@ defmodule Venomous do
       {:retrieve_error, _} ->
         receive do
           {:EXIT, reason} ->
-            exit(reason)
+            {:killed, reason}
 
           {:EXIT, _from, reason} ->
-            exit(reason)
+            {:killed, reason}
         after
           interval ->
             retrieve_snake!(interval)
@@ -249,7 +249,7 @@ defmodule Venomous do
   - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | {:error, :timeout} | %SnakeError{} retrieves output of python function or error
+    - any() | {:error, :timeout}  | {:killed, reason} | %SnakeError{} - retrieves output of python function or error
 
   """
   @spec snake_run(SnakeArgs.t(), SnakeWorker.t(), keyword()) :: any()
@@ -279,12 +279,11 @@ defmodule Venomous do
 
       {:EXIT, pid, reason} when not is_port(pid) ->
         slay_python_worker(worker, :brutal)
-        exit(reason)
+        {:killed, reason}
 
       {:EXIT, reason} ->
         slay_python_worker(worker, :brutal)
-
-        exit(reason)
+        {:killed, reason}
 
       {:SNAKE_DONE, data} ->
         GenServer.call(SnakeManager, {:molt_snake, :ready, worker})
@@ -317,7 +316,7 @@ defmodule Venomous do
   - `:kill_python_on_exception` Should python process be killed on exception. Should be set to true if your python process exits by itself. Default: false
 
   ## Returns 
-    - any() | {:error, :timeout} | {retrieve_error: any()} retrieves output of python function or error
+    - any() | {:error, :timeout} | {:killed, reason} | {retrieve_error: any()} retrieves output of python function or error
   """
   @spec python(SnakeArgs.t(), keyword()) :: any()
   @spec python(SnakeArgs.t()) :: any()
