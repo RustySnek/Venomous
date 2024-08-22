@@ -221,10 +221,10 @@ defmodule Venomous do
       {:retrieve_error, _} ->
         receive do
           {:EXIT, reason} ->
-            {:killed, reason}
+            exit(reason)
 
           {:EXIT, _from, reason} ->
-            {:killed, reason}
+            exit(reason)
         after
           interval ->
             retrieve_snake!(interval)
