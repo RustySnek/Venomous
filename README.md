@@ -172,6 +172,6 @@ Simple utility to create python elixir compatible classes.
             - mix venomous.structs all my_application
 ```
 
-You can see this used in the [struct_test.exs](https://github.com/RustySnek/Venomous/blob/struct_class_handling/test/struct_test.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/struct_class_handling/python/test_venomous.py)
+You can see this used in the [struct_test.exs](https://github.com/RustySnek/Venomous/blob/master/test/struct_test.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/master/python/test_venomous.py)
 
 
