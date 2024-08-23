@@ -101,7 +101,7 @@ defmodule Venomous.SnakeWorker do
     Task.async(fn ->
       data =
         try do
-          :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)
+          {:SNAKE_DONE, :python.call(pypid, snake_args.module, snake_args.func, snake_args.args)}
         rescue
           error ->
             error_message =
@@ -120,18 +120,11 @@ defmodule Venomous.SnakeWorker do
                   exception
               end
 
-            {:error, error_message}
+            {:SNAKE_ERROR, error_message}
         end
 
-      case data do
-        {:error, error_data} ->
-          send(origin, {:SNAKE_ERROR, error_data})
-          :done
-
-        _ ->
-          send(origin, {:SNAKE_DONE, data})
-          :done
-      end
+      send(origin, data)
+      :done
     end)
 
     {:reply, :ok, pypid}
