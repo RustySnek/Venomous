@@ -5,7 +5,7 @@ Provides `VenomousTrait` used for simplification of conversion between elixir st
 from dataclasses import dataclass
 from typing import Any, Dict
 
-from erlport.erlterms import Atom, Map
+from erlport.erlterms import Atom, List, Map
 
 
 def encode_basic_type_strings(data: Any):
@@ -73,6 +73,8 @@ class VenomousTrait:
                 continue
             if isinstance(val, bytes):
                 val = val.decode("utf-8")
+            elif isinstance(val, List):
+                val = [encode_basic_type_strings(_val) for _val in val]
             if structs:
 
                 if (
