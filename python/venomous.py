@@ -74,7 +74,7 @@ class VenomousTrait:
             if isinstance(val, bytes):
                 val = val.decode("utf-8")
             elif isinstance(val, List):
-                val = [encode_basic_type_strings(_val) for _val in val]
+                val = [decode_basic_types_strings(_val) for _val in val]
             if structs:
 
                 if (
