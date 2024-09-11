@@ -3,7 +3,7 @@ Provides `VenomousTrait` used for simplification of conversion between elixir st
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any, Callable, Dict
 
 from erlport.erlterms import Atom, List, Map
 
@@ -76,7 +76,6 @@ class VenomousTrait:
             elif isinstance(val, List):
                 val = [decode_basic_types_strings(_val) for _val in val]
             if structs:
-
                 if (
                     isinstance(val, Map)
                     and (_val := val.get(Atom(b"__struct__"), None)) != None
@@ -94,11 +93,14 @@ class VenomousTrait:
 
         return self
 
-    def into_erl(self) -> Dict:
+    def into_erl(
+        self, encode_func: Callable = encode_basic_type_strings, *args
+    ) -> Dict:
         """
+        def into_erl(self, encode_func // encode_basic_type_strings, *args) -> Dict[Atom, Any]
         converts self into erlang-like Map
         """
         return {
-            Atom(key.encode("utf-8")): encode_basic_type_strings(value)
+            Atom(key.encode("utf-8")): encode_func(value, *args)
             for key, value in self.__dict__.items()
         }

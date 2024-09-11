@@ -158,7 +158,7 @@ Simple utility to create python elixir compatible classes.
         VenomousTrait class provides 2 functions: 
           - def from_dict(cls, erl_map: Map | Dict, structs: Dict = {}) -> cls
             # converts Erlport Map or a Dict into the object class
-          - def into_erl(self) -> Map
+          - def into_erl(self, encoding_function \\ encode_basic_type_strings, *args \\ passed into the encoding function) -> Map
             # returns erlang compatible struct from self
 
            
