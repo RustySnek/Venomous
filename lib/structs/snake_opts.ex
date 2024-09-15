@@ -10,14 +10,17 @@ defmodule Venomous.SnakeOpts do
     :packet_bytes,
     :python_executable
   ]
-  @default_python_path :code.priv_dir(:venomous)
+
+  defp dir do
+    :code.priv_dir(:venomous)
+  end
 
   defp construct_python_opts({:module_paths, paths}) when is_list(paths) do
-    {:python_path, [@default_python_path | paths] |> Enum.map(&to_charlist(&1))}
+    {:python_path, [dir() |> List.to_string() | paths] |> Enum.map(&to_charlist(&1))}
   end
 
   defp construct_python_opts({:module_paths, path}) when is_binary(path) do
-    {:python_path, [to_charlist(@default_python_path) | to_charlist(path)]}
+    {:python_path, [dir() | to_charlist(path)]}
   end
 
   defp construct_python_opts({:envvars, vars}) when is_list(vars) do

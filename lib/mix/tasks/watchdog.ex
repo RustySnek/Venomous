@@ -7,7 +7,7 @@ defmodule Mix.Tasks.Venomous.Watchdog do
   @shortdoc "Installs watchdog module into python/ dir"
   @github_repo "https://github.com/gorakhargosh/watchdog"
   @tag "v4.0.1"
-  @path "#{File.cwd!()}/python"
+  @path "#{File.cwd!()}/priv"
 
   @impl Mix.Task
   def run(args) do
