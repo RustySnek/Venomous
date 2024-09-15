@@ -19,7 +19,7 @@ defmodule Venomous.MixProject do
         main: "Venomous",
         logo: "./assets/venomous_logo.png",
         extras: ["README.md", "PYTHON.md"]
-      ]
+      ],
     ]
   end
 
@@ -35,9 +35,9 @@ defmodule Venomous.MixProject do
         "README.md",
         "LICENSE",
         "PYTHON.md",
-        "python/serpent_watcher.py",
-        "python/venomous.py",
-        "python/reload.py"
+        "priv/serpent_watcher.py",
+        "priv/venomous.py",
+        "priv/reload.py"
       ]
     ]
   end

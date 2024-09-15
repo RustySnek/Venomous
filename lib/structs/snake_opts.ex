@@ -10,7 +10,7 @@ defmodule Venomous.SnakeOpts do
     :packet_bytes,
     :python_executable
   ]
-  @default_python_path "#{File.cwd!()}/python"
+  @default_python_path :code.priv_dir(:venomous)
 
   defp construct_python_opts({:module_paths, paths}) when is_list(paths) do
     {:python_path, [@default_python_path | paths] |> Enum.map(&to_charlist(&1))}

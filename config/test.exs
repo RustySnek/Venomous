@@ -11,6 +11,6 @@ config :venomous,
 config :venomous, :snake_manager, %{
   erlport_encoder: %{},
   python_opts: [
-    module_paths: ["python/"]
+    module_paths: ["priv/"]
   ]
 }

@@ -21,7 +21,7 @@ defmodule VenomousTest.TestStruct do
   test "venom struct/class" do
     {:ok, snake} =
       adopt_snake_pet(:struct_test,
-        module_paths: ["../python/"],
+        module_paths: [:code.priv_dir(:venomous)],
         erlport_encoder: %{
           module: :test_venomous,
           func: :erl_encode,
