@@ -5,7 +5,7 @@ config :venomous, :test_snake_supervisor, true
 config :venomous,
   serpent_watcher: [
     logging: false,
-    enable: true
+    enable: false
   ]
 
 config :venomous, :snake_manager, %{
