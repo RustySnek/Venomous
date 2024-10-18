@@ -1,7 +1,7 @@
 defmodule Venomous.MixProject do
   use Mix.Project
 
-  @version "0.7.1"
+  @version "0.7.2"
 
   def project do
     [
@@ -19,7 +19,7 @@ defmodule Venomous.MixProject do
         main: "Venomous",
         logo: "./assets/venomous_logo.png",
         extras: ["README.md", "PYTHON.md"]
-      ],
+      ]
     ]
   end
 
