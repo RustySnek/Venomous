@@ -35,10 +35,10 @@ defmodule Venomous.MixProject do
         "README.md",
         "LICENSE",
         "PYTHON.md",
-        "priv/serpent_watcher.py",
-        "priv/test_venomous.py",
-        "priv/venomous.py",
-        "priv/reload.py"
+        "python/serpent_watcher.py",
+        "python/test_venomous.py",
+        "python/venomous.py",
+        "python/reload.py"
       ]
     ]
   end
