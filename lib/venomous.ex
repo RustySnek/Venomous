@@ -260,6 +260,8 @@ defmodule Venomous do
         opts \\ []
       ) do
     Process.flag(:trap_exit, true)
+    _clear_exits()
+
     python_timeout = Keyword.get(opts, :python_timeout, @default_timeout)
     kill_python_on_exception = Keyword.get(opts, :kill_on_exception, false)
 
@@ -404,6 +406,15 @@ defmodule Venomous do
     after
       timeout ->
         {:error, :timeout}
+    end
+  end
+
+  defp _clear_exits() do
+    receive do
+      {:EXIT, _, _} -> _clear_exits()
+      {:EXIT, _} -> _clear_exits()
+    after
+      0 -> :ok
     end
   end
 end
