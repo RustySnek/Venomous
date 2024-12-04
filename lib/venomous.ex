@@ -1,8 +1,14 @@
 defmodule Venomous do
   @moduledoc """
-  Venomous is a wrapper around erlport python Ports, designed to simplify concurrent use. It focuses dynamic extensibility, like spawning, reusing and killing processes on demand. Furthermore, unused processes get automatically killed by scheduled process which can be configured inside config.exs. Venomous core functions capture and handle :EXIT calls ensuring that all python process die with it and do not continue their execution.
+  >A wrapper around erlport python Ports, designed to simplify concurrent use.
+  >It focuses dynamic extensibility, like spawning, reusing and killing processes on demand.
+  >Furthermore, unused processes get automatically cleaned up by a scheduled process which can be configured inside config.exs.
+  >Venomous core functions capture and handle :EXIT calls ensuring that all python process die with it and do not continue their execution.
 
-  The core concept revolves around "Snakes" which represent Python worker processes. These `Venomous.SnakeWorker` are managed and supervised with `Venomous.SnakeManager` GenServer to allow concurrent and efficient execution of Python code. The `Snakes` pids and python pids are stored inside `:ets` table and the Processes are handled by `DymanicSupervisor` called `Venomous.SnakeSupervisor`. The unused `Snakes` get automatically killed by `SnakeManager` depending on the given configuration.
+  The core concept revolves around "Snakes" which represent Python worker processes. These `Venomous.SnakeWorker` are managed and 
+  supervised with `Venomous.SnakeManager` GenServer to allow concurrent and efficient execution of Python code. The `Snakes` pids 
+  and python pids are stored inside `:ets` table and the Processes are handled by `DymanicSupervisor` called `Venomous.SnakeSupervisor`.
+  The unused `Snakes` get automatically killed by `SnakeManager` depending on the given configuration.
 
   You can checkout examples [here](https://github.com/RustySnek/venomous-examples)
 
@@ -13,12 +19,12 @@ defmodule Venomous do
   ### Basic processes
 
     These are automatically managed and made for concurrent operations
-    - `python/2`: The primary function to execute a Python function. It retrieves a Snake (Python worker process) and runs the specified Python function using the arguments provided in a `SnakeArgs` struct. If no ready Snakes are available, a new one is spawned. If max_children is reached it will return an error with appropriate message.
+    - `python/2` | `python/1`: The primary function to execute a Python function. If `Venomous.SnakeWorker` is free it retrieves it and runs the specified `Venomous.SnakeArgs` returning the result/error
     - `python!/2` | `python!/1`: Will wait until any `Venomous.SnakeWorker` is freed, requesting it with the given interval. 
 
   ### Named processes
 
-    Python processes with unique names. Meant for miscellaneous processes.
+    Python processes with unique names not managed by `Venomous.SnakeManager`. These do not get cleaned-up and stay for as long as they are not killed
     - `adopt_snake_pet/2`: Creates a new `Venomous.SnakeWorker` with a name inside `Venomous.PetSnakeSupervisor`
     - `pet_snake_run/3`: Runs given `Venomous.SnakeArgs` inside the named python process
 
@@ -32,12 +38,15 @@ defmodule Venomous do
   - `Venomous.SnakeSupervisor`: A DynamicSupervisor that oversees the SnakeWorkers.
   - `Venomous.SnakeManager`: A GenServer that coordinates the SnakeWorkers and handles operations like spawning, retrieval and cleanup.
   - `Venomous.PetSnakeSupervisor`: Similar to SnakeSupervisor but for named processes.
-  - `Venomous.PetSnakeManager`: Manages named python processes
+  - `Venomous.PetSnakeManager`: Manages named python processes calls
 
   ## Configuration Options
-
+  ### Venomous
+  ```elixir
+  # The way to kill python process on an OS level. :polite for SIGTERM | :brutal for SIGKILL. Anything else does not run kill
+  :venomous, :termination_style, :polite 
+  ```
   ### SnakeManager
-
   The behavior and management of Snakes can be configured through the following options:
   ```elixir
   :venomous, :snake_manager, %{
@@ -47,55 +56,72 @@ defmodule Venomous do
     erlport_encoder: %{module: atom(), func: atom(), args: list(any())}, # Optional :erlport encoder/decoder python function for converting types. This function is applied to every unnamed python process started by SnakeManager. For more information see [Handling Erlport API](PYTHON.md)
     }
   ```
-
-  ### Python options 
-
-    All of these are optional. However you will most likely want to set module_paths
-   ```elixir
-    config :venomous, :snake_manager, %{
-    ...
+  ### SnakeManager options 
+  All of these are optional. However you will most likely want to set module_paths for python processes
+  ```elixir
+  config :venomous, :snake_manager, %{
+    # Optional :erlport encoder/decoder for type conversion between elixir/python applied to all workers. The function may also include any :erlport callbacks from python api
+    erlport_encoder: %{
+      module: :my_encoder_module,
+      func: :encode_my_snakes_please,
+      args: []
+    },
     python_opts: [
-      module_paths: [], # List of paths to your python modules.
+      module_paths: [], # List of paths to your python module files.
       cd: "", # Change python's directory on spawn. Default is $PWD
       compressed: 0, # Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)
       envvars: [], # additional python process envvars
       packet_bytes: 4, # Size of erlport python packet. Default: 4 = max 4GB of data. Can be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won't be transfering a lot of data.
       python_executable: "" # path to python executable to use. defaults to PATH
     ]
-    ...
+
+    # TTL whenever python process is inactive. Default: 15
+    snake_ttl_minutes: 15,
+    # Number of python workers that don't get cleared by SnakeManager when their TTL while inactive ends. Default: 10
+    perpetual_workers: 10,
+    # Interval for killing python processes past their ttl while inactive. Default: 60_000ms (1 min)
+    cleaner_interval: 60_000,
+    # reload module for hot reloading.
+    # default is already provided inside venomous python/ directory
+    reload_module: :reload,
   }
-  ``` 
-
+  ```
   ### Hot reloading
-    Requires watchdog python module, which can be installed with `mix venomous.watchdog install`.
-    Only files inside `module_paths` config are watched.
-    ```elixir
-    config :venomous, :serpent_watcher, enable: true
-    ```
+  Requires `watchdog` python module, which can be installed with `mix venomous.watchdog install`.
+  Only files inside `module_paths` config are being watched.
+  ```elixir
+  config :venomous, :serpent_watcher, [
+    enable: false,
+    logging: true, # logs every hot reload 
+    module: :serpent_watcher, # Provided by default
+    func: :watch_directories, # Provided by default
+    manager_pid: Venomous.SnakeManager, # Provided by default
+  ]
+  ```
   ### Struct/Class comp
-    Venomous provides an easy way to convert structs into classes and back with VenomousTrait class and `mix venomous.structs ...` task.
-    ```
-    $ mix venomous.structs
-    Simple utility to create python elixir compatible classes.
+  Venomous provides an easy way to convert structs into classes and back with VenomousTrait class and `mix venomous.structs ...` task.
+  ```sh
+  $ mix venomous.structs
+  Simple utility to create python elixir compatible classes.
 
-            VenomousTrait class provides 2 functions: 
-              - def from_dict(cls, erl_map: Map | Dict, structs: Dict = {}) -> cls
-                # converts Erlport Map or a Dict into the object class
-              - def into_erl(self) -> Map
-                # returns erlang compatible struct from self
+          VenomousTrait class provides 2 functions: 
+            - def from_dict(cls, erl_map: Map | Dict, structs: Dict = {}) -> cls
+              # converts Erlport Map or a Dict into the object class
+            - def into_erl(self) -> Map
+              # returns erlang compatible struct from self
 
-               
-            To create basic python classes and encode/decode functions based on structs: 
-                - mix venomous.structs MyModule.MyStruct MyModule.MoreStructs ...
+             
+          To create basic python classes and encode/decode functions based on structs: 
+              - mix venomous.structs MyModule.MyStruct MyModule.MoreStructs ...
 
-            To create extended classes depending on existing python class: 
-                - mix venomous.structs MyModule.MyStruct:PythonClassName ...
+          To create extended classes depending on existing python class: 
+              - mix venomous.structs MyModule.MyStruct:PythonClassName ...
 
-            To create for all available structs inside an application
-                - mix venomous.structs all my_application
-    ```
+          To create for all available structs inside an application
+              - mix venomous.structs all my_application
+  ```
 
-    You can see this used in the [struct_test.exs](https://github.com/RustySnek/Venomous/blob/struct_class_handling/test/struct_test.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/struct_class_handling/python/test_venomous.py)
+  You can see this used in the [struct_test.exs](https://github.com/RustySnek/Venomous/blob/struct_class_handling/test/struct_test.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/struct_class_handling/python/test_venomous.py)
 
 
   ## Auxiliary Functions
@@ -104,7 +130,7 @@ defmodule Venomous do
 
   - `clean_inactive_snakes/0`: Manually clears inactive Snakes depending on their ttl and returns the number of Snakes cleared.
 
-  - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal can be specified as option, which will `kill -9` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
+  - `slay_python_worker/2`: Kills a specified Python worker process and its SnakeWorker. :brutal or :polite can be specified as option, which will `kill -9` or `kill -15` the os process of python which prevents the code from executing until it finalizes or goes through iteration.
 
   - `slay_pet_worker/2`: Kills a named Python process
 
@@ -121,6 +147,7 @@ defmodule Venomous do
   @wait_for_snake_interval 100
   @default_timeout 15_000
   @default_interval 200
+  @termination_style Application.compile_env(:venomous, :termination_style, :polite)
 
   @doc "Returns list of :ets table containing alive snakes"
   @spec list_alive_snakes() :: list({pid(), pid(), non_neg_integer(), atom(), any()})
@@ -148,8 +175,13 @@ defmodule Venomous do
     send(SnakeManager, {:sacrifice_snake, pid})
 
     # We exterminate the snake in the sanest way possible.
-    if termination_style == :brutal,
-      do: System.cmd("sh", ["-c", "kill -9 #{os_pid} 2&>/dev/null"], parallelism: true)
+    case termination_style do
+      :brutal ->
+        System.cmd("sh", ["-c", "kill -9 #{os_pid} > /dev/null 2>&1"], parallelism: true)
+
+      :polite ->
+        System.cmd("sh", ["-c", "kill -15 #{os_pid} > /dev/null 2>&1"], parallelism: true)
+    end
 
     :ok
   end
@@ -271,7 +303,7 @@ defmodule Venomous do
       GenServer.call(pid, {:run_snake, self(), snake_args})
     catch
       :exit, {:noproc, _genserver} ->
-        slay_python_worker(worker, :brutal)
+        slay_python_worker(worker, @termination_style)
         send(self(), :SNAKE_DEAD)
     end
 
@@ -280,11 +312,11 @@ defmodule Venomous do
         {:error, :process_is_dead}
 
       {:EXIT, pid, reason} when not is_port(pid) ->
-        slay_python_worker(worker, :brutal)
+        slay_python_worker(worker, @termination_style)
         {:killed, reason}
 
       {:EXIT, reason} ->
-        slay_python_worker(worker, :brutal)
+        slay_python_worker(worker, @termination_style)
         {:killed, reason}
 
       {:SNAKE_DONE, data} ->
@@ -301,7 +333,7 @@ defmodule Venomous do
         error
     after
       python_timeout ->
-        slay_python_worker(worker, :brutal)
+        slay_python_worker(worker, @termination_style)
         {:error, :timeout}
     end
   end

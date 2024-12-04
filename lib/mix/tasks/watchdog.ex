@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Venomous.Watchdog do
     end
   end
 
-  def uninstall_watchdog do
+  defp uninstall_watchdog do
     IO.puts("Removing watchdog...")
 
     case System.cmd("rm", ["-r", "#{@path}/watchdog"]) do
