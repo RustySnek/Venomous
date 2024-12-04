@@ -181,6 +181,9 @@ defmodule Venomous do
 
       :polite ->
         System.cmd("sh", ["-c", "kill -15 #{os_pid} > /dev/null 2>&1"], parallelism: true)
+
+      _ ->
+        :ok
     end
 
     :ok
