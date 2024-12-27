@@ -86,4 +86,14 @@ defmodule VenomousTest do
     retrieve_snake!() |> slay_python_worker(:brutal)
     assert length(list_alive_snakes()) == 9
   end
+
+  test "test preloading" do
+    list_alive_snakes()
+    |> Enum.each(fn {pid, pypid, os_pid, _, _} ->
+      slay_python_worker(%SnakeWorker{pid: pid, pypid: pypid, os_pid: os_pid}, :brutal)
+    end)
+
+    assert {:retrieve_error, :max_children} == Venomous.preload_snakes(-1)
+    assert Venomous.list_alive_snakes() |> length == 50
+  end
 end
