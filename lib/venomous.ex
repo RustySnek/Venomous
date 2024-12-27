@@ -205,6 +205,19 @@ defmodule Venomous do
     :ok
   end
 
+  defp preload_snakes(),
+    do: GenServer.call(SnakeManager, :preload_snake, :infinity)
+
+  defp preload_snakes(%SnakeWorker{}, 0), do: :ok
+  defp preload_snakes({:retrieve_error, _message} = error, _num), do: error
+
+  defp preload_snakes(%SnakeWorker{}, amount), do: preload_snakes() |> preload_snakes(amount - 1)
+
+  @doc """
+  Preloads `amount` of workers with :ready state
+  """
+  def preload_snakes(amount), do: preload_snakes() |> preload_snakes(amount - 1)
+
   defp get_snakes_ready(0, acc), do: acc
 
   defp get_snakes_ready(amount, acc) do
