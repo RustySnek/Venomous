@@ -1,5 +1,9 @@
 defmodule VenomousREPL do
+  @moduledoc """
+    Simple REPL for Venomous
+  """
   @compile if Mix.env() in [:test, :dev], do: :export_all
+  # credo:disable-for-this-file Credo.Check.Warning.Dbg
 
   defp repl_input(n, outputs) do
     IO.gets("Python REPL (arg #{n}): ")
