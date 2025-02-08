@@ -2,10 +2,90 @@
 Provides `VenomousTrait` used for simplification of conversion between elixir structs and classes
 """
 
+import importlib
+import inspect
+import pkgutil
 from dataclasses import dataclass
+from types import ClassMethodDescriptorType, MappingProxyType
 from typing import Any, Callable, Dict
 
 from erlport.erlterms import Atom, List, Map
+
+
+@dataclass
+class Parameter:
+    name: str
+    kind: str
+    default: str | None
+    annotation: str | None
+
+
+def function_params(function) -> List[Parameter]:
+    """
+    Extracts parameters from a function.
+    """
+    if inspect.isclass(function):
+        return [
+            Parameter(
+                name=param_name,
+                kind=str(param.kind),
+                annotation=(
+                    str(param.annotation)
+                    if param.annotation is not inspect.Parameter.empty
+                    else None
+                ),
+                default=(
+                    str(param.default)
+                    if param.default is not inspect.Parameter.empty
+                    else None
+                ),
+            )
+            for param_name, param in inspect.signature(
+                function.__init__
+            ).parameters.items()
+        ]
+
+    if not inspect.isfunction(function):
+        return []
+
+    return [
+        Parameter(
+            name=param_name,
+            kind=str(param.kind),
+            annotation=(
+                str(param.annotation)
+                if param.annotation is not inspect.Parameter.empty
+                else None
+            ),
+            default=(
+                str(param.default)
+                if param.default is not inspect.Parameter.empty
+                else None
+            ),
+        )
+        for param_name, param in inspect.signature(function).parameters.items()
+    ]
+
+
+def module_functions(module_name: str) -> Dict[str, List[Parameter]]:
+    """
+    Finds the given module's locally defined callables and their parameters.
+    """
+    figure_out_name = lambda name: (
+        f"#{name}.__init__" if inspect.isclass(name) else name
+    )
+    module = importlib.import_module(module_name)
+    funcs = {
+        figure_out_name(name): function_params(getattr(module, name))
+        for name in dir(module)
+        if callable(getattr(module, name))
+    }
+
+    return funcs
+
+
+def all_modules():
+    return [module.name for module in pkgutil.iter_modules()]
 
 
 def encode_basic_type_strings(data: Any):
@@ -18,6 +98,8 @@ def encode_basic_type_strings(data: Any):
         return data.encode("utf-8")
     elif isinstance(data, (list, tuple, set)):
         return type(data)(encode_basic_type_strings(item) for item in data)
+    elif isinstance(data, MappingProxyType):
+        return encode_basic_type_strings(dict(data))
     elif isinstance(data, dict):
         return {
             encode_basic_type_strings(key): encode_basic_type_strings(value)
