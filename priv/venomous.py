@@ -6,7 +6,7 @@ import importlib
 import inspect
 import pkgutil
 from dataclasses import dataclass
-from types import ClassMethodDescriptorType, MappingProxyType
+from types import MappingProxyType
 from typing import Any, Callable, Dict
 
 from erlport.erlterms import Atom, List, Map
@@ -67,10 +67,25 @@ def function_params(function) -> List[Parameter]:
     ]
 
 
+def is_locally_defined(module, name: str) -> bool:
+    """
+    Checks if a callable is locally defined in the module (not imported).
+    """
+    obj = getattr(module, name)
+    if inspect.isfunction(obj) or inspect.ismethod(obj):
+        return obj.__module__ == module.__name__
+    elif inspect.isclass(obj):
+        return obj.__module__ == module.__name__
+    return False
+
+
 def module_functions(module_name: str) -> Dict[str, List[Parameter]]:
     """
     Finds the given module's locally defined callables and their parameters.
     """
+    module_name = (
+        module_name if isinstance(module_name, str) else module_name.decode("utf-8")
+    )
     figure_out_name = lambda name: (
         f"#{name}.__init__" if inspect.isclass(name) else name
     )
@@ -78,10 +93,9 @@ def module_functions(module_name: str) -> Dict[str, List[Parameter]]:
     funcs = {
         figure_out_name(name): function_params(getattr(module, name))
         for name in dir(module)
-        if callable(getattr(module, name))
+        if callable(getattr(module, name)) and is_locally_defined(module, name)
     }
-
-    return funcs
+    return encode_basic_type_strings(funcs)
 
 
 def all_modules():
