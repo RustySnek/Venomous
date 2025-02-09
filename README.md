@@ -174,4 +174,149 @@ Simple utility to create python elixir compatible classes.
 
 You can see this used in the [struct_test.exs](https://github.com/RustySnek/Venomous/blob/master/test/struct_test.exs) and [test_venomous.py](https://github.com/RustySnek/Venomous/blob/master/python/test_venomous.py)
 
+## Dev/Test REPL
+Venomous provides dev/test only REPL
+```
+$ iex -S mix test
+Erlang/OTP 25 [erts-13.2.2.7] [source] [64-bit] [smp:16:2] [ds:16:2:10] [async-threads:1] [jit:ns]
 
+Compiling 1 file (.ex)
+
+15:45:10.953 [info] Started Snake Manager
+ 
+15:45:10.954 [info] Started Pet Snake Manager
+............
+Finished in 12.9 seconds (0.00s async, 12.9s sync)
+12 tests, 0 failures
+
+Randomized with seed 961929
+Interactive Elixir (1.16.2) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> test_struct = %VenomousTest.TestStruct{test: "123", snake: ["s","s","s"]}
+%VenomousTest.TestStruct{test: "123", snake: ["s", "s", "s"]}
+iex(2)> VenomousREPL.repl(inputs: [test_struct: test_struct])
+Python REPL (module/outputs/pop/r (repeat)/exit): test_venomous
+Python REPL (function): 
+Available functions:
+
+Test()
+        name: self
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: undefined
+
+        name: test
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'str'>
+
+        name: snake
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'list'>
+TestStruct()
+        name: self
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: undefined
+
+        name: test
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'str'>
+
+        name: snake
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'list'>
+
+        name: __struct__
+        kind: POSITIONAL_OR_KEYWORD
+        default: b'Elixir.VenomousTest.TestStruct'
+        annotation: <class 'erlport.erlterms.Atom'>
+Venom()
+        name: self
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: undefined
+
+        name: test_struct
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'test_venomous.Test'>
+VenomStruct()
+        name: self
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: undefined
+
+        name: test_struct
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: <class 'test_venomous.Test'>
+
+        name: __struct__
+        kind: POSITIONAL_OR_KEYWORD
+        default: b'Elixir.VenomousTest.Venom'
+        annotation: <class 'erlport.erlterms.Atom'>
+decoder()
+        name: value
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: typing.Any
+encoder()
+        name: value
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: typing.Any
+erl_encode()
+        
+test_venomous_trait()
+        name: test
+        kind: POSITIONAL_OR_KEYWORD
+        default: undefined
+        annotation: undefined
+Python REPL (function): test_venomous_trait
+Python REPL (arg 1): [{%{"x" => test_struct}}, "abc"]
+Python REPL (arg 2): 
+[lib/repl.ex:121: VenomousREPL.repl/1]
+Venomous.python!(params) #=> [
+  %VenomousTest.Venom{
+    test_struct: %{
+      "__struct__" => VenomousTest.TestStruct,
+      "snake" => ["s", "s", "s"],
+      "test" => "123"
+    }
+  },
+  "abc"
+]
+
+Python REPL (module/outputs/pop/r (repeat)/exit): r
+[lib/repl.ex:109: VenomousREPL.repl/1]
+Venomous.python!(previous_args) #=> [
+  %VenomousTest.Venom{
+    test_struct: %{
+      "__struct__" => VenomousTest.TestStruct,
+      "snake" => ["s", "s", "s"],
+      "test" => "123"
+    }
+  },
+  "abc"
+]
+
+Python REPL (module/outputs/pop/r (repeat)/exit): outputs
+[lib/repl.ex:96: VenomousREPL.repl/1]
+outputs #=> [
+  [
+    %VenomousTest.Venom{
+      test_struct: %{
+        "__struct__" => VenomousTest.TestStruct,
+        "snake" => ["s", "s", "s"],
+        "test" => "123"
+      }
+    },
+    "abc"
+  ]
+]
+
+Python REPL (module/outputs/pop/r (repeat)/exit):
+```
