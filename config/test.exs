@@ -9,7 +9,11 @@ config :venomous,
   ]
 
 config :venomous, :snake_manager, %{
-  erlport_encoder: %{},
+  erlport_encoder: %{
+    module: :test_venomous,
+    func: :erl_encode,
+    args: []
+  },
   python_opts: [
     module_paths: ["priv/"]
   ]
