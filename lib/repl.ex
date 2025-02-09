@@ -5,23 +5,23 @@ defmodule VenomousREPL do
   @compile if Mix.env() in [:test, :dev], do: :export_all
   # credo:disable-for-this-file Credo.Check.Warning.Dbg
 
-  defp repl_input(n, outputs) do
+  defp repl_input(n, inputs, outputs) do
     IO.gets("Python REPL (arg #{n}): ")
     |> String.trim_trailing("\n")
-    |> Code.eval_string(outputs: outputs)
+    |> Code.eval_string(Keyword.merge(inputs, [outputs: outputs]))
     |> elem(0)
   end
 
-  defp repl_args(nil, args, _n, _outputs), do: args
+  defp repl_args(nil, args, _n, _inputs, _outputs), do: args
 
-  defp repl_args(arg, args, n, outputs) do
-    repl_input(n, outputs)
-    |> repl_args([arg | args], n + 1, outputs)
+  defp repl_args(arg, args, n, inputs, outputs) do
+    repl_input(n, inputs, outputs)
+    |> repl_args([arg | args], n + 1, inputs, outputs)
   end
 
-  defp repl_args(outputs) do
-    repl_input(1, outputs)
-    |> repl_args([], 2, outputs)
+  defp repl_args(inputs, outputs) do
+    repl_input(1, inputs, outputs)
+    |> repl_args([], 2, inputs, outputs)
   end
 
   defp functions(module) do
@@ -80,7 +80,11 @@ defmodule VenomousREPL do
     end
   end
 
-  def repl(outputs \\ [], previous_args \\ nil) do
+
+def repl(opts \\ []) do
+  inputs      = Keyword.get(opts, :inputs, [])
+  outputs     = Keyword.get(opts, :outputs, [])
+  previous_args = Keyword.get(opts, :previous_args)
     reload()
     mod = get_module()
 
@@ -89,32 +93,35 @@ defmodule VenomousREPL do
         outputs
 
       "outputs" ->
-        outputs |> inspect() |> IO.puts()
-        repl(outputs)
+        outputs |> dbg()
+        repl(inputs: inputs, outputs: outputs)
+      "inputs" -> 
+        inputs |> dbg()
+        repl(inputs: inputs, outputs: outputs)
 
       "pop" ->
         [_ | outputs] = outputs
-        repl(outputs)
+        repl(inputs: inputs, outputs: outputs)
 
       "r" ->
-        if previous_args != nil do
+        outputs = if previous_args != nil do
           [_ | previous] = outputs
           [Venomous.python!(previous_args) |> dbg | previous]
         else
           outputs
         end
-        |> repl(previous_args)
+        repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
 
       mod ->
         func = get_function(mod)
-        args = repl_args(outputs)
+        args = repl_args(inputs, outputs)
         params = Venomous.SnakeArgs.from_params(String.to_atom(mod), func, args)
 
-        [
+        outputs = [
           Venomous.python!(params) |> dbg
           | outputs
         ]
-        |> repl(params)
+        repl(inputs: inputs, outputs: outputs, previous_args: params)
     end
   end
 end
