@@ -143,11 +143,11 @@ Pages
   </a>
   <span class="text">Installation</span>
 </h2>
-<p>Add <code class="inline">:venomous</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="0901421245-1">do</span><span class="w">
-  </span><span class="p" data-group-id="0901421245-2">[</span><span class="w">
-    </span><span class="p" data-group-id="0901421245-3">{</span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.7.6&quot;</span><span class="p" data-group-id="0901421245-3">}</span><span class="w">
-  </span><span class="p" data-group-id="0901421245-2">]</span><span class="w">
-</span><span class="k" data-group-id="0901421245-1">end</span></code></pre><h2 id="getting-started" class="section-heading">
+<p>Add <code class="inline">:venomous</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="3093008681-1">do</span><span class="w">
+  </span><span class="p" data-group-id="3093008681-2">[</span><span class="w">
+    </span><span class="p" data-group-id="3093008681-3">{</span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.7.6&quot;</span><span class="p" data-group-id="3093008681-3">}</span><span class="w">
+  </span><span class="p" data-group-id="3093008681-2">]</span><span class="w">
+</span><span class="k" data-group-id="3093008681-1">end</span></code></pre><h2 id="getting-started" class="section-heading">
   <a href="#getting-started" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -160,13 +160,13 @@ but I highly recommend setting them inside python_opts[:module_paths] for hot re
   </a>
   <span class="text">Configure the SnakeManager options</span>
 </h3>
-<pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8498751021-1">%{</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_manager</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7930365402-1">%{</span><span class="w">
     </span><span class="c1"># Optional :erlport encoder/decoder for type conversion between elixir/python applied to all workers. The function may also include any :erlport callbacks from python api</span><span class="w">
-    </span><span class="ss">erlport_encoder</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8498751021-2">%{</span><span class="w">
+    </span><span class="ss">erlport_encoder</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7930365402-2">%{</span><span class="w">
       </span><span class="ss">module</span><span class="p">:</span><span class="w"> </span><span class="ss">:my_encoder_module</span><span class="p">,</span><span class="w">
       </span><span class="ss">func</span><span class="p">:</span><span class="w"> </span><span class="ss">:encode_my_snakes_please</span><span class="p">,</span><span class="w">
-      </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8498751021-3">[</span><span class="p" data-group-id="8498751021-3">]</span><span class="w">
-    </span><span class="p" data-group-id="8498751021-2">}</span><span class="p">,</span><span class="w">
+      </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7930365402-3">[</span><span class="p" data-group-id="7930365402-3">]</span><span class="w">
+    </span><span class="p" data-group-id="7930365402-2">}</span><span class="p">,</span><span class="w">
     </span><span class="c1"># TTL whenever python process is inactive. Default: 15</span><span class="w">
     </span><span class="ss">snake_ttl_minutes</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
     </span><span class="c1"># Number of python workers that don&#39;t get cleared by SnakeManager when their TTL while inactive ends. Default: 10</span><span class="w">
@@ -178,48 +178,48 @@ but I highly recommend setting them inside python_opts[:module_paths] for hot re
     </span><span class="ss">reload_module</span><span class="p">:</span><span class="w"> </span><span class="ss">:reload</span><span class="p">,</span><span class="w">
 
     </span><span class="c1"># Erlport python options</span><span class="w">
-    </span><span class="ss">python_opts</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8498751021-4">[</span><span class="w">
-    </span><span class="ss">module_paths</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8498751021-5">[</span><span class="s">&quot;/path/to/my/modules&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/path/to/other/modules&quot;</span><span class="p" data-group-id="8498751021-5">]</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules.</span><span class="w">
+    </span><span class="ss">python_opts</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7930365402-4">[</span><span class="w">
+    </span><span class="ss">module_paths</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7930365402-5">[</span><span class="s">&quot;/path/to/my/modules&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/path/to/other/modules&quot;</span><span class="p" data-group-id="7930365402-5">]</span><span class="p">,</span><span class="w"> </span><span class="c1"># List of paths to your python modules.</span><span class="w">
     </span><span class="ss">cd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># Change python&#39;s directory on spawn. Default is $PWD</span><span class="w">
     </span><span class="ss">compressed</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="c1"># Can be set from 0-9. May affect performance. Read more on [Erlport documentation](http://erlport.org/docs/python.html#erlang-api)</span><span class="w">
-    </span><span class="ss">envvars</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8498751021-6">[</span><span class="ss">SNAKE_VAR_ONE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;I&#39;m a snake&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">SNAKE_VAR_TWO</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No, you are not&quot;</span><span class="p" data-group-id="8498751021-6">]</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
+    </span><span class="ss">envvars</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7930365402-6">[</span><span class="ss">SNAKE_VAR_ONE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;I&#39;m a snake&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">SNAKE_VAR_TWO</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No, you are not&quot;</span><span class="p" data-group-id="7930365402-6">]</span><span class="p">,</span><span class="w"> </span><span class="c1"># additional python process envvars</span><span class="w">
     </span><span class="ss">packet_bytes</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="c1"># Size of erlport python packet. Default: 4 = max 4GB of data. Can also be set to 1 = 256 bytes or 2 = ? bytes if you are sure you won&#39;t be transfering a lot of data.</span><span class="w">
     </span><span class="ss">python_executable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/bin/python&quot;</span><span class="w"> </span><span class="c1"># Change the path to python executable to use.</span><span class="w">
-    </span><span class="p" data-group-id="8498751021-4">]</span><span class="w">
-  </span><span class="p" data-group-id="8498751021-1">}</span></code></pre><h3 id="enable-the-hot-reloading" class="section-heading">
+    </span><span class="p" data-group-id="7930365402-4">]</span><span class="w">
+  </span><span class="p" data-group-id="7930365402-1">}</span></code></pre><h3 id="enable-the-hot-reloading" class="section-heading">
   <a href="#enable-the-hot-reloading" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Enable the Hot reloading</span>
 </h3>
 <p>  Requires watchdog python module, which can be installed with <code class="inline">mix venomous.watchdog install</code>.
-  Currently only supports the SnakeManager's processes. Watches only directories specified in <code class="inline">module_paths</code></p><pre><code class="makeup elixir" translate="no"><span class="w">      </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:serpent_watcher</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7068335960-1">[</span><span class="w">
+  Currently only supports the SnakeManager's processes. Watches only directories specified in <code class="inline">module_paths</code></p><pre><code class="makeup elixir" translate="no"><span class="w">      </span><span class="n">config</span><span class="w"> </span><span class="ss">:venomous</span><span class="p">,</span><span class="w"> </span><span class="ss">:serpent_watcher</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1098773255-1">[</span><span class="w">
         </span><span class="ss">enable</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="c1"># Defaults to false</span><span class="w">
         </span><span class="ss">logging</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="c1"># log every hot reload. Default: true</span><span class="w">
         </span><span class="ss">module</span><span class="p">:</span><span class="w"> </span><span class="ss">:serpent_watcher</span><span class="p">,</span><span class="w"> </span><span class="c1"># Provided by default</span><span class="w">
         </span><span class="ss">func</span><span class="p">:</span><span class="w"> </span><span class="ss">:watch_directories</span><span class="p">,</span><span class="w"> </span><span class="c1"># Provided by default</span><span class="w">
         </span><span class="ss">manager_pid</span><span class="p">:</span><span class="w"> </span><span class="nc">Venomous.SnakeManager</span><span class="p">,</span><span class="w"> </span><span class="c1"># Provided by default</span><span class="w">
-        </span><span class="p" data-group-id="7068335960-1">]</span></code></pre><h3 id="configure-the-snakesupervisor-and-petsnakesupervisor-if-needed-to-start-on-application-boot" class="section-heading">
+        </span><span class="p" data-group-id="1098773255-1">]</span></code></pre><h3 id="configure-the-snakesupervisor-and-petsnakesupervisor-if-needed-to-start-on-application-boot" class="section-heading">
   <a href="#configure-the-snakesupervisor-and-petsnakesupervisor-if-needed-to-start-on-application-boot" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Configure the SnakeSupervisor and PetSnakeSupervisor (if needed) to start on application boot.</span>
 </h3>
-<pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">YourApp.Application</span><span class="w"> </span><span class="k" data-group-id="8830394999-1">do</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">YourApp.Application</span><span class="w"> </span><span class="k" data-group-id="1965997538-1">do</span><span class="w">
     </span><span class="na">@moduledoc</span><span class="w"> </span><span class="no">false</span><span class="w">
 
     </span><span class="kn">use</span><span class="w"> </span><span class="nc">Application</span><span class="w">
 
     </span><span class="na">@doc</span><span class="w"> </span><span class="no">false</span><span class="w">
-    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="8830394999-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="8830394999-2">)</span><span class="w"> </span><span class="k" data-group-id="8830394999-3">do</span><span class="w">
-      </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8830394999-4">[</span><span class="w">
-        </span><span class="p" data-group-id="8830394999-5">{</span><span class="nc">Venomous.SnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8830394999-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_restarts</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p" data-group-id="8830394999-6">]</span><span class="p" data-group-id="8830394999-5">}</span><span class="p">,</span><span class="w">
-        </span><span class="p" data-group-id="8830394999-7">{</span><span class="nc">Venomous.PetSnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8830394999-8">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="8830394999-8">]</span><span class="p" data-group-id="8830394999-7">}</span><span class="w"> </span><span class="c1"># not necessary</span><span class="w">
-      </span><span class="p" data-group-id="8830394999-4">]</span><span class="w">
-      </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8830394999-9">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">YourApp.Supervisor</span><span class="p" data-group-id="8830394999-9">]</span><span class="w">
-      </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="8830394999-10">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="8830394999-10">)</span><span class="w">
-    </span><span class="k" data-group-id="8830394999-3">end</span><span class="w">
-  </span><span class="k" data-group-id="8830394999-1">end</span></code></pre><h2 id="quickstart" class="section-heading">
+    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="1965997538-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="1965997538-2">)</span><span class="w"> </span><span class="k" data-group-id="1965997538-3">do</span><span class="w">
+      </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1965997538-4">[</span><span class="w">
+        </span><span class="p" data-group-id="1965997538-5">{</span><span class="nc">Venomous.SnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1965997538-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_restarts</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p" data-group-id="1965997538-6">]</span><span class="p" data-group-id="1965997538-5">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="1965997538-7">{</span><span class="nc">Venomous.PetSnakeSupervisor</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1965997538-8">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">max_children</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="1965997538-8">]</span><span class="p" data-group-id="1965997538-7">}</span><span class="w"> </span><span class="c1"># not necessary</span><span class="w">
+      </span><span class="p" data-group-id="1965997538-4">]</span><span class="w">
+      </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1965997538-9">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">YourApp.Supervisor</span><span class="p" data-group-id="1965997538-9">]</span><span class="w">
+      </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1965997538-10">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="1965997538-10">)</span><span class="w">
+    </span><span class="k" data-group-id="1965997538-3">end</span><span class="w">
+  </span><span class="k" data-group-id="1965997538-1">end</span></code></pre><h2 id="quickstart" class="section-heading">
   <a href="#quickstart" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -235,17 +235,17 @@ but I highly recommend setting them inside python_opts[:module_paths] for hot re
 </span><span class="kn">import</span><span class="w"> </span><span class="nc">Venomous</span><span class="w">
 
 </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_000</span><span class="w">
-</span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="2271917059-1">(</span><span class="ss">:builtins</span><span class="p">,</span><span class="w"> </span><span class="ss">:sum</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2271917059-2">[</span><span class="p" data-group-id="2271917059-3">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p" data-group-id="2271917059-3">]</span><span class="p" data-group-id="2271917059-2">]</span><span class="p" data-group-id="2271917059-1">)</span><span class="w">
+</span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="7818139799-1">(</span><span class="ss">:builtins</span><span class="p">,</span><span class="w"> </span><span class="ss">:sum</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7818139799-2">[</span><span class="p" data-group-id="7818139799-3">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p" data-group-id="7818139799-3">]</span><span class="p" data-group-id="7818139799-2">]</span><span class="p" data-group-id="7818139799-1">)</span><span class="w">
 
-</span><span class="k">case</span><span class="w"> </span><span class="n">python</span><span class="p" data-group-id="2271917059-4">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="ss">python_timeout</span><span class="p">:</span><span class="w"> </span><span class="n">timeout</span><span class="p" data-group-id="2271917059-4">)</span><span class="w"> </span><span class="k" data-group-id="2271917059-5">do</span><span class="w">
-    </span><span class="p" data-group-id="2271917059-6">{</span><span class="ss">:retrieve_error</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p" data-group-id="2271917059-6">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;No Snakes? </span><span class="si" data-group-id="2271917059-7">#{</span><span class="n">inspect</span><span class="p" data-group-id="2271917059-8">(</span><span class="n">msg</span><span class="p" data-group-id="2271917059-8">)</span><span class="si" data-group-id="2271917059-7">}</span><span class="s">&quot;</span><span class="w">
-    </span><span class="p" data-group-id="2271917059-9">%{</span><span class="ss">error</span><span class="p">:</span><span class="w"> </span><span class="ss">:timeout</span><span class="p" data-group-id="2271917059-9">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;We timed out...&quot;</span><span class="w">
+</span><span class="k">case</span><span class="w"> </span><span class="n">python</span><span class="p" data-group-id="7818139799-4">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="ss">python_timeout</span><span class="p">:</span><span class="w"> </span><span class="n">timeout</span><span class="p" data-group-id="7818139799-4">)</span><span class="w"> </span><span class="k" data-group-id="7818139799-5">do</span><span class="w">
+    </span><span class="p" data-group-id="7818139799-6">{</span><span class="ss">:retrieve_error</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p" data-group-id="7818139799-6">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;No Snakes? </span><span class="si" data-group-id="7818139799-7">#{</span><span class="n">inspect</span><span class="p" data-group-id="7818139799-8">(</span><span class="n">msg</span><span class="p" data-group-id="7818139799-8">)</span><span class="si" data-group-id="7818139799-7">}</span><span class="s">&quot;</span><span class="w">
+    </span><span class="p" data-group-id="7818139799-9">%{</span><span class="ss">error</span><span class="p">:</span><span class="w"> </span><span class="ss">:timeout</span><span class="p" data-group-id="7818139799-9">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;We timed out...&quot;</span><span class="w">
     </span><span class="n">sum</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">assert</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">15</span><span class="w">
-</span><span class="k" data-group-id="2271917059-5">end</span><span class="w">
+</span><span class="k" data-group-id="7818139799-5">end</span><span class="w">
 
 </span><span class="c1"># or just use python!/3 which waits for the available snake.</span><span class="w">
 </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:infinity</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="n">python!</span><span class="p" data-group-id="2271917059-10">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="ss">python_timeout</span><span class="p">:</span><span class="w"> </span><span class="n">timeout</span><span class="p" data-group-id="2271917059-10">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">15</span></code></pre><h3 id="concurrency-and-exit-signals" class="section-heading">
+</span><span class="n">assert</span><span class="w"> </span><span class="n">python!</span><span class="p" data-group-id="7818139799-10">(</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="ss">python_timeout</span><span class="p">:</span><span class="w"> </span><span class="n">timeout</span><span class="p" data-group-id="7818139799-10">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">15</span></code></pre><h3 id="concurrency-and-exit-signals" class="section-heading">
   <a href="#concurrency-and-exit-signals" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -257,34 +257,34 @@ but I highly recommend setting them inside python_opts[:module_paths] for hot re
 </span><span class="c1"># Venomous can handle as much concurrent python as you&#39;ve setup</span><span class="w">
 </span><span class="c1"># in your snake_manager configuration. However the python! will</span><span class="w">
 </span><span class="c1"># wait for any process to free up in case none are available.</span><span class="w">
-</span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="2681590587-1">(</span><span class="ss">:time</span><span class="p">,</span><span class="w"> </span><span class="ss">:sleep</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2681590587-2">[</span><span class="mf">0.5</span><span class="p" data-group-id="2681590587-2">]</span><span class="p" data-group-id="2681590587-1">)</span><span class="w">
-</span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2681590587-3">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="2681590587-4">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> 
-    </span><span class="nc">Task</span><span class="o">.</span><span class="n">async</span><span class="p" data-group-id="2681590587-5">(</span><span class="k" data-group-id="2681590587-6">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
-        </span><span class="n">python!</span><span class="p" data-group-id="2681590587-7">(</span><span class="n">args</span><span class="p" data-group-id="2681590587-7">)</span><span class="w">
-    </span><span class="k" data-group-id="2681590587-6">end</span><span class="p" data-group-id="2681590587-5">)</span><span class="w">
-</span><span class="k" data-group-id="2681590587-4">end</span><span class="p" data-group-id="2681590587-3">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">await_many</span><span class="p" data-group-id="2681590587-8">(</span><span class="mi">5_000</span><span class="p" data-group-id="2681590587-8">)</span><span class="w">
+</span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="9074279934-1">(</span><span class="ss">:time</span><span class="p">,</span><span class="w"> </span><span class="ss">:sleep</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9074279934-2">[</span><span class="mf">0.5</span><span class="p" data-group-id="9074279934-2">]</span><span class="p" data-group-id="9074279934-1">)</span><span class="w">
+</span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="9074279934-3">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9074279934-4">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> 
+    </span><span class="nc">Task</span><span class="o">.</span><span class="n">async</span><span class="p" data-group-id="9074279934-5">(</span><span class="k" data-group-id="9074279934-6">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">python!</span><span class="p" data-group-id="9074279934-7">(</span><span class="n">args</span><span class="p" data-group-id="9074279934-7">)</span><span class="w">
+    </span><span class="k" data-group-id="9074279934-6">end</span><span class="p" data-group-id="9074279934-5">)</span><span class="w">
+</span><span class="k" data-group-id="9074279934-4">end</span><span class="p" data-group-id="9074279934-3">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">await_many</span><span class="p" data-group-id="9074279934-8">(</span><span class="mi">5_000</span><span class="p" data-group-id="9074279934-8">)</span><span class="w">
 
 </span><span class="c1"># You can view the spawned and ready snakes using the list_alive_snakes() </span><span class="w">
-</span><span class="n">list_alive_snakes</span><span class="p" data-group-id="2681590587-9">(</span><span class="p" data-group-id="2681590587-9">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dbg</span></code></pre><pre><code class="makeup elixir" translate="no"><span class="kn">alias</span><span class="w"> </span><span class="nc">Venomous.SnakeArgs</span><span class="w">
+</span><span class="n">list_alive_snakes</span><span class="p" data-group-id="9074279934-9">(</span><span class="p" data-group-id="9074279934-9">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dbg</span></code></pre><pre><code class="makeup elixir" translate="no"><span class="kn">alias</span><span class="w"> </span><span class="nc">Venomous.SnakeArgs</span><span class="w">
 </span><span class="kn">import</span><span class="w"> </span><span class="nc">Venomous</span><span class="w">
 
 </span><span class="c1"># Venomous kills the OS pid of the python process on :EXIT</span><span class="w">
 </span><span class="c1"># ensuring the process will not proceed with the execution further</span><span class="w">
-</span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2395578986-1">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="2395578986-2">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
-  </span><span class="p" data-group-id="2395578986-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="2395578986-3">}</span><span class="w"> </span><span class="o">=</span><span class="w">
-    </span><span class="nc">Task</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="2395578986-4">(</span><span class="k" data-group-id="2395578986-5">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
-      </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="2395578986-6">(</span><span class="ss">:time</span><span class="p">,</span><span class="w"> </span><span class="ss">:sleep</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2395578986-7">[</span><span class="mi">1000</span><span class="p" data-group-id="2395578986-7">]</span><span class="p" data-group-id="2395578986-6">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">python!</span><span class="p" data-group-id="2395578986-8">(</span><span class="p" data-group-id="2395578986-8">)</span><span class="w">
-    </span><span class="k" data-group-id="2395578986-5">end</span><span class="p" data-group-id="2395578986-4">)</span><span class="w">
+</span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="4572129035-1">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="4572129035-2">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+  </span><span class="p" data-group-id="4572129035-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="4572129035-3">}</span><span class="w"> </span><span class="o">=</span><span class="w">
+    </span><span class="nc">Task</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="4572129035-4">(</span><span class="k" data-group-id="4572129035-5">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="nc">SnakeArgs</span><span class="o">.</span><span class="n">from_params</span><span class="p" data-group-id="4572129035-6">(</span><span class="ss">:time</span><span class="p">,</span><span class="w"> </span><span class="ss">:sleep</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4572129035-7">[</span><span class="mi">1000</span><span class="p" data-group-id="4572129035-7">]</span><span class="p" data-group-id="4572129035-6">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">python!</span><span class="p" data-group-id="4572129035-8">(</span><span class="p" data-group-id="4572129035-8">)</span><span class="w">
+    </span><span class="k" data-group-id="4572129035-5">end</span><span class="p" data-group-id="4572129035-4">)</span><span class="w">
 
   </span><span class="n">pid</span><span class="w">
-</span><span class="k" data-group-id="2395578986-2">end</span><span class="p" data-group-id="2395578986-1">)</span><span class="w">
-</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">each</span><span class="p" data-group-id="2395578986-9">(</span><span class="k" data-group-id="2395578986-10">fn</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
-  </span><span class="nc">Process</span><span class="o">.</span><span class="n">send_after</span><span class="p" data-group-id="2395578986-11">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2395578986-12">{</span><span class="ss">:EXIT</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_slithered_away</span><span class="p" data-group-id="2395578986-12">}</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p" data-group-id="2395578986-11">)</span><span class="w">
-</span><span class="k" data-group-id="2395578986-10">end</span><span class="p" data-group-id="2395578986-9">)</span><span class="w">
+</span><span class="k" data-group-id="4572129035-2">end</span><span class="p" data-group-id="4572129035-1">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">each</span><span class="p" data-group-id="4572129035-9">(</span><span class="k" data-group-id="4572129035-10">fn</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+  </span><span class="nc">Process</span><span class="o">.</span><span class="n">send_after</span><span class="p" data-group-id="4572129035-11">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4572129035-12">{</span><span class="ss">:EXIT</span><span class="p">,</span><span class="w"> </span><span class="ss">:snake_slithered_away</span><span class="p" data-group-id="4572129035-12">}</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p" data-group-id="4572129035-11">)</span><span class="w">
+</span><span class="k" data-group-id="4572129035-10">end</span><span class="p" data-group-id="4572129035-9">)</span><span class="w">
 
 </span><span class="c1"># We&#39;ll sleep to make sure all exits got sent.</span><span class="w">
-</span><span class="nc">Process</span><span class="o">.</span><span class="n">sleep</span><span class="p" data-group-id="2395578986-13">(</span><span class="mi">1_000</span><span class="p" data-group-id="2395578986-13">)</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="n">list_alive_snakes</span><span class="p" data-group-id="2395578986-14">(</span><span class="p" data-group-id="2395578986-14">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p" data-group-id="2395578986-15">[</span><span class="p" data-group-id="2395578986-15">]</span></code></pre><h2 id="struct-class-comp" class="section-heading">
+</span><span class="nc">Process</span><span class="o">.</span><span class="n">sleep</span><span class="p" data-group-id="4572129035-13">(</span><span class="mi">1_000</span><span class="p" data-group-id="4572129035-13">)</span><span class="w">
+</span><span class="n">assert</span><span class="w"> </span><span class="n">list_alive_snakes</span><span class="p" data-group-id="4572129035-14">(</span><span class="p" data-group-id="4572129035-14">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p" data-group-id="4572129035-15">[</span><span class="p" data-group-id="4572129035-15">]</span></code></pre><h2 id="struct-class-comp" class="section-heading">
   <a href="#struct-class-comp" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -314,149 +314,148 @@ but I highly recommend setting them inside python_opts[:module_paths] for hot re
   </a>
   <span class="text">Dev/Test REPL</span>
 </h2>
-<p>Venomous provides dev/test only REPL</p><pre><code class="makeup shell" translate="no"><span class="gp unselectable">$ </span><span class="">iex -S mix test
-</span><span class="">Erlang/OTP 25 [erts-13.2.2.7] [source] [64-bit] [smp:16:2] [ds:16:2:10] [async-threads:1] [jit:ns]
-</span><span class="">
-</span><span class="">Compiling 1 file (.ex)
-</span><span class="">
-</span><span class="">15:45:10.953 [info] Started Snake Manager
-</span><span class=""> 
-</span><span class="">15:45:10.954 [info] Started Pet Snake Manager
-</span><span class="">............
-</span><span class="">Finished in 12.9 seconds (0.00s async, 12.9s sync)
-</span><span class="">12 tests, 0 failures
-</span><span class="">
-</span><span class="">Randomized with seed 961929
-</span><span class="">Interactive Elixir (1.16.2) - press Ctrl+C to exit (type h() ENTER for help)
-</span><span class="">iex(1)&gt; test_struct = %VenomousTest.TestStruct{test: &quot;123&quot;, snake: [&quot;s&quot;,&quot;s&quot;,&quot;s&quot;]}
-</span><span class="">%VenomousTest.TestStruct{test: &quot;123&quot;, snake: [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;]}
-</span><span class="">iex(2)&gt; VenomousREPL.repl(inputs: [test_struct: test_struct])
-</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): test_venomous
-</span><span class="">Python REPL (function): 
-</span><span class="">Available functions:
-</span><span class="">
-</span><span class="">Test()
-</span><span class="">        name: self
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: undefined
-</span><span class="">
-</span><span class="">        name: test
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;str&#39;&gt;
-</span><span class="">
-</span><span class="">        name: snake
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;list&#39;&gt;
-</span><span class="">TestStruct()
-</span><span class="">        name: self
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: undefined
-</span><span class="">
-</span><span class="">        name: test
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;str&#39;&gt;
-</span><span class="">
-</span><span class="">        name: snake
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;list&#39;&gt;
-</span><span class="">
-</span><span class="">        name: __struct__
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: b&#39;Elixir.VenomousTest.TestStruct&#39;
-</span><span class="">        annotation: &lt;class &#39;erlport.erlterms.Atom&#39;&gt;
-</span><span class="">Venom()
-</span><span class="">        name: self
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: undefined
-</span><span class="">
-</span><span class="">        name: test_struct
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;test_venomous.Test&#39;&gt;
-</span><span class="">VenomStruct()
-</span><span class="">        name: self
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: undefined
-</span><span class="">
-</span><span class="">        name: test_struct
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: &lt;class &#39;test_venomous.Test&#39;&gt;
-</span><span class="">
-</span><span class="">        name: __struct__
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: b&#39;Elixir.VenomousTest.Venom&#39;
-</span><span class="">        annotation: &lt;class &#39;erlport.erlterms.Atom&#39;&gt;
-</span><span class="">decoder()
-</span><span class="">        name: value
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: typing.Any
-</span><span class="">encoder()
-</span><span class="">        name: value
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: typing.Any
-</span><span class="">erl_encode()
-</span><span class="">        
-</span><span class="">test_venomous_trait()
-</span><span class="">        name: test
-</span><span class="">        kind: POSITIONAL_OR_KEYWORD
-</span><span class="">        default: undefined
-</span><span class="">        annotation: undefined
-</span><span class="">Python REPL (function): test_venomous_trait
-</span><span class="">Python REPL (arg 1): [{%{&quot;x&quot; =&gt; test_struct}}, &quot;abc&quot;]
-</span><span class="">Python REPL (arg 2): 
-</span><span class="">[lib/repl.ex:121: VenomousREPL.repl/1]
-</span><span class="">Venomous.python!(params) #=&gt; [
-</span><span class="">  %VenomousTest.Venom{
-</span><span class="">    test_struct: %{
-</span><span class="">      &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
-</span><span class="">      &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
-</span><span class="">      &quot;test&quot; =&gt; &quot;123&quot;
-</span><span class="">    }
-</span><span class="">  },
-</span><span class="">  &quot;abc&quot;
-</span><span class="">]
-</span><span class="">
-</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): r
-</span><span class="">[lib/repl.ex:109: VenomousREPL.repl/1]
-</span><span class="">Venomous.python!(previous_args) #=&gt; [
-</span><span class="">  %VenomousTest.Venom{
-</span><span class="">    test_struct: %{
-</span><span class="">      &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
-</span><span class="">      &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
-</span><span class="">      &quot;test&quot; =&gt; &quot;123&quot;
-</span><span class="">    }
-</span><span class="">  },
-</span><span class="">  &quot;abc&quot;
-</span><span class="">]
-</span><span class="">
-</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): outputs
-</span><span class="">[lib/repl.ex:96: VenomousREPL.repl/1]
-</span><span class="">outputs #=&gt; [
-</span><span class="">  [
-</span><span class="">    %VenomousTest.Venom{
-</span><span class="">      test_struct: %{
-</span><span class="">        &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
-</span><span class="">        &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
-</span><span class="">        &quot;test&quot; =&gt; &quot;123&quot;
-</span><span class="">      }
-</span><span class="">    },
-</span><span class="">    &quot;abc&quot;
-</span><span class="">  ]
-</span><span class="">]
-</span><span class="">
-</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit):
-</span></code></pre>
+<p>Venomous provides dev/test only REPL</p><pre><code class="makeup elixir" translate="no"><span class="err">$</span><span class="w"> </span><span class="n">iex</span><span class="w"> </span><span class="o">-</span><span class="nc">S</span><span class="w"> </span><span class="n">mix</span><span class="w"> </span><span class="n">test</span><span class="w">
+</span><span class="nc">Erlang</span><span class="o">/</span><span class="nc">OTP</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="p" data-group-id="5542634494-1">[</span><span class="n">erts</span><span class="o">-</span><span class="mf">13.2</span><span class="o">.</span><span class="mf">2.7</span><span class="p" data-group-id="5542634494-1">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-2">[</span><span class="n">source</span><span class="p" data-group-id="5542634494-2">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-3">[</span><span class="mi">64</span><span class="o">-</span><span class="n">bit</span><span class="p" data-group-id="5542634494-3">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-4">[</span><span class="n">smp</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">2</span><span class="p" data-group-id="5542634494-4">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-5">[</span><span class="n">ds</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p" data-group-id="5542634494-5">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-6">[</span><span class="n">async</span><span class="o">-</span><span class="n">threads</span><span class="p">:</span><span class="mi">1</span><span class="p" data-group-id="5542634494-6">]</span><span class="w"> </span><span class="p" data-group-id="5542634494-7">[</span><span class="n">jit</span><span class="ss">:ns</span><span class="p" data-group-id="5542634494-7">]</span><span class="w">
+
+</span><span class="nc">Compiling</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="p" data-group-id="5542634494-8">(</span><span class="o">.</span><span class="n">ex</span><span class="p" data-group-id="5542634494-8">)</span><span class="w">
+
+</span><span class="mi">15</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mf">10.953</span><span class="w"> </span><span class="p" data-group-id="5542634494-9">[</span><span class="n">info</span><span class="p" data-group-id="5542634494-9">]</span><span class="w"> </span><span class="nc">Started</span><span class="w"> </span><span class="nc">Snake</span><span class="w"> </span><span class="nc">Manager</span><span class="w">
+ 
+</span><span class="mi">15</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mf">10.954</span><span class="w"> </span><span class="p" data-group-id="5542634494-10">[</span><span class="n">info</span><span class="p" data-group-id="5542634494-10">]</span><span class="w"> </span><span class="nc">Started</span><span class="w"> </span><span class="nc">Pet</span><span class="w"> </span><span class="nc">Snake</span><span class="w"> </span><span class="nc">Manager</span><span class="w">
+</span><span class="n">...</span><span class="n">...</span><span class="n">...</span><span class="n">...</span><span class="w">
+</span><span class="nc">Finished</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">12.9</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="p" data-group-id="5542634494-11">(</span><span class="mf">0.00</span><span class="n">s</span><span class="w"> </span><span class="n">async</span><span class="p">,</span><span class="w"> </span><span class="mf">12.9</span><span class="n">s</span><span class="w"> </span><span class="n">sync</span><span class="p" data-group-id="5542634494-11">)</span><span class="w">
+</span><span class="mi">12</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">failures</span><span class="w">
+
+</span><span class="nc">Randomized</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="mi">961929</span><span class="w">
+</span><span class="nc">Interactive</span><span class="w"> </span><span class="nc">Elixir</span><span class="w"> </span><span class="p" data-group-id="5542634494-12">(</span><span class="mf">1.16</span><span class="o">.</span><span class="mi">2</span><span class="p" data-group-id="5542634494-12">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">press</span><span class="w"> </span><span class="nc">Ctrl</span><span class="o">+</span><span class="nc">C</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">exit</span><span class="w"> </span><span class="p" data-group-id="5542634494-13">(</span><span class="n">type</span><span class="w"> </span><span class="n">h</span><span class="p" data-group-id="5542634494-14">(</span><span class="p" data-group-id="5542634494-14">)</span><span class="w"> </span><span class="nc">ENTER</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">help</span><span class="p" data-group-id="5542634494-13">)</span><span class="w">
+</span><span class="gp unselectable">iex(1)&gt; </span><span class="n">test_struct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5542634494-15">%</span><span class="nc" data-group-id="5542634494-15">VenomousTest.TestStruct</span><span class="p" data-group-id="5542634494-15">{</span><span class="ss">test</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">snake</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-16">[</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="s">&quot;s&quot;</span><span class="p" data-group-id="5542634494-16">]</span><span class="p" data-group-id="5542634494-15">}</span><span class="w">
+</span><span class="p" data-group-id="5542634494-17">%</span><span class="nc" data-group-id="5542634494-17">VenomousTest.TestStruct</span><span class="p" data-group-id="5542634494-17">{</span><span class="ss">test</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">snake</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-18">[</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p" data-group-id="5542634494-18">]</span><span class="p" data-group-id="5542634494-17">}</span><span class="w">
+</span><span class="gp unselectable">iex(2)&gt; </span><span class="nc">VenomousREPL</span><span class="o">.</span><span class="n">repl</span><span class="p" data-group-id="5542634494-19">(</span><span class="ss">inputs</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-20">[</span><span class="ss">test_struct</span><span class="p">:</span><span class="w"> </span><span class="n">test_struct</span><span class="p" data-group-id="5542634494-20">]</span><span class="p" data-group-id="5542634494-19">)</span><span class="w">
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-21">(</span><span class="n">module</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">pop</span><span class="o">/</span><span class="n">r</span><span class="w"> </span><span class="p" data-group-id="5542634494-22">(</span><span class="n">repeat</span><span class="p" data-group-id="5542634494-22">)</span><span class="o">/</span><span class="n">exit</span><span class="p" data-group-id="5542634494-21">)</span><span class="p">:</span><span class="w"> </span><span class="n">test_venomous</span><span class="w">
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-23">(</span><span class="n">function</span><span class="p" data-group-id="5542634494-23">)</span><span class="p">:</span><span class="w"> 
+</span><span class="nc">Available</span><span class="w"> </span><span class="ss">functions</span><span class="p">:</span><span class="w">
+
+</span><span class="nc">Test</span><span class="p" data-group-id="5542634494-24">(</span><span class="p" data-group-id="5542634494-24">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">self</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">test</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;str&#39;</span><span class="o">&gt;</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">snake</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;list&#39;</span><span class="o">&gt;</span><span class="w">
+</span><span class="nc">TestStruct</span><span class="p" data-group-id="5542634494-25">(</span><span class="p" data-group-id="5542634494-25">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">self</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">test</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;str&#39;</span><span class="o">&gt;</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">snake</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;list&#39;</span><span class="o">&gt;</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="c">__struct__</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="sc">&#39;Elixir.VenomousTest.TestStruct&#39;</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;erlport.erlterms.Atom&#39;</span><span class="o">&gt;</span><span class="w">
+</span><span class="nc">Venom</span><span class="p" data-group-id="5542634494-26">(</span><span class="p" data-group-id="5542634494-26">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">self</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">test_struct</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;test_venomous.Test&#39;</span><span class="o">&gt;</span><span class="w">
+</span><span class="nc">VenomStruct</span><span class="p" data-group-id="5542634494-27">(</span><span class="p" data-group-id="5542634494-27">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">self</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">test_struct</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;test_venomous.Test&#39;</span><span class="o">&gt;</span><span class="w">
+
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="c">__struct__</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="sc">&#39;Elixir.VenomousTest.Venom&#39;</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">class</span><span class="w"> </span><span class="sc">&#39;erlport.erlterms.Atom&#39;</span><span class="o">&gt;</span><span class="w">
+</span><span class="n">decoder</span><span class="p" data-group-id="5542634494-28">(</span><span class="p" data-group-id="5542634494-28">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">typing</span><span class="o">.</span><span class="nc">Any</span><span class="w">
+</span><span class="n">encoder</span><span class="p" data-group-id="5542634494-29">(</span><span class="p" data-group-id="5542634494-29">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">typing</span><span class="o">.</span><span class="nc">Any</span><span class="w">
+</span><span class="n">erl_encode</span><span class="p" data-group-id="5542634494-30">(</span><span class="p" data-group-id="5542634494-30">)</span><span class="w">
+        
+</span><span class="n">test_venomous_trait</span><span class="p" data-group-id="5542634494-31">(</span><span class="p" data-group-id="5542634494-31">)</span><span class="w">
+        </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">test</span><span class="w">
+        </span><span class="ss">kind</span><span class="p">:</span><span class="w"> </span><span class="nc">POSITIONAL_OR_KEYWORD</span><span class="w">
+        </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+        </span><span class="ss">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w">
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-32">(</span><span class="n">function</span><span class="p" data-group-id="5542634494-32">)</span><span class="p">:</span><span class="w"> </span><span class="n">test_venomous_trait</span><span class="w">
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-33">(</span><span class="n">arg</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5542634494-33">)</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-34">[</span><span class="p" data-group-id="5542634494-35">{</span><span class="p" data-group-id="5542634494-36">%{</span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">test_struct</span><span class="p" data-group-id="5542634494-36">}</span><span class="p" data-group-id="5542634494-35">}</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;abc&quot;</span><span class="p" data-group-id="5542634494-34">]</span><span class="w">
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-37">(</span><span class="n">arg</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5542634494-37">)</span><span class="p">:</span><span class="w"> 
+</span><span class="p" data-group-id="5542634494-38">[</span><span class="n">lib</span><span class="o">/</span><span class="n">repl</span><span class="o">.</span><span class="n">ex</span><span class="p">:</span><span class="mi">121</span><span class="p">:</span><span class="w"> </span><span class="nc">VenomousREPL</span><span class="o">.</span><span class="n">repl</span><span class="o">/</span><span class="mi">1</span><span class="p" data-group-id="5542634494-38">]</span><span class="w">
+</span><span class="nc">Venomous</span><span class="o">.</span><span class="n">python!</span><span class="p" data-group-id="5542634494-39">(</span><span class="n">params</span><span class="p" data-group-id="5542634494-39">)</span><span class="w"> </span><span class="c1">#=&gt; [</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-40">%</span><span class="nc" data-group-id="5542634494-40">VenomousTest.Venom</span><span class="p" data-group-id="5542634494-40">{</span><span class="w">
+    </span><span class="ss">test_struct</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-41">%{</span><span class="w">
+      </span><span class="s">&quot;__struct__&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nc">VenomousTest.TestStruct</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;snake&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5542634494-42">[</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p" data-group-id="5542634494-42">]</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;test&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="w">
+    </span><span class="p" data-group-id="5542634494-41">}</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-40">}</span><span class="p">,</span><span class="w">
+  </span><span class="s">&quot;abc&quot;</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-43">(</span><span class="n">module</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">pop</span><span class="o">/</span><span class="n">r</span><span class="w"> </span><span class="p" data-group-id="5542634494-44">(</span><span class="n">repeat</span><span class="p" data-group-id="5542634494-44">)</span><span class="o">/</span><span class="n">exit</span><span class="p" data-group-id="5542634494-43">)</span><span class="p">:</span><span class="w"> </span><span class="n">r</span><span class="w">
+</span><span class="p" data-group-id="5542634494-45">[</span><span class="n">lib</span><span class="o">/</span><span class="n">repl</span><span class="o">.</span><span class="n">ex</span><span class="p">:</span><span class="mi">109</span><span class="p">:</span><span class="w"> </span><span class="nc">VenomousREPL</span><span class="o">.</span><span class="n">repl</span><span class="o">/</span><span class="mi">1</span><span class="p" data-group-id="5542634494-45">]</span><span class="w">
+</span><span class="nc">Venomous</span><span class="o">.</span><span class="n">python!</span><span class="p" data-group-id="5542634494-46">(</span><span class="n">previous_args</span><span class="p" data-group-id="5542634494-46">)</span><span class="w"> </span><span class="c1">#=&gt; [</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-47">%</span><span class="nc" data-group-id="5542634494-47">VenomousTest.Venom</span><span class="p" data-group-id="5542634494-47">{</span><span class="w">
+    </span><span class="ss">test_struct</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-48">%{</span><span class="w">
+      </span><span class="s">&quot;__struct__&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nc">VenomousTest.TestStruct</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;snake&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5542634494-49">[</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p" data-group-id="5542634494-49">]</span><span class="p">,</span><span class="w">
+      </span><span class="s">&quot;test&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="w">
+    </span><span class="p" data-group-id="5542634494-48">}</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-47">}</span><span class="p">,</span><span class="w">
+  </span><span class="s">&quot;abc&quot;</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-50">(</span><span class="n">module</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">pop</span><span class="o">/</span><span class="n">r</span><span class="w"> </span><span class="p" data-group-id="5542634494-51">(</span><span class="n">repeat</span><span class="p" data-group-id="5542634494-51">)</span><span class="o">/</span><span class="n">exit</span><span class="p" data-group-id="5542634494-50">)</span><span class="p">:</span><span class="w"> </span><span class="n">outputs</span><span class="w">
+</span><span class="p" data-group-id="5542634494-52">[</span><span class="n">lib</span><span class="o">/</span><span class="n">repl</span><span class="o">.</span><span class="n">ex</span><span class="p">:</span><span class="mi">96</span><span class="p">:</span><span class="w"> </span><span class="nc">VenomousREPL</span><span class="o">.</span><span class="n">repl</span><span class="o">/</span><span class="mi">1</span><span class="p" data-group-id="5542634494-52">]</span><span class="w">
+</span><span class="n">outputs</span><span class="w"> </span><span class="c1">#=&gt; [</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-53">[</span><span class="w">
+    </span><span class="p" data-group-id="5542634494-54">%</span><span class="nc" data-group-id="5542634494-54">VenomousTest.Venom</span><span class="p" data-group-id="5542634494-54">{</span><span class="w">
+      </span><span class="ss">test_struct</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5542634494-55">%{</span><span class="w">
+        </span><span class="s">&quot;__struct__&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nc">VenomousTest.TestStruct</span><span class="p">,</span><span class="w">
+        </span><span class="s">&quot;snake&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="5542634494-56">[</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p" data-group-id="5542634494-56">]</span><span class="p">,</span><span class="w">
+        </span><span class="s">&quot;test&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="w">
+      </span><span class="p" data-group-id="5542634494-55">}</span><span class="w">
+    </span><span class="p" data-group-id="5542634494-54">}</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;abc&quot;</span><span class="w">
+  </span><span class="p" data-group-id="5542634494-53">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span><span class="nc">Python</span><span class="w"> </span><span class="nc">REPL</span><span class="w"> </span><span class="p" data-group-id="5542634494-57">(</span><span class="n">module</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">pop</span><span class="o">/</span><span class="n">r</span><span class="w"> </span><span class="p" data-group-id="5542634494-58">(</span><span class="n">repeat</span><span class="p" data-group-id="5542634494-58">)</span><span class="o">/</span><span class="n">exit</span><span class="p" data-group-id="5542634494-57">)</span><span class="p">:</span></code></pre>
 </div>
 
 <div class="bottom-actions" id="bottom-actions">
