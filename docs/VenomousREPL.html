@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.34.0">
+    <meta name="project" content="Venomous v0.7.5">
+
+
+    <title>VenomousREPL — Venomous v0.7.5</title>
+    <link rel="stylesheet" href="dist/html-elixir-K5ICTFVY.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
+    <script src="dist/sidebar_items-84A0915C.js"></script>
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-Q4PYR6ZR.js"></script>
+
+  </head>
+  <body data-type="modules" class="page-module">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+        <a href="Venomous.html" class="sidebar-projectImage">
+          <img src="assets/logo.png" alt="Venomous" />
+        </a>
+
+      <div>
+        <a href="Venomous.html" class="sidebar-projectName" translate="no">
+Venomous
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.7.5
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+Pages
+        </button>
+      </li>
+
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
+
+
+        <li>
+          <button id="tasks-list-tab-button" role="tab" data-type="tasks" aria-controls="tasks-tab-panel" aria-selected="false" tabindex="-1">
+            <span translate="no">Mix</span> Tasks
+          </button>
+        </li>
+
+    </ul>
+  </div>
+
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
+
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+    <div id="tasks-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="tasks-list-tab-button" hidden>
+      <ul id="tasks-full-list" class="full-list"></ul>
+    </div>
+
+</nav>
+
+<main class="content">
+  <output role="status" id="toast"></output>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Venomous</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/repl.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+    <span translate="no">VenomousREPL</span> 
+    <small class="app-vsn" translate="no">(Venomous v0.7.5)</small>
+
+  </h1>
+
+
+    <section id="moduledoc">
+<p>#Simple REPL for Venomous
+  ## Dev/Test REPL
+Venomous provides dev/test only REPL</p><pre><code class="makeup shell" translate="no"><span class="gp unselectable">$ </span><span class="">iex -S mix test
+</span><span class="">Erlang/OTP 25 [erts-13.2.2.7] [source] [64-bit] [smp:16:2] [ds:16:2:10] [async-threads:1] [jit:ns]
+</span><span class="">
+</span><span class="">Compiling 1 file (.ex)
+</span><span class="">
+</span><span class="">15:45:10.953 [info] Started Snake Manager
+</span><span class="">
+</span><span class="">15:45:10.954 [info] Started Pet Snake Manager
+</span><span class="">............
+</span><span class="">Finished in 12.9 seconds (0.00s async, 12.9s sync)
+</span><span class="">12 tests, 0 failures
+</span><span class="">
+</span><span class="">Randomized with seed 961929
+</span><span class="">Interactive Elixir (1.16.2) - press Ctrl+C to exit (type h() ENTER for help)
+</span><span class="">iex(1)&gt; test_struct = %VenomousTest.TestStruct{test: &quot;123&quot;, snake: [&quot;s&quot;,&quot;s&quot;,&quot;s&quot;]}
+</span><span class="">%VenomousTest.TestStruct{test: &quot;123&quot;, snake: [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;]}
+</span><span class="">iex(2)&gt; VenomousREPL.repl(inputs: [test_struct: test_struct])
+</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): test_venomous
+</span><span class="">Python REPL (function): 
+</span><span class="">Available functions:
+</span><span class="">
+</span><span class="">Test()
+</span><span class="">      name: self
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: undefined
+</span><span class="">
+</span><span class="">      name: test
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;str&#39;&gt;
+</span><span class="">
+</span><span class="">      name: snake
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;list&#39;&gt;
+</span><span class="">TestStruct()
+</span><span class="">      name: self
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: undefined
+</span><span class="">
+</span><span class="">      name: test
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;str&#39;&gt;
+</span><span class="">
+</span><span class="">      name: snake
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;list&#39;&gt;
+</span><span class="">
+</span><span class="">      name: __struct__
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: b&#39;Elixir.VenomousTest.TestStruct&#39;
+</span><span class="">      annotation: &lt;class &#39;erlport.erlterms.Atom&#39;&gt;
+</span><span class="">Venom()
+</span><span class="">      name: self
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: undefined
+</span><span class="">
+</span><span class="">      name: test_struct
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;test_venomous.Test&#39;&gt;
+</span><span class="">VenomStruct()
+</span><span class="">      name: self
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: undefined
+</span><span class="">
+</span><span class="">      name: test_struct
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: &lt;class &#39;test_venomous.Test&#39;&gt;
+</span><span class="">
+</span><span class="">      name: __struct__
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: b&#39;Elixir.VenomousTest.Venom&#39;
+</span><span class="">      annotation: &lt;class &#39;erlport.erlterms.Atom&#39;&gt;
+</span><span class="">decoder()
+</span><span class="">      name: value
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: typing.Any
+</span><span class="">encoder()
+</span><span class="">      name: value
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: typing.Any
+</span><span class="">erl_encode()
+</span><span class="">      
+</span><span class="">test_venomous_trait()
+</span><span class="">      name: test
+</span><span class="">      kind: POSITIONAL_OR_KEYWORD
+</span><span class="">      default: undefined
+</span><span class="">      annotation: undefined
+</span><span class="">Python REPL (function): test_venomous_trait
+</span><span class="">Python REPL (arg 1): [{%{&quot;x&quot; =&gt; test_struct}}, &quot;abc&quot;]
+</span><span class="">Python REPL (arg 2): 
+</span><span class="">[lib/repl.ex:121: VenomousREPL.repl/1]
+</span><span class="">Venomous.python!(params) #=&gt; [
+</span><span class="">%VenomousTest.Venom{
+</span><span class="">  test_struct: %{
+</span><span class="">    &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
+</span><span class="">    &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
+</span><span class="">    &quot;test&quot; =&gt; &quot;123&quot;
+</span><span class="">  }
+</span><span class="">},
+</span><span class="">&quot;abc&quot;
+</span><span class="">]
+</span><span class="">
+</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): r
+</span><span class="">[lib/repl.ex:109: VenomousREPL.repl/1]
+</span><span class="">Venomous.python!(previous_args) #=&gt; [
+</span><span class="">%VenomousTest.Venom{
+</span><span class="">  test_struct: %{
+</span><span class="">    &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
+</span><span class="">    &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
+</span><span class="">    &quot;test&quot; =&gt; &quot;123&quot;
+</span><span class="">  }
+</span><span class="">},
+</span><span class="">&quot;abc&quot;
+</span><span class="">]
+</span><span class="">
+</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit): outputs
+</span><span class="">[lib/repl.ex:96: VenomousREPL.repl/1]
+</span><span class="">outputs #=&gt; [
+</span><span class="">[
+</span><span class="">  %VenomousTest.Venom{
+</span><span class="">    test_struct: %{
+</span><span class="">      &quot;__struct__&quot; =&gt; VenomousTest.TestStruct,
+</span><span class="">      &quot;snake&quot; =&gt; [&quot;s&quot;, &quot;s&quot;, &quot;s&quot;],
+</span><span class="">      &quot;test&quot; =&gt; &quot;123&quot;
+</span><span class="">    }
+</span><span class="">  },
+</span><span class="">  &quot;abc&quot;
+</span><span class="">]
+</span><span class="">]
+</span><span class="">
+</span><span class="">Python REPL (module/outputs/pop/r (repeat)/exit):
+</span></code></pre>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#repl/1" data-no-tooltip translate="no">repl(opts \\ [])</a>
+
+      </div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="repl/1">
+
+    <span id="repl/0"></span>
+
+  <div class="detail-header">
+    <a href="#repl/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">repl(opts \\ [])</h1>
+
+      <a href="https://github.com/RustySnek/Venomous/blob/main/lib/repl.ex#L229" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+      <p>
+
+          <span class="line">
+            <a href="https://hex.pm/packages/venomous/0.7.5" class="footer-hex-package">Hex Package</a>
+
+            <a href="https://preview.hex.pm/preview/venomous/0.7.5">Hex Preview</a>
+
+          </span>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="Venomous.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.0) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

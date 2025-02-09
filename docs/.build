@@ -11,6 +11,7 @@ Venomous.SnakeOpts.html
 Venomous.SnakeSupervisor.html
 Venomous.SnakeWorker.html
 Venomous.html
+VenomousREPL.html
 api-reference.html
 assets/logo.png
 dist/handlebars.runtime-NWIB6V2M.js
@@ -30,8 +31,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-B7778771.js
-dist/sidebar_items-B8C613EB.js
+dist/search_data-61DF2118.js
+dist/sidebar_items-84A0915C.js
 index.html
 python.html
 readme.html
