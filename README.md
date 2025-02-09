@@ -176,7 +176,7 @@ You can see this used in the [struct_test.exs](https://github.com/RustySnek/Veno
 
 ## Dev/Test REPL
 Venomous provides dev/test only REPL
-```
+```elixir
 $ iex -S mix test
 Erlang/OTP 25 [erts-13.2.2.7] [source] [64-bit] [smp:16:2] [ds:16:2:10] [async-threads:1] [jit:ns]
 
