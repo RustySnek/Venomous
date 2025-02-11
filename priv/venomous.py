@@ -2,9 +2,11 @@
 Provides `VenomousTrait` used for simplification of conversion between elixir structs and classes
 """
 
+import builtins
 import importlib
 import inspect
 import pkgutil
+import sys
 from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Any, Callable, Dict
@@ -71,11 +73,16 @@ def is_locally_defined(module, name: str) -> bool:
     """
     Checks if a callable is locally defined in the module (not imported).
     """
-    obj = getattr(module, name)
-    if inspect.isfunction(obj) or inspect.ismethod(obj):
+    obj = getattr(module, name, None)
+
+    if obj is None:
+        return False
+
+    if isinstance(obj, (type(print), type(len))) and obj in builtins.__dict__.values():
+        return module.__name__ == "builtins"
+    if inspect.isfunction(obj) or inspect.ismethod(obj) or inspect.isclass(obj):
         return obj.__module__ == module.__name__
-    elif inspect.isclass(obj):
-        return obj.__module__ == module.__name__
+
     return False
 
 
@@ -99,7 +106,9 @@ def module_functions(module_name: str) -> Dict[str, List[Parameter]]:
 
 
 def all_modules():
-    return [module.name for module in pkgutil.iter_modules()]
+    return [module.name for module in pkgutil.iter_modules()] + list(
+        sys.builtin_module_names
+    )
 
 
 def encode_basic_type_strings(data: Any):
