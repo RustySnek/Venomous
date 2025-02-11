@@ -149,6 +149,7 @@ defmodule VenomousREPL do
   ```
   """
   @compile if Mix.env() in [:test, :dev], do: :export_all
+  @options ["exit", "o", "i", "h", "pop", "e", "r", "h"]
   # credo:disable-for-this-file Credo.Check.Warning.Dbg
 
   defp repl_input(n, inputs, outputs) do
@@ -162,7 +163,7 @@ defmodule VenomousREPL do
 
   defp repl_args(arg, args, n, inputs, outputs) do
     repl_input(n, inputs, outputs)
-    |> repl_args([arg | args], n + 1, inputs, outputs)
+    |> repl_args(args ++ [arg], n + 1, inputs, outputs)
   end
 
   defp repl_args(inputs, outputs) do
@@ -193,36 +194,68 @@ defmodule VenomousREPL do
     end)
   end
 
-  defp get_function(module) do
-    func =
-      IO.gets("Python REPL (function): ") |> String.trim_trailing("\n")
+  defp sanitize_functions(functions) do
+    functions
+    |> Map.to_list()
+    |> Enum.each(fn {func, params} ->
+      IO.puts("#{func}()\n\t#{sanitize_params(params)}")
+    end)
+  end
 
-    if func == "" do
-      IO.puts("Available functions:\n")
+  defp get_function(functions, "", module) do
+    IO.puts("Available functions:\n")
+    sanitize_functions(functions)
+    get_function(functions, module)
+  end
 
-      module
-      |> to_string
-      |> functions()
-      |> Map.to_list()
-      |> Enum.each(fn {func, params} ->
-        IO.puts("#{func}()\n\t#{sanitize_params(params)}")
-      end)
+  defp get_function(functions, <<"%", func::binary>>, _module),
+    do: {functions[func], String.to_atom(func)}
 
-      get_function(module)
+  defp get_function(functions, func, module) do
+    if functions |> Map.keys() |> Enum.member?(func) do
+      {functions[func], String.to_atom(func)}
     else
-      func |> String.to_atom()
+      IO.puts("#{func} wasn't found. Enter leading '%' to force.")
+      get_function(functions, module)
     end
   end
 
-  defp get_module() do
-    mod =
-      IO.gets("Python REPL (module/outputs/pop/r (repeat)/exit): ") |> String.trim_trailing("\n")
+  defp get_function(functions, module) do
+    func =
+      IO.gets("[Python REPL] Enter function name: ") |> String.trim_trailing("\n")
 
-    if mod == "" do
-      modules() |> Enum.join(", ") |> IO.puts()
-      get_module()
-    else
-      mod
+    get_function(functions, func, module)
+  end
+
+  defp get_function(module) do
+    module
+    |> to_string
+    |> functions()
+    |> get_function(module)
+  end
+
+  defp get_module(modules \\ modules()) do
+    mod =
+      IO.gets("[Python REPL] Enter module name or (h)elp: ") |> String.trim_trailing("\n")
+
+    case mod do
+      "" ->
+        modules |> Enum.join(", ") |> IO.puts()
+        get_module(modules)
+
+      mod when mod in @options ->
+        mod
+
+      <<"%", mod::binary>> ->
+        mod
+
+      mod ->
+        if Enum.member?(modules, mod) == false do
+          IO.puts("#{mod} wasn't found. Enter leading '%' to force.")
+          get_module(modules)
+        else
+          mod
+        end
     end
   end
 
@@ -237,22 +270,58 @@ defmodule VenomousREPL do
       "exit" ->
         outputs
 
-      "outputs" ->
+      "o" ->
         outputs |> dbg()
-        repl(inputs: inputs, outputs: outputs)
+        repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
 
-      "inputs" ->
+      "i" ->
         inputs |> dbg()
-        repl(inputs: inputs, outputs: outputs)
+        repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
 
       "pop" ->
-        [_ | outputs] = outputs
-        repl(inputs: inputs, outputs: outputs)
+        outputs =
+          case outputs do
+            [] -> outputs
+            [_ | outputs] -> outputs
+          end
+
+        dbg(outputs)
+        repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
+
+      "e" ->
+        case previous_args do
+          %Venomous.SnakeArgs{args: args} = previous_args ->
+            old_args =
+              args
+              |> Enum.with_index()
+              |> Enum.reduce(Keyword.new(), fn {val, idx}, acc ->
+                Keyword.merge(["e#{idx + 1}": val], acc)
+              end)
+
+            dbg(old_args)
+            args = repl_args(Keyword.merge(old_args, inputs), outputs)
+            previous_args = %Venomous.SnakeArgs{previous_args | args: args}
+
+            outputs = [
+              Venomous.python!(previous_args) |> dbg
+              | outputs
+            ]
+
+            repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
+
+          _ ->
+            repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
+        end
 
       "r" ->
         outputs =
           if previous_args != nil do
-            [_ | previous] = outputs
+            previous =
+              case outputs do
+                [] -> outputs
+                [_ | previous] -> previous
+              end
+
             [Venomous.python!(previous_args) |> dbg | previous]
           else
             outputs
@@ -260,8 +329,25 @@ defmodule VenomousREPL do
 
         repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
 
+      "h" ->
+        IO.puts("""
+          List of keywords:
+            - Enter leading "%" in case of colliding keyword/module names
+            - RETURN: Brings up all visible modules/functions
+            - '(i)nputs': views inputs list
+            - '(o)utputs': views outputs list
+            - '(h)elp': views this
+            - '(r)epeat': repeats last function with the same arguments
+            - '(e)dit': edit arguments
+            - 'pop': removes first item from the outputs
+            - 'exit': exits the REPL
+        """)
+
+        repl(inputs: inputs, outputs: outputs, previous_args: previous_args)
+
       mod ->
-        func = get_function(mod)
+        {function_signature, func} = get_function(mod)
+        dbg(function_signature)
         args = repl_args(inputs, outputs)
         params = Venomous.SnakeArgs.from_params(String.to_atom(mod), func, args)
 
