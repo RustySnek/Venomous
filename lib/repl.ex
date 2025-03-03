@@ -16,7 +16,7 @@ defmodule VenomousREPL do
   @compile if Mix.env() in [:test, :dev], do: :export_all
   @options ["exit", "o", "i", "h", "pop", "e", "r", "h"]
   # credo:disable-for-this-file Credo.Check.Warning.Dbg
-  # credo:disable-for-this-file Credo.Check.Refactor.CyclomaticComplexity 
+  # credo:disable-for-this-file Credo.Check.Refactor.CyclomaticComplexity
   # credo:disable-for-this-file Credo.Check.Refactor.Nesting
 
   defp repl_input(n, inputs, outputs) do
