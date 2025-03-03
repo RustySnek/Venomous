@@ -18,7 +18,7 @@ defmodule VenomousREPL do
   # credo:disable-for-this-file Credo.Check.Warning.Dbg
 
   defp repl_input(n, inputs, outputs) do
-    IO.gets("Python [REPL] (arg #{n}): ")
+    IO.gets("[Python REPL] Enter (arg #{n}): ")
     |> String.trim_trailing("\n")
     |> Code.eval_string(Keyword.merge(inputs, outputs: outputs))
     |> elem(0)
