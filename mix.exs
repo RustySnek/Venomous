@@ -1,7 +1,7 @@
 defmodule Venomous.MixProject do
   use Mix.Project
 
-  @version "0.7.7"
+  @version "1.0.0"
 
   def project do
     [
@@ -25,7 +25,7 @@ defmodule Venomous.MixProject do
 
   defp package do
     [
-      licenses: ["GPL-3.0-or-later"],
+      licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/RustySnek/Venomous"
       },
